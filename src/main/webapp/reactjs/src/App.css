@@ -36,3 +36,59 @@
     transform: rotate(360deg);
   }
 }
+
+.STIL-BENGOS {
+  text-align: center;
+}
+
+.grow: {
+  flexGrow: 1;
+},
+
+.menuButton: {
+  marginRight: 8;
+},
+
+.title: {
+  display: 'none';
+},
+
+.sectionMobile: {
+  display: 'flex',
+},
+
+.sectionDesktop: {
+  display: 'none',
+},
+
+.inputInput: {
+  /* 
+  padding: theme.spacing(1, 1, 1, 0),
+  paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+  transition: theme.transitions.create('width'),
+  */
+  width: '100%',
+},
+
+.inputRoot: {
+  color: 'inherit',
+},
+
+.search: {
+  width: '100%',
+},
+
+.searchIcon: {
+  height: '100%',
+},
+
+.right {
+  margin-left: auto;
+  right: 0px;
+},
+
+asdasdasdas
+.sidebarButtonStyle {
+  background-color: #4CAF50;
+  coasdasdsalor: white;
+}
