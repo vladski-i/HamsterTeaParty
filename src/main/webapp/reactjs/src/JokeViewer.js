@@ -8,7 +8,7 @@ import Drawer from './Drawer';
 import SidebarRight from './SidebarRight';
 import SidebarLeft from './SidebarLeft';
 // import SearchBar from './SearchBar';
-import JokeViewer from './JokeViewer';
+import CenterJokeViewer from './CenterJokeViewer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,16 +28,16 @@ export default function CenteredGrid() {
     <div className={classes.root}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Navbar/>
+            <Navbar/>
         </Grid>
         <Grid item xs={2}>
         <SidebarLeft/>
         </Grid>
         <Grid item xs={8}>
-          <Demo/>
+          <CenterJokeViewer/>
         </Grid>
         <Grid container item xs={2}>
-          <SidebarRight/>
+            <SidebarRight/>
         </Grid>
       </Grid>
     </div>

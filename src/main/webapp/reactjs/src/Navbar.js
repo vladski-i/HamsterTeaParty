@@ -10,6 +10,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
 
+const loggedIn = 0;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -74,15 +76,43 @@ export default function ButtonAppBar() {
             Jokes Site
           </Typography>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={1}>
             </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
         <div style={{ display: "flex" }}>
-          <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+        <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
           <Typography variant="h6" style={{textAlign: 'right'}}>
-            LOGIN
+            CONTACT
           </Typography>    
             </Button>
+          {
+            (!loggedIn) ?
+            <div>
+                <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Typography variant="h6" style={{textAlign: 'right'}}>
+                    LOGIN
+                </Typography>    
+                    </Button>
+                    <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Typography variant="h6" style={{textAlign: 'right'}}>
+                    SIGN UP
+                </Typography>    
+                    </Button>
+            </div>
+            :
+            <div>
+                <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Typography variant="h6" style={{textAlign: 'right'}}>
+                    LOGOUT
+                </Typography>    
+                    </Button>
+                    <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Typography variant="h6" style={{textAlign: 'right'}}>
+                    PROFILE
+                </Typography>    
+                    </Button>
+            </div>
+            }
         </div>
         </Grid>
         </Grid>

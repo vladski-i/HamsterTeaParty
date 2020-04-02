@@ -32,7 +32,7 @@ export default function StickyHeadTable() {
     <Grid item xs={8}>
     <Button style={{ backgroundColor: 'orange' }}>
           <Typography variant="h6" style={{ color: 'white'}}>
-            Try JSite Premium
+          MOST UPVOTED JOKES
           </Typography>    
     </Button>
     </Grid>
@@ -51,7 +51,7 @@ export default function StickyHeadTable() {
     <Grid item xs={3}>
     <Button style={{ backgroundColor: 'orange' }}>
           <Typography variant="h6" style={{ color: 'white'}}>
-            Give Award
+            TRENDING TAGS
           </Typography>    
     </Button>
     </Grid>
@@ -63,12 +63,12 @@ export default function StickyHeadTable() {
   <br></br>
   
   <Grid container spacing={2}>
-    <Grid item xs={3}>
+    <Grid item xs={4}>
     </Grid>
     <Grid item xs={3}>
     <Button style={{ backgroundColor: 'orange' }}>
           <Typography variant="h6" style={{ color: 'white'}}>
-            Donate
+            LATEST JOKES
           </Typography>    
     </Button>
     </Grid>

@@ -23,6 +23,7 @@ export default function StickyHeadTable() {
       <h2>                 </h2>
       <br></br>
       <br></br>
+      <br></br>
     </Grid>
   </Grid>
 
@@ -39,12 +40,10 @@ export default function StickyHeadTable() {
     <Grid item xs={2}>
     </Grid>
   </Grid>
-
   <br></br>
   <br></br>
   <br></br>
   <br></br>
-
   <Grid container spacing={2}>
     <Grid item xs={3}>
     </Grid>
@@ -68,7 +67,7 @@ export default function StickyHeadTable() {
     <Grid item xs={3}>
     <Button style={{ backgroundColor: 'orange' }}>
           <Typography variant="h6" style={{ color: 'white'}}>
-            Donate
+            Donate MONEY
           </Typography>    
     </Button>
     </Grid>

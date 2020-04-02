@@ -13,25 +13,28 @@ import Grid from '@material-ui/core/Grid';
 
 
 const columns = [
-  { id: 'name', label: 'Poster', minWidth: 50 },
-  { id: 'code', label: 'Joke', minWidth: 100 },
+  { id: 'name', label: 'Poster', minWidth: 50, fontSize: 24},
+  { id: 'code', label: 'Joke', minWidth: 100, fontSize: 24},
+  { id: 'tags', label: 'Tags', minWidth: 150, fontSize: 24},
+  { id: 'postedAt', label: 'Posted', minWidth: 80, fontSize: 24}
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function createData(name, code, tags, postedAt) {
+  let value = String(postedAt % 24) + 'h ago';
+  console.log(value);
+  return { name, code, tags, postedAt: value };
 }
 
 const rows = [
-  createData('Tomi', 'This is some text that i thought is kinda funny', 1324171354, 3287263),
-  createData('Ioana', 'Q: Why should you never date tennis players?' + '\n' + 'A: Love means nothing to them.', 1403500365, 9596961),
-  createData('Danutu', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel.', 60483973, 301340),
-  createData('Mihai', 'This is some text that i thought is kinda funny', 1324171354, 3287263),
-  createData('Dani', 'Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id donec ultrices', 1403500365, 9596961),
-  createData('Ruby', 'Q: How do you weigh a millennial?\n\nA: In Instagrams.', 60483973, 301340),
-  createData('Rosia', 'This is some text that i thought is kinda funny', 1324171354, 3287263),
-  createData('Montana', 'Q: Why should you never date tennis players?' + '\n' + 'A: Love means nothing to them.', 1403500365, 9596961),
-  createData('Daniel', 'Q: How do you weigh a millennial?\n\nA: In Instagrams.', 60483973, 301340),
+  createData('Tomi', 'This is some text that i thought is kinda funny', 'funny, happy', 3287263),
+  createData('Ioana', 'Q: Why should you never date tennis players?' + '\n' + 'A: Love means nothing to them.', 'sad, pshyco', 9596961),
+  createData('Danutu', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum facilisis leo vel.', 'funny, happy', 301340),
+  createData('Mihai', 'This is some text that i thought is kinda funny', 'funny, happy', 3287263),
+  createData('Dani', 'Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id donec ultrices', 'funny, happy', 9596961),
+  createData('Ruby', 'Q: How do you weigh a millennial?\n\nA: In Instagrams.', 'not today, maybe tomorow', 301340),
+  createData('Rosia', 'This is some text that i thought is kinda funny', 'racism', 3287263),
+  createData('Montana', 'Q: Why should you never date tennis players?' + '\n' + 'A: Love means nothing to them.', 'ian&azteca, trap music', 9596961),
+  createData('Daniel', 'Q: How do you weigh a millennial?\n\nA: In Instagrams.', 'sad, creepy, not today', 301340),
 ];
 
 const useStyles = makeStyles({
@@ -58,7 +61,7 @@ export default function StickyHeadTable() {
   };
 
   return (
-<Grid container spacing={3}>
+<Grid container spacing={1}>
   
   <Grid item xs={12}>
           <SearchBar/>
@@ -74,7 +77,9 @@ export default function StickyHeadTable() {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{ minWidth: column.minWidth,
+                           fontSize: column.fontSize,
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -88,7 +93,11 @@ export default function StickyHeadTable() {
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell key={column.id} align={column.align} 
+                        style={{
+                          fontWeight: (column.id == 'name') ? 'bold' : 'normal',
+                          color: (column.id == 'name') ? 'blue' : 'default'
+                          }}>
                         {column.format && typeof value === 'number' ? column.format(value) : value}
                       </TableCell>
                     );

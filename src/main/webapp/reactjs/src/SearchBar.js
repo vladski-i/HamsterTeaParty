@@ -25,13 +25,14 @@ const useStyles = makeStyles(theme => ({
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    /*backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: fade(theme.palette.common.white, 0.15)
     },
+    */
     marginLeft: 0,
     width: "100%",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("dm")]: {
       marginLeft: theme.spacing(1),
       width: "auto"
     }
@@ -46,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center"
   },
   inputRoot: {
-    color: "inherit"
+    color: "default"
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -68,14 +69,16 @@ export default function SearchAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{
+          backgroundColor: "white"
+      }}>
         <Toolbar>
           <div
             style={{
               position: "absolute",
               left: "50%",
               top: "50%",
-              transform: "translate(-50%, -50%)"
+              transform: "translate(-50%, -50%)",
             }}
             className={classes.search}
           >
@@ -83,7 +86,7 @@ export default function SearchAppBar() {
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search…"
+              placeholder="Find joke..."
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput
