@@ -12,6 +12,18 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import { Link } from 'react-router-dom';
+
+import GiveAward from './GiveAward';
+import DonateMoney from './DonateMoney';
+import MostUpvotedJokes from './MostUpvotedJokes';
+import LatestJokes from './LatestJokes';
+import TrendingTags from './TrendingTags';
+import TryJsitePremium from './TryJsitePremium';
+
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+
 export default function StickyHeadTable() {
   return (
     <div>
@@ -31,11 +43,13 @@ export default function StickyHeadTable() {
     <Grid item xs={2}>
     </Grid>
     <Grid item xs={8}>
+    <Link to="/tryjsitepremium" className="removeUnderline">
     <Button style={{ backgroundColor: 'orange' }}>
           <Typography variant="h6" style={{ color: 'white'}}>
             Try JSite Premium
           </Typography>    
     </Button>
+    </Link>
     </Grid>
     <Grid item xs={2}>
     </Grid>
@@ -48,11 +62,13 @@ export default function StickyHeadTable() {
     <Grid item xs={3}>
     </Grid>
     <Grid item xs={3}>
+    <Link to="/giveaward" className="removeUnderline">
     <Button style={{ backgroundColor: 'orange' }}>
           <Typography variant="h6" style={{ color: 'white'}}>
             Give Award
           </Typography>    
     </Button>
+    </Link>
     </Grid>
   </Grid>
 
@@ -65,11 +81,13 @@ export default function StickyHeadTable() {
     <Grid item xs={3}>
     </Grid>
     <Grid item xs={3}>
+    <Link to="/donate" className="removeUnderline">
     <Button style={{ backgroundColor: 'orange' }}>
           <Typography variant="h6" style={{ color: 'white'}}>
             Donate MONEY
           </Typography>    
     </Button>
+    </Link>
     </Grid>
   </Grid>
 

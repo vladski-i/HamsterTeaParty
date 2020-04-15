@@ -41,8 +41,28 @@
   text-align: center;
 }
 
+.removeUnderline {
+ text-decoration:none;
+ color: inherit;
+}
+
+.marginTopNegative {
+  margin-top: 100px !important;
+}
+
 .grow: {
   flexGrow: 1;
+},
+
+.Blend {
+  font-size: 10% !important;
+},
+
+.centerClass {
+  position: 'absolute';
+  left: '50%';
+  top: '50%';
+  transform: 'translate(-50%, -50%)';
 },
 
 .menuButton: {
@@ -87,8 +107,7 @@
   right: 0px;
 },
 
-asdasdasdas
 .sidebarButtonStyle {
   background-color: #4CAF50;
-  coasdasdsalor: white;
+  color: white;
 }

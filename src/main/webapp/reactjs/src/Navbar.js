@@ -10,6 +10,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
 
+import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 const loggedIn = 0;
 
 const useStyles = makeStyles((theme) => ({
@@ -72,31 +75,39 @@ export default function ButtonAppBar() {
         <Grid item xs={2}>
             </Grid>
         <Grid item xs={4}>
+        <Link to="/" className="removeUnderline">
         <Typography variant="h2" className={classes.title}>
             Jokes Site
           </Typography>
+        </Link>
         </Grid>
         <Grid item xs={1}>
             </Grid>
         <Grid item xs={3}>
         <div style={{ display: "flex" }}>
         <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+        <Link to="/about" className="removeUnderline">
           <Typography variant="h6" style={{textAlign: 'right'}}>
-            CONTACT
-          </Typography>    
+            ABOUT
+          </Typography> 
+        </Link>   
             </Button>
           {
             (!loggedIn) ?
             <div>
                 <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Link to="/login" className="removeUnderline">
                 <Typography variant="h6" style={{textAlign: 'right'}}>
                     LOGIN
                 </Typography>    
+                </Link>
                     </Button>
-                    <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Link to="/signup" className="removeUnderline">
                 <Typography variant="h6" style={{textAlign: 'right'}}>
                     SIGN UP
                 </Typography>    
+                </Link>
                     </Button>
             </div>
             :
@@ -105,7 +116,7 @@ export default function ButtonAppBar() {
                 <Typography variant="h6" style={{textAlign: 'right'}}>
                     LOGOUT
                 </Typography>    
-                    </Button>
+                </Button>
                     <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
                 <Typography variant="h6" style={{textAlign: 'right'}}>
                     PROFILE

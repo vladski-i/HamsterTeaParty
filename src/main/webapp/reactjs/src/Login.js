@@ -30,20 +30,12 @@ const styles = theme => ({
       }
   });
 
-class SignUpPage extends React.Component {
+class TryJsitePremium extends React.Component {
 
     state = {
         username: '',
         password: '',
-        email: '',
-        phone: '',
-        firstName: '',
-        lastName: '',
-        age: '',
-        country: '',
-        city: '',
-        favoriteSite: '',
-        showPassword: false
+        showPassword: false 
     };
 
     componentDidMount = () => { 
@@ -82,20 +74,11 @@ class SignUpPage extends React.Component {
 
     handleSubmit = () => {
         /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
+        console.log('onClick');
         const identity = {
             username: this.state.username,
             password: this.state.password,
-            email: this.state.email,
-            phone: this.state.phone,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            age: this.state.age,
-            country: this.state.country,
-            city: this.state.city,
-            favoriteSite: this.state.favoriteSite,
         };
-
-        console.log(identity);
         /// send it to back-end/andor - mongodb
     }
 
@@ -104,14 +87,6 @@ class SignUpPage extends React.Component {
         const {
             username,
             password,
-            email,
-            phone,
-            firstName,
-            lastName,
-            age,
-            country,
-            city,
-            favoriteSite,
             showPassword
         } = this.state;
 
@@ -121,9 +96,6 @@ class SignUpPage extends React.Component {
 
         return (
             <div className>
-                <br></br>
-                <br></br>
-                <br></br>
                 <br></br>
                 <br></br>
                 <br></br>
@@ -137,33 +109,6 @@ class SignUpPage extends React.Component {
                         transform: 'translate(-50%, -50%)'
                     }}
                     >
-                <TextField style={{
-                    marginTop: 100
-                }} 
-                    id="firstName" 
-                    label="First Name" 
-                    value={firstName}
-                    onChange={this.handleChange("firstName")}
-                    />
-                <br></br>
-                <TextField 
-                        id="lastName"
-                        label="Last Name"
-                        value={lastName} 
-                        onChange={this.handleChange("lastName")}/>
-                <br></br>
-                <TextField id="phone" label="Phone Number" onChange={this.handleChange("phone")}/>
-                <br></br>
-                <TextField id="email" label="Email" onChange={this.handleChange("email")}/>
-                <br></br>
-                <TextField id="age" label="Age" onChange={this.handleChange("age")}/>
-                <br></br>
-                <TextField id="country" label="Country" onChange={this.handleChange("country")}/>
-                <br></br>
-                <TextField id="city" label="City" onChange={this.handleChange("city")}/>
-                <br></br>
-                <TextField id="favoriteSite" label="Facebook/Insta/Twitter" onChange={this.handleChange("favoriteSite")}/>
-                <br></br>
                 <br></br>
                 <InputLabel>
                 Username
@@ -210,7 +155,7 @@ class SignUpPage extends React.Component {
                         endIcon={<Icon>send</Icon>}
                         onClick={this.handleSubmit}>
                 <Typography variant="h6" style={{textAlign: 'right'}}>
-                    CREATE ACCOUNT
+                    LOGIN
                 </Typography>
                 </Button>
                 </div>
@@ -220,8 +165,8 @@ class SignUpPage extends React.Component {
         }
  }
 
-    SignUpPage.propTypes = {
+    TryJsitePremium.propTypes = {
       classes: PropTypes.object.isRequired,
    };
   
-   export default withStyles(styles)(SignUpPage);
+   export default withStyles(styles)(TryJsitePremium);

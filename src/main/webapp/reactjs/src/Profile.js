@@ -30,46 +30,29 @@ const styles = theme => ({
       }
   });
 
-class SignUpPage extends React.Component {
+class Profile extends React.Component {
 
     state = {
-        username: '',
-        password: '',
-        email: '',
-        phone: '',
-        firstName: '',
-        lastName: '',
-        age: '',
-        country: '',
-        city: '',
-        favoriteSite: '',
-        showPassword: false
+        profileId: '',
+        username: 'Thomas',
+        email: 'tomi_nebunu@gmail.com',
+        phone: '0870987383',
+        firstName: 'Thomas',
+        lastName: 'Palade',
+        age: '21',
+        country: 'Romania',
+        favoriteSite: 'Facebook',
     };
 
     componentDidMount = () => { 
+        let id = this.props.match.params.profile_id;
         this.setState ({
-
+            ...this.state,
+            profileId: id
         })
     }
 
     componentDidUpdate = () => {    
-        
-    }
-
-    handleClickShowPassword = () => {
-        if (this.state.showPassword == false) {
-            this.setState({
-                showPassword: true
-            });
-        }
-        else {
-            this.setState({
-                showPassword: false
-            });
-        }
-    }
-
-    handleMouseDownPassword = () => {
         
     }
 
@@ -84,14 +67,12 @@ class SignUpPage extends React.Component {
         /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
         const identity = {
             username: this.state.username,
-            password: this.state.password,
             email: this.state.email,
             phone: this.state.phone,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             age: this.state.age,
             country: this.state.country,
-            city: this.state.city,
             favoriteSite: this.state.favoriteSite,
         };
 
@@ -137,11 +118,16 @@ class SignUpPage extends React.Component {
                         transform: 'translate(-50%, -50%)'
                     }}
                     >
+                <div style={{textAlign: 'center'}}>
+                <h1> PROFILE PAGE </h1>
+                <h1> Id-ul profile-ului curent este {this.state.profileId}</h1>
+                </div>
                 <TextField style={{
-                    marginTop: 100
+                    marginTop: 70
                 }} 
                     id="firstName" 
                     label="First Name" 
+                    disabled="true"
                     value={firstName}
                     onChange={this.handleChange("firstName")}
                     />
@@ -149,79 +135,54 @@ class SignUpPage extends React.Component {
                 <TextField 
                         id="lastName"
                         label="Last Name"
+                        disabled="true"
                         value={lastName} 
                         onChange={this.handleChange("lastName")}/>
                 <br></br>
-                <TextField id="phone" label="Phone Number" onChange={this.handleChange("phone")}/>
+                <TextField 
+                        id="phone" 
+                        label="Phone Number"
+                        disabled="true" 
+                        value={phone} 
+                        onChange={this.handleChange("phone")}/>
                 <br></br>
-                <TextField id="email" label="Email" onChange={this.handleChange("email")}/>
+                <TextField 
+                        id="email" 
+                        label="Email"
+                        disabled="true"
+                        value={email} 
+                        onChange={this.handleChange("email")}/>
                 <br></br>
-                <TextField id="age" label="Age" onChange={this.handleChange("age")}/>
+                <TextField 
+                        id="age" 
+                        label="Age" 
+                        disabled="true"
+                        value={age}
+                        onChange={this.handleChange("age")}/>
                 <br></br>
-                <TextField id="country" label="Country" onChange={this.handleChange("country")}/>
+                <TextField 
+                        id="country" 
+                        label="Country"
+                        disabled="true"
+                        value={country} 
+                        onChange={this.handleChange("country")}/>
                 <br></br>
-                <TextField id="city" label="City" onChange={this.handleChange("city")}/>
+                <TextField 
+                        id="favoriteSite" 
+                        label="Facebook/Insta/Twitter"
+                        disabled="true"
+                        value={favoriteSite} 
+                        onChange={this.handleChange("favoriteSite")}/>
                 <br></br>
-                <TextField id="favoriteSite" label="Facebook/Insta/Twitter" onChange={this.handleChange("favoriteSite")}/>
-                <br></br>
-                <br></br>
-                <InputLabel>
-                Username
-                </InputLabel>
-                <OutlinedInput
-                id="outlined-adornment-password"
-                type="text"
-                value={username}
-                onChange={this.handleChange("username")}
-                labelWidth={70}
-                />
-
-                <InputLabel htmlFor="outlined-adornment-password">
-                Password
-                </InputLabel>
-                <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={this.handleChange("password")}
-                endAdornment={
-                <InputAdornment position="end">
-                    <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={this.handleClickShowPassword}
-                    onMouseDown={this.handleMouseDownPassword}
-                    edge="end"
-                    >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                </InputAdornment>
-                }
-                labelWidth={70}
-                />
-                <br></br>
-                <br></br>
-
-                <div style={{ display: "flex" }}>
-
-                <Button variant="contained" 
-                        color="primary" 
-                        style={{ marginLeft: "auto" }} 
-                        className={classes.marginTop}
-                        endIcon={<Icon>send</Icon>}
-                        onClick={this.handleSubmit}>
-                <Typography variant="h6" style={{textAlign: 'right'}}>
-                    CREATE ACCOUNT
-                </Typography>
-                </Button>
-                </div>
+                
                 </form>
             </div>
           );
         }
  }
 
-    SignUpPage.propTypes = {
+    Profile.propTypes = {
       classes: PropTypes.object.isRequired,
    };
   
-   export default withStyles(styles)(SignUpPage);
+   export default withStyles(styles)(Profile);
