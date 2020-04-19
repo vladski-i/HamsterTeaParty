@@ -19,7 +19,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
-
+import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -83,7 +83,7 @@ class SignUpPage extends React.Component {
     handleSubmit = () => {
         /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
         const identity = {
-            username: this.state.username,
+            userName: this.state.username,
             password: this.state.password,
             email: this.state.email,
             phone: this.state.phone,
@@ -97,6 +97,23 @@ class SignUpPage extends React.Component {
 
         console.log(identity);
         /// send it to back-end/andor - mongodb
+        axios.post("http://localhost:8090/signup",{
+                userName : this.state.username,
+                phone : this.state.phone,
+                email : this.state.email,
+                firstName : this.state.firstName,
+                lastName : this.state.lastName,
+                age : this.state.age,
+                country : this.state.country,
+                city : this.state.city,
+                favoriteSite : this.state.favoriteSite,
+                passwd : this.state.password
+            })
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+            }
+        );
     }
 
     render () {
