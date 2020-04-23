@@ -30,6 +30,8 @@ const styles = theme => ({
       }
   });
 
+  const isNotSuperAdmin = "true";
+
 class Profile extends React.Component {
 
     state = {
@@ -104,10 +106,6 @@ class Profile extends React.Component {
             <div className>
                 <br></br>
                 <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
 
                 <form  
                     className={classes.root}
@@ -119,15 +117,19 @@ class Profile extends React.Component {
                     }}
                     >
                 <div style={{textAlign: 'center'}}>
-                <h1> PROFILE PAGE </h1>
-                <h1> Id-ul profile-ului curent este {this.state.profileId}</h1>
+                <div>
+                <Typography variant="h2" style={{textAlign: 'center'}}>
+                    PROFILE PAGE
+                </Typography>
+                </div>
+
                 </div>
                 <TextField style={{
-                    marginTop: 70
+                    marginTop: 30
                 }} 
                     id="firstName" 
                     label="First Name" 
-                    disabled="true"
+                    /// disabled="true"
                     value={firstName}
                     onChange={this.handleChange("firstName")}
                     />
@@ -135,46 +137,62 @@ class Profile extends React.Component {
                 <TextField 
                         id="lastName"
                         label="Last Name"
-                        disabled="true"
+                        // disabled="true"
                         value={lastName} 
                         onChange={this.handleChange("lastName")}/>
                 <br></br>
                 <TextField 
                         id="phone" 
                         label="Phone Number"
-                        disabled="true" 
+                        // disabled="true" 
                         value={phone} 
                         onChange={this.handleChange("phone")}/>
                 <br></br>
                 <TextField 
                         id="email" 
                         label="Email"
-                        disabled="true"
+                        // disabled="true"
                         value={email} 
                         onChange={this.handleChange("email")}/>
                 <br></br>
                 <TextField 
                         id="age" 
                         label="Age" 
-                        disabled="true"
+                        /// disabled="true"
                         value={age}
                         onChange={this.handleChange("age")}/>
                 <br></br>
                 <TextField 
                         id="country" 
                         label="Country"
-                        disabled="true"
+                        /// disabled="true"
                         value={country} 
                         onChange={this.handleChange("country")}/>
                 <br></br>
                 <TextField 
                         id="favoriteSite" 
                         label="Facebook/Insta/Twitter"
-                        disabled="true"
+                        /// disabled="true"
                         value={favoriteSite} 
                         onChange={this.handleChange("favoriteSite")}/>
                 <br></br>
                 
+                <div>
+                        <Button variant="contained" 
+                        style={{
+                            position: 'absolute', left: '85%', top: '110%',
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: '#E1173F'
+                        }} 
+                        className={classes.marginTop}
+                        onClick={this.submitData}
+                        >
+                        <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
+                            SUBMIT MODIFIED INFO
+                        </Typography>
+                        </Button>
+                </div>
+
                 </form>
             </div>
           );

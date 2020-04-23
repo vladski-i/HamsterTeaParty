@@ -30,7 +30,7 @@ const styles = theme => ({
       }
   });
 
-class TryJsitePremium extends React.Component {
+class Login extends React.Component {
 
     state = {
         username: '',
@@ -148,13 +148,13 @@ class TryJsitePremium extends React.Component {
 
                 <div style={{ display: "flex" }}>
 
-                <Button variant="contained" 
-                        color="primary" 
-                        style={{ marginLeft: "auto" }} 
+                <Button variant="contained"  
+                        style={{ marginLeft: "auto" ,
+                                 backgroundColor: '#E1173F'}} 
                         className={classes.marginTop}
-                        endIcon={<Icon>send</Icon>}
+                        endIcon={<Icon style={{color: 'white'}}>send</Icon>}
                         onClick={this.handleSubmit}>
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                     LOGIN
                 </Typography>
                 </Button>
@@ -165,8 +165,8 @@ class TryJsitePremium extends React.Component {
         }
  }
 
-    TryJsitePremium.propTypes = {
+    Login.propTypes = {
       classes: PropTypes.object.isRequired,
    };
   
-   export default withStyles(styles)(TryJsitePremium);
+   export default withStyles(styles)(Login);

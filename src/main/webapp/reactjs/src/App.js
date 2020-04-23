@@ -24,7 +24,7 @@ import Grid from '@material-ui/core/Grid';
 import HomepageComponent from './griduri';
 import JokeViewer from './JokeViewer';
 import SignUpPageWrapper from './SignUpPageWrapper'
-
+import { Provider } from 'react-redux'
 
 class Homepage extends React.Component {
 

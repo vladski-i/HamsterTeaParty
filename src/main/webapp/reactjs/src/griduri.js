@@ -19,6 +19,7 @@ import MostUpvotedJokes from './MostUpvotedJokes';
 import LatestJokes from './LatestJokes';
 import TrendingTags from './TrendingTags';
 import TryJsitePremium from './TryJsitePremium';
+import PostJoke from './PostJoke';
 
 import About from './About';
 import Login from './Login';
@@ -42,7 +43,7 @@ export default function CenteredGrid() {
 
   return (
     <Router>
-    <div className={classes.root}>
+    <div className={classes.root} >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Navbar/>
@@ -50,7 +51,7 @@ export default function CenteredGrid() {
         <Grid item xs={2}>
         <SidebarLeft/>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={8} >
           <Switch> 
             <Route path="/" exact component={JokePostTable} />
             <Route path="/signup" exact component={SignUpPage} />
@@ -66,9 +67,12 @@ export default function CenteredGrid() {
             <Route path="/about" exact component={About} />
             <Route path="/login" exact component={Login} />
             <Route path="/profile" exact component={Profile} />
+            <Route path="/postjoke" exact component={PostJoke} />
           </Switch>
         </Grid>
-        <Grid container item xs={2}>
+        <Grid container item xs={2}
+          style={{}}
+        >
           <SidebarRight/>
         </Grid>
       </Grid>

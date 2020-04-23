@@ -220,16 +220,17 @@ class SignUpPage extends React.Component {
 
                 <div style={{ display: "flex" }}>
 
-                <Button variant="contained" 
-                        color="primary" 
-                        style={{ marginLeft: "auto" }} 
+                <Button variant="contained"  
+                        style={{ marginLeft: "auto" ,
+                                 backgroundColor: '#E1173F'}} 
                         className={classes.marginTop}
-                        endIcon={<Icon>send</Icon>}
+                        endIcon={<Icon style={{color: 'white'}}>send</Icon>}
                         onClick={this.handleSubmit}>
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                     CREATE ACCOUNT
                 </Typography>
                 </Button>
+
                 </div>
                 </form>
             </div>

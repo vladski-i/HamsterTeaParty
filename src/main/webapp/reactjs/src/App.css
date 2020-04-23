@@ -41,9 +41,48 @@
   text-align: center;
 }
 
+.editable {
+  font-family: sans-serif;
+  line-height: 1.4;
+  padding: 10px;
+  resize: none;
+  margin-left: 30px;
+  white-space: pre-line;
+  width: 90%;
+  height: 100%;
+  margin-top: -40px;
+}
+
+.marginTop {
+  margin-top: -30px;
+}
+
+.marginTop1: {
+  margin-top: 13;
+},
+
+.marginTop2: {
+  margin-top: 8;
+}
+
+textarea.editable {
+  font-family: monospace, monospace;
+}
+
+button {
+  min-width: 70px;
+  padding: 5px;
+  margin: 5px;
+}
+
+
 .removeUnderline {
  text-decoration:none;
  color: inherit;
+}
+
+.maresteSizeUl {
+  font-size: 100px !important;
 }
 
 .marginTopNegative {
@@ -105,6 +144,10 @@
 .right {
   margin-left: auto;
   right: 0px;
+},
+
+.root: {
+  flexGrow: 1,
 },
 
 .sidebarButtonStyle {

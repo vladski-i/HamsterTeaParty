@@ -23,77 +23,185 @@ import TryJsitePremium from './TryJsitePremium';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import PropTypes from 'prop-types';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 
-export default function StickyHeadTable() {
-  return (
-    <div>
+import Divider from '@material-ui/core/Divider';
 
-<Grid container spacing={3}>
-    <Grid item xs={3}>
-    </Grid>
-    <Grid item xs={3}>
-      <h2>                 </h2>
-      <br></br>
-      <br></br>
-      <br></br>
-    </Grid>
-  </Grid>
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 
-  <Grid container spacing={2}>
-    <Grid item xs={2}>
-    </Grid>
-    <Grid item xs={8}>
-    <Link to="/tryjsitepremium" className="removeUnderline">
-    <Button style={{ backgroundColor: 'orange' }}>
-          <Typography variant="h6" style={{ color: 'white'}}>
-            Try JSite Premium
-          </Typography>    
-    </Button>
-    </Link>
-    </Grid>
-    <Grid item xs={2}>
-    </Grid>
-  </Grid>
-  <br></br>
-  <br></br>
-  <br></br>
-  <br></br>
-  <Grid container spacing={2}>
-    <Grid item xs={3}>
-    </Grid>
-    <Grid item xs={3}>
-    <Link to="/giveaward" className="removeUnderline">
-    <Button style={{ backgroundColor: 'orange' }}>
-          <Typography variant="h6" style={{ color: 'white'}}>
-            Give Award
-          </Typography>    
-    </Button>
-    </Link>
-    </Grid>
-  </Grid>
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import { connect } from 'react-redux';
 
-  <br></br>
-  <br></br>
-  <br></br>
-  <br></br>
-  
-  <Grid container spacing={2}>
-    <Grid item xs={3}>
-    </Grid>
-    <Grid item xs={3}>
-    <Link to="/donate" className="removeUnderline">
-    <Button style={{ backgroundColor: 'orange' }}>
-          <Typography variant="h6" style={{ color: 'white'}}>
-            Donate MONEY
-          </Typography>    
-    </Button>
-    </Link>
-    </Grid>
-  </Grid>
+class SidebarRight extends React.Component {
 
-  <br></br>
-  <br></br>
+    state = {
+      username: '',
+      loggedIn: false
+  };
 
-  </div>
+    componentDidMount = () => { 
+        this.setState ({
+            ...this.state,
+        })
+    }
+
+    componentDidUpdate = () => {   
+      
+    }
+    
+
+    render () {
+
+    const {
+      loggedIn
+    } = this.props;
+
+    console.log(this.props);
+
+    console.log(loggedIn);
+
+    return (
+      <div>
+      <List component="nav" 
+            style={{
+              width: '100%',
+              maxWidth: 360,
+              marginTop: 135,
+              position: 'fixed',
+            }} 
+            aria-label="mailbox folders">
+        {
+          loggedIn ?
+          <div>
+          <Link to="/postjoke" className="removeUnderline">
+          <ListItem button>
+          <PostAddIcon />
+            <ListItemText disableTypography
+                          primary={<Typography variant='h5' style={{ color: '#C82840' }}>Post Joke</Typography>}
+                          style = {{
+                            marginLeft: 30
+                          }}/>
+          </ListItem>
+          </Link>
+          <Divider light />
+          </div>
+            :
+            <div>
+            </div>
+        }
+
+        <Divider light />
+        <Link to="/giveaward" className="removeUnderline">
+        <ListItem button margin>
+        <AttachMoneyIcon />
+        <ListItemText 
+                        disableTypography
+                        primary={<Typography variant='h5' style={{ color: '#C82840' }}>Give Award</Typography>}
+                        style = {{
+                          marginLeft: 30,
+                          marginTop: 25
+                        }}/>
+        </ListItem>
+        </Link>
+        <Divider />
+        <Link to="/tryjsitepremium" className="removeUnderline">
+        <ListItem button divider >
+        <LocalAtmIcon />
+          <ListItemText 
+                        disableTypography
+                        primary={<Typography variant='h5' style={{ color: '#C82840' }}>Try Premium</Typography>}
+                        style = {{
+                          marginTop: 35,
+                          marginLeft: 30,
+                        }}
+          />
+
+        </ListItem>
+        </Link>
+
+        <Link to="/donate" className="removeUnderline">
+        <ListItem button>
+        <EmojiEventsIcon />
+          <ListItemText disableTypography
+                        primary={<Typography variant='h5' style={{ color: '#C82840' }}>Donate Us</Typography>}
+                        style = {{
+                          marginTop: 35,
+                          marginLeft: 30
+                        }}/>
+        </ListItem>
+        </Link>
+        <Divider light />
+
+        <Link to="/trending" className="removeUnderline">
+        <ListItem button>
+        <TrendingUpIcon />
+        
+          <ListItemText 
+                        disableTypography
+                        primary={<Typography variant='h5' style={{ color: '#C82840' }}>Trending Now</Typography>} 
+                        style = {{
+                          marginTop: 35,
+                          marginLeft: 30
+                        }}
+                        />
+        </ListItem>
+        </Link>
+        <Divider light />
+        <Link to="/latest" className="removeUnderline">
+        <ListItem button>
+        <NewReleasesIcon />
+          <ListItemText 
+                        disableTypography
+                        primary={<Typography variant='h5' style={{ color: '#C82840' }}>Latest Jokes</Typography>}
+                        style = {{
+                          marginTop: 35,
+                          marginLeft: 30
+                        }}/>
+        </ListItem> 
+        </Link>
+        <Divider light />
+        <Link to="/upvoted" className="removeUnderline">
+        <ListItem button>
+        <WhatshotIcon />
+          <ListItemText 
+                        disableTypography
+                        primary={<Typography variant='h5' style={{ color: '#C82840' }}>Most Upvoted</Typography>}  
+                        style = {{
+                          marginTop: 35,
+                          marginLeft: 30
+                        }}/>
+        </ListItem>
+        </Link>
+        <Divider light />
+      </List>
+      </div>
   );
 }
+}
+
+const mapStateToProps = (state) => {
+  return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login_logout: () => {
+      dispatch({
+        type: 'SIGN_IN'
+      })
+    } 
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarRight);

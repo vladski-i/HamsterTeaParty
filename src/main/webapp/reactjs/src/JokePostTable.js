@@ -37,7 +37,7 @@ const styles = theme => ({
       paddingTop: "56.25%" // 16:9
     },
     avatar: {
-        backgroundColor: "blue", 
+        backgroundColor: '#453535', 
       /// backgroundColor: red[500]
     }
   });
@@ -143,6 +143,8 @@ class JokePostTable extends React.Component {
         <div className>
             <br></br>
             <SearchBar
+                style={{marginTop: 50
+                }}
                 value={searchedJoke}
                 onChange={(newValue) => {
                     console.log("s-a modificat textul cautarii");
@@ -164,7 +166,7 @@ class JokePostTable extends React.Component {
                        >
                         <CardHeader
                             avatar={
-                            <Avatar aria-label="recipe" style={{backgroundColor: "blue"}}                
+                            <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F' }}                
                             >
                                 {`${joke.posterName[0]}`}
                             </Avatar>
@@ -176,23 +178,13 @@ class JokePostTable extends React.Component {
                        <Link to={ `/viewer/${joke._id}` }
                              className="removeUnderline"
                        >
-                        <CardContent>
+                        <CardContent className="marginTop">
                             <p className="Blend"
                                 onClick={this.handleChangeText}> 
                             { `${joke.text}`} 
                             </p>
                         </CardContent>
                         </Link>
-                        <CardActions disableSpacing classname="marginTopNegative">
-                            <IconButton aria-label="add to favorites"
-                                        onClick={this.handleLove}>
-                            <FavoriteIcon />
-                            </IconButton>
-                            <IconButton aria-label="share"
-                                        onClick={this.handleShare}>
-                            <ShareIcon />
-                            </IconButton>
-                        </CardActions>
                         </Card>
                     </div>
                 ))

@@ -140,9 +140,15 @@ class DonateMoney extends React.Component {
                         position: 'absolute', left: '50%', top: '50%',
                         transform: 'translate(-50%, -50%)'
                     }}
-                    >
+                >
+                <div>
+                <Typography variant="h2" style={{textAlign: 'center'}}>
+                    DONATE US
+                </Typography>
+                </div>
+
                 <TextField style={{
-                    marginTop: 100
+                    marginTop: 70
                 }} 
                     id="cardOwnerName" 
                     label="Card Owner Name"
@@ -183,45 +189,45 @@ class DonateMoney extends React.Component {
                     
                         <div style={{ display: "flex" }}>
                         <Button variant="contained" 
-                            color="primary" 
-                            style={{ marginLeft: "auto" }} 
+                            style={{ marginLeft: "auto" ,
+                            backgroundColor: '#E1173F'}} 
                             className={classes.marginTop}
                             onClick={this.handleSubmitFirstType}
                             >
-                        <Typography variant="h6" style={{textAlign: 'right'}}>
+                        <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                             DONATE 5$
                         </Typography>
                         </Button>
 
                         <Button variant="contained" 
-                                color="primary" 
-                                style={{ marginLeft: "auto" }} 
+                                style={{ marginLeft: "auto" ,
+                                backgroundColor: '#E1173F'}}  
                                 className={classes.marginTop}
                                 onClick={this.handleSubmitSecondType}
                             >
-                        <Typography variant="h6" style={{textAlign: 'right'}}>
+                        <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                             DONATE 10$
                         </Typography>
                         </Button>
 
                         <Button variant="contained" 
-                                color="primary" 
-                                style={{ marginLeft: "auto" }} 
+                                style={{ marginLeft: "auto" ,
+                                backgroundColor: '#E1173F'}}  
                                 className={classes.marginTop}
                                 onClick={this.handleSubmitThirdType}
                                 >
-                        <Typography variant="h6" style={{textAlign: 'right'}}>
+                        <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                             DONATE 20$
                         </Typography>
                         </Button>
 
                         <Button variant="contained" 
-                                color="primary" 
-                                style={{ marginLeft: "auto" }} 
+                                style={{ marginLeft: "auto" ,
+                                backgroundColor: '#E1173F'}} 
                                 className={classes.marginTop}
                                 onClick={this.handleSubmitFourthType}
                                 >
-                        <Typography variant="h6" style={{textAlign: 'right'}}>
+                        <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                             DONATE 100$
                         </Typography>
                         </Button>
@@ -230,29 +236,29 @@ class DonateMoney extends React.Component {
                     :
                         <div>
                         <Button variant="contained" 
-                        color="primary" 
                         style={{
                             position: 'absolute', left: '40%', top: '110%',
-                            transform: 'translate(-50%, -50%)'
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: '#E1173F'
                         }} 
                         className={classes.marginTop}
                         onClick={this.submitData}
                         >
-                        <Typography variant="h6" style={{textAlign: 'right'}}>
+                        <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                             DONATE
                         </Typography>
                         </Button>
 
-
                         <Button variant="contained" 
                         style={{
                             position: 'absolute', left: '60%', top: '110%',
-                            transform: 'translate(-50%, -50%)'
+                            transform: 'translate(-50%, -50%)',
+                            backgroundColor: '#E1173F'
                         }} 
                         className={classes.marginTop}
                         onClick={this.handleClearAmount}
                         >
-                        <Typography variant="h6" style={{textAlign: 'right'}}>
+                        <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                             CLEAR AMOUNT
                         </Typography>
                         </Button>

@@ -36,7 +36,7 @@ const styles = theme => ({
       paddingTop: "56.25%" // 16:9
     },
     avatar: {
-      backgroundColor: red[500]
+        backgroundColor: '#E1173F'
     }
   });
 
@@ -120,6 +120,8 @@ class MostUpvotedJokes extends React.Component {
         <div className>
             <br></br>
             <SearchBar
+                style={{marginTop: 50
+                }}
                 value={searchedJoke}
                 onChange={(newValue) => {
                     console.log("s-a modificat textul cautarii");
@@ -145,22 +147,12 @@ class MostUpvotedJokes extends React.Component {
                             title="Shrimp and Chorizo Paella"
                             subheader="September 14, 2016"
                         />
-                        <CardContent>
+                        <CardContent className="marginTop">
                             <p className="Blend"
                                 onClick={this.handleChangeText}> 
                             { `${joke}`} 
                             </p>
                         </CardContent>
-                        <CardActions disableSpacing>
-                            <IconButton aria-label="add to favorites"
-                                        onClick={this.handleLove}>
-                            <FavoriteIcon />
-                            </IconButton>
-                            <IconButton aria-label="share"
-                                        onClick={this.handleShare}>
-                            <ShareIcon />
-                            </IconButton>
-                        </CardActions>
                         </Card>
                     </div>
                 ))

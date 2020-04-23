@@ -35,6 +35,8 @@ public class AuthController {
 //        );
         System.out.println(user);
         userRepository.save(user);
+        System.out.println("Tot repository-ul de useri arata acum asa:");
+        System.out.println(userRepository.findAll());
         return true;
     }
 }

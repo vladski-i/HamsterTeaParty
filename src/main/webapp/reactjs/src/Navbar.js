@@ -12,71 +12,85 @@ import Grid from '@material-ui/core/Grid';
 
 import { Link } from 'react-router-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const loggedIn = 0;
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    marginTop: 10,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    flexGrow: 1,
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  marginTop: {
-    marginTop: 13,
-  },
-}));
+class Navbar extends React.Component {
 
-export default function ButtonAppBar() {
-  const classes = useStyles();
+  state = {
+    username: '',
+    loggedIn: true
+};
+
+componentDidMount = () => { 
+    this.setState ({
+
+    })
+}
+
+componentDidUpdate = () => {    
+    
+}
+
+handleLogout = () => {
+    this.props.login_logout();
+}
+
+
+handleChange = (prop) => (event) => {
+    this.setState({ 
+        ...this.state, 
+        [prop]: event.target.value 
+    });
+  };
+
+handleSubmit = () => {
+    /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
+    console.log('onClick');
+    const identity = {
+
+    };
+    /// send it to back-end/andor - mongodb
+}   
+
+
+render () {
+
+
+  const {
+    loggedIn,
+  } = this.props;
+
+  console.log(this.props);
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div className="root">
+      <AppBar position="static" 
+              style={{
+                // backgroundColor: '#453535',
+                backgroundColor: '#C82840',
+                position: 'fixed' /* Fixed Sidebar (stay in place on scroll) */}}>
         <Toolbar>
+        <Button color="inherit" style={{  }} className="marginTop2">
+        <Link to="/" className="removeUnderline">
+          <Typography variant="h6" style={{textAlign: 'right'}} onClick={this.handleLogout}>
+            HOME
+          </Typography> 
+        </Link>     
+            </Button>
         <Grid container spacing={2}>
         <Grid item xs={2}>
-            <div className={classes.marginTop}>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          </div>
           </Grid>
         <Grid item xs={2}>
             </Grid>
         <Grid item xs={4}>
         <Link to="/" className="removeUnderline">
-        <Typography variant="h2" className={classes.title}>
+        <Typography variant="h2" 
+                    style={{
+                      flexGrow: 1,
+                      alignItems: 'center',
+                      textAlign: 'center',
+          }}>
             Jokes Site
           </Typography>
         </Link>
@@ -85,9 +99,13 @@ export default function ButtonAppBar() {
             </Grid>
         <Grid item xs={3}>
         <div style={{ display: "flex" }}>
-        <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+        <Button color="inherit" className="marginTop1" style={{ marginLeft: "auto" }} >
         <Link to="/about" className="removeUnderline">
-          <Typography variant="h6" style={{textAlign: 'right'}}>
+          <Typography variant="h6" 
+                      style={{
+                        textAlign: 'right',
+                        marginTop: 16,
+                        }}>
             ABOUT
           </Typography> 
         </Link>   
@@ -95,16 +113,26 @@ export default function ButtonAppBar() {
           {
             (!loggedIn) ?
             <div>
-                <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Button color="inherit" style={{ marginLeft: "auto" }} className="marginTop1">
                 <Link to="/login" className="removeUnderline">
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Typography variant="h6" 
+                        style={{
+                          textAlign: 'right',
+                          marginTop: 16,
+                          // color: '#E1173F'
+                        }}>
                     LOGIN
                 </Typography>    
                 </Link>
                     </Button>
-                <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
+                <Button color="inherit" style={{ marginLeft: "auto" }} className="marginTop1">
                 <Link to="/signup" className="removeUnderline">
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Typography variant="h6" 
+                            style={{
+                              textAlign: 'right',
+                              marginTop: 16,
+                              // color: '#E1173F'
+                              }}>
                     SIGN UP
                 </Typography>    
                 </Link>
@@ -112,16 +140,30 @@ export default function ButtonAppBar() {
             </div>
             :
             <div>
-                <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Button color="inherit" style={{ marginLeft: "auto" }} className="marginTop1" 
+                        onClick={this.handleLogout}>
+                <Link to="/" className="removeUnderline">
+                <Typography variant="h6" 
+                            style={{
+                              textAlign: 'right',
+                              marginTop: 16,
+                              // color: '#E1173F'
+                              }}>
                     LOGOUT
-                </Typography>    
+                </Typography>
+                </Link>
                 </Button>
-                    <Button color="inherit" style={{ marginLeft: "auto" }} className={classes.marginTop}>
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Link to="/profile" className="removeUnderline">
+                    <Button color="inherit" style={{ marginLeft: "auto" }} className="marginTop1">
+                <Typography variant="h6" 
+                            style={{
+                              textAlign: 'right',
+                              marginTop: 16,
+                            }}>
                     PROFILE
                 </Typography>    
                     </Button>
+                </Link>
             </div>
             }
         </div>
@@ -132,22 +174,20 @@ export default function ButtonAppBar() {
     </div>
   );
 }
+}
 
-/*
+const mapStateToProps = (state) => {
+  return state;
+}
 
-<Grid item xs={8}>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder=""
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-        </Grid>
-*/
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login_logout: () => {
+      dispatch({
+        type: 'SIGN_IN'
+      })
+    } 
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

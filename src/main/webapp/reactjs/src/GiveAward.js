@@ -139,9 +139,15 @@ class GiveAward extends React.Component {
                         position: 'absolute', left: '50%', top: '50%',
                         transform: 'translate(-50%, -50%)'
                     }}
-                    >
+                >
+                <div>
+                <Typography variant="h2" style={{textAlign: 'center'}}>
+                    GIVE AWARD
+                </Typography>
+                </div>
+
                 <TextField style={{
-                    marginTop: 100
+                    marginTop: 70
                 }} 
                     id="cardOwnerName" 
                     label="Card Owner Name"
@@ -174,35 +180,35 @@ class GiveAward extends React.Component {
 
                 <div style={{ display: "flex" }}>
                 <Button variant="contained" 
-                    color="primary" 
-                    style={{ marginLeft: "auto" }} 
+                    style={{ marginLeft: "auto" ,
+                    backgroundColor: '#E1173F'}} 
                     className={classes.marginTop}
                     /// onClick={this.someFunction}
                     onClick={this.handleSubmitFirstType}
                     >
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                     GET 50 COINS (5$)
                 </Typography>
                 </Button>
 
                 <Button variant="contained" 
-                        color="primary" 
-                        style={{ marginLeft: "auto" }} 
+                        style={{ marginLeft: "auto" ,
+                        backgroundColor: '#E1173F'}} 
                         className={classes.marginTop}
                         onClick={this.handleSubmitSecondType}
                        >
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                     GET 100 COINS (10$)
                 </Typography>
                 </Button>
 
                 <Button variant="contained" 
-                        color="primary" 
-                        style={{ marginLeft: "auto" }} 
+                        style={{ marginLeft: "auto" ,
+                        backgroundColor: '#E1173F'}} 
                         className={classes.marginTop}
                         onClick={this.handleSubmitThirdType}
                         >
-                <Typography variant="h6" style={{textAlign: 'right'}}>
+                <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
                     GET 200 COINS (15$)
                 </Typography>
                 </Button>

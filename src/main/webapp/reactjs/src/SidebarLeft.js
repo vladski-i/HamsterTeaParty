@@ -23,9 +23,11 @@ import TryJsitePremium from './TryJsitePremium';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+/*
+
 export default function StickyHeadTable() {
   return (
-    <div>
+    <div >
 
 <Grid container spacing={3}>
     <Grid item xs={3}>
@@ -96,4 +98,16 @@ export default function StickyHeadTable() {
 
   </div>
   );
+}
+
+
+
+*/
+
+export default function StickyHeadTable() {
+  return (
+    <div>
+
+    </div>
+);
 }

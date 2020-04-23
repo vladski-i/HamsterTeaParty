@@ -1,4 +1,12 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Demo from './demo';
+import Navbar from './Navbar';
+import Drawer from './Drawer';
+import SidebarRight from './SidebarRight';
+import SidebarLeft from './SidebarLeft';
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -15,11 +23,10 @@ import { Link } from 'react-router-dom';
 import ContentEditable from "react-contenteditable";
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import RedeemIcon from '@material-ui/icons/Redeem';
 import Chip from '@material-ui/core/Chip';
 import TagFacesIcon from '@material-ui/icons/TagFaces';
 import TextField from "@material-ui/core/TextField";
+import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -46,11 +53,11 @@ const styles = theme => ({
     
 const loggedIn = 1;
 
-class CentralJokeViewer extends React.Component {
+class PostJoke extends React.Component {
 
     state = {
         jokeId: 0,
-        jokeText: 'Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil. Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook again without stirring, until mussels have opened and rice is just tender, 5 to 7 minutes more. (Discard any mussels that don’t open. Set aside off of the heat to let rest for 10 minutes, and then serve.',
+        jokeText: 'Insert your text here...',
         jokePoster: 'Tomi',
         jokeTags: [],
         jokePosterId: 1,
@@ -59,8 +66,9 @@ class CentralJokeViewer extends React.Component {
         searchedJoke: '',
         editable: false,
         html: 'Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil. Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook again without stirring, until mussels have opened and rice is just tender, 5 to 7 minutes more. (Discard any mussels that don’t open. Set aside off of the heat to let rest for 10 minutes, and then serve.',
-        newTag: '',
-        chipData: []
+        chipData: [],
+        setchipData: [],
+        newTag: ''
     };
 
     componentDidMount = () => { 
@@ -76,7 +84,7 @@ class CentralJokeViewer extends React.Component {
             { key: 4, label: 'cori' }
           ];
 
-        this.setState ({
+          this.setState ({
             ...this.state,
             jokePoster: 'Altcineva',
             jokeTags: [],
@@ -84,8 +92,9 @@ class CentralJokeViewer extends React.Component {
             jokePostedAt: 0,
             jokeId: id,
             editable: loggedIn,
-            chipData: chipData
+            chipData: chipData,
         })
+        
 
         // fetch la date din backend
 
@@ -109,11 +118,6 @@ class CentralJokeViewer extends React.Component {
             // do nothing
         }
     }
-    
-    searchJokes = () => {
-        console.log('im searchin for a new joke tati');
-        /// fac un filter prin toate glumele si le re-render-uiesc in main page doar pe alea care contin cuvantul cautat
-    }
 
     handleChange = (prop) => (event) => {
         this.setState({ 
@@ -121,11 +125,15 @@ class CentralJokeViewer extends React.Component {
             [prop]: event.target.value 
         });
       };
+    
+    searchJokes = () => {
+        console.log('im searchin for a new joke tati');
+        /// fac un filter prin toate glumele si le re-render-uiesc in main page doar pe alea care contin cuvantul cautat
+    }
 
-      handleChangeJokeText = evt => {
+    handleChangeJokeText = evt => {
         this.setState({ jokeText: evt.target.value });
       };
-    
     
       toggleEditable = () => {
         this.setState({ editable: !this.state.editable });
@@ -133,7 +141,21 @@ class CentralJokeViewer extends React.Component {
 
       handleSubmit = () => {
             /// dau send la this.state, mai exact la joke (jokeId, jokeText)
+            /// MAI EXACT O SA FIE UN INSERT IN MONGODB
+
             console.log(this.state);
+
+            /// send it to back-end/andor - mongodb
+        axios.post("http://localhost:8090/jokes",{
+            title : 'mihaita_boss',
+            content : this.state.jokeText,
+            posterId : this.state.jokePoster,
+        })
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+        }
+    );
       }
 
       handleDelete = (chipToDelete) => () => {
@@ -196,8 +218,8 @@ class CentralJokeViewer extends React.Component {
             jokeId,
             jokePoster,
             searchedJoke,
-            newTag,
-            chipData
+            chipData,
+            newTag
         } = this.state;
 
         const {
@@ -210,27 +232,39 @@ class CentralJokeViewer extends React.Component {
                 <br></br>
 
         <SearchBar
-        style={{marginTop: 50
-        }}
-        value={searchedJoke}
-        onChange={(newValue) => {
-            console.log("s-a modificat textul cautarii");
-            this.setState({ searchedJoke: newValue })}
-        }
-        onRequestSearch={() => {
-            console.log("trebuie cautate doar glumele care au tagul asta");
-            this.searchJokes(searchedJoke)}
-        }
-    />
+            style={{marginTop: 50
+            }}
+            value={searchedJoke}
+            onChange={(newValue) => {
+                console.log("s-a modificat textul cautarii");
+                this.setState({ searchedJoke: newValue })}
+            }
+            onRequestSearch={() => {
+                console.log("trebuie cautate doar glumele care au tagul asta");
+                this.searchJokes(searchedJoke)}
+            }
+        />
 
         <br></br>
     
       <Card>
+
+        <div>
+        <Typography variant="h2" style={{textAlign: 'center'}}>
+            POST JOKE
+        </Typography>
+        </div>
+
+
       <Link to={ `/profile/${jokePoster}` }
                              className="removeUnderline"
         >
         <CardHeader
-            avatar={
+            style={{
+                marginTop: -40,
+                marginBottom: 40
+            }}
+            avatar={    
             <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F'}}>
                 {`${jokePoster[0]}`}
             </Avatar>
@@ -249,20 +283,26 @@ class CentralJokeViewer extends React.Component {
         <div>  
         <ContentEditable
           className="editable"
-          tagName="pre" 
+          tagName="pre"
+          placeholder="This is there place where you can insert text"
           html={this.state.jokeText}
           disabled={!this.state.editable} // use true to disable edition
           onChange={this.handleChangeJokeText} // handle innerHTML change
           onBlur={this.sanitize}
         />
 
-<TextField
+        </div>
+
+            <CardContent>
+            </CardContent>
+
+            <TextField
                 id="newTag"
                 label="Add tag here"
                 value={newTag}
                 style={{
                     marginLeft: 30,
-                    marginTop: -20,
+                    marginTop: -30,
                 }}
                 onChange={this.handleChange("newTag")}
                 onBlur={this.handleNewTag}
@@ -295,8 +335,6 @@ class CentralJokeViewer extends React.Component {
             }
 
 
-
-
         {
         (!loggedIn) ?
         <div>
@@ -308,42 +346,36 @@ class CentralJokeViewer extends React.Component {
         <Button variant="contained"  
                 style={{ marginLeft: 'auto',
                          marginRight: 100,
-                        backgroundColor: '#E1173F'}} 
+                         marginTop: 50,
+                         backgroundColor: '#E1173F'}} 
                 className={classes.marginTop}
                 endIcon={<Icon style={{color: 'white'}}>send</Icon>}
                 onClick={this.handleSubmit}>
             <div></div>
             <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
-                Submit EDIT
+                POST JOKE
             </Typography>
         </Button>
         </div>
         </div>
         }
 
-        </div>
 
-        <CardActions disableSpacing style={{marginTop: -50}}> 
-            <IconButton aria-label="add to favorites">
-            <ThumbUpIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-            <RedeemIcon />
-            </IconButton>
-        </CardActions>
             <CardContent>
             </CardContent>
       </Card>
+
+
             <div style={{textAlign: 'center'}}>
-                <h1> Id-ul joke-ului curent este {jokeId}</h1>
+                <h1> </h1>
             </div>
             </div>
           );
         }
  }
 
- CentralJokeViewer.propTypes = {
+ PostJoke.propTypes = {
     classes: PropTypes.object.isRequired,
  };
 
- export default withStyles(styles)(CentralJokeViewer);
+ export default withStyles(styles)(PostJoke);
