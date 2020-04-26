@@ -19,7 +19,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
-
+import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -76,9 +76,17 @@ class Login extends React.Component {
         /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
         console.log('onClick');
         const identity = {
-            username: this.state.username,
-            password: this.state.password,
+            userName: this.state.username,
+            passwd: this.state.password,
         };
+
+        axios.post('http://localhost:8090/login',{
+            "userName" : this.state.username,
+            "passwd"   : this.state.password
+        }).then(res => {
+            console.log(res)
+            console.log(res.data)
+        })
         /// send it to back-end/andor - mongodb
     }
 

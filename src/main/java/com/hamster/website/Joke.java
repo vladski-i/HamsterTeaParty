@@ -1,11 +1,13 @@
 package com.hamster.website;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Document(collection="jokes")
 public class Joke {
     @Id
     public String _id;
@@ -112,7 +114,7 @@ public class Joke {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Joke{" +
                 "_id=" + _id +
                 ", posterId='" + posterId + '\'' +
                 ", title='" + title + '\'' +

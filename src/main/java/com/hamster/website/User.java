@@ -1,11 +1,13 @@
 package com.hamster.website;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Document(collection="users")
 public class User {
     @Id
     public String _id;
