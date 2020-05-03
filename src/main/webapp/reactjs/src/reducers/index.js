@@ -1,14 +1,14 @@
 import counterReducer from './counter';
 import loggedReducer from './isLogged';
-import loginTokenReducer from './loginToken';
-import loginIdentityReducer from './loginIdentity';
+import userTokenReducer from './userToken';
+import userIdentityReducer from './userIdentity';
 import  { combineReducers } from 'redux'
 
 const allReducers = combineReducers({
     counter: counterReducer,
     loggedIn: loggedReducer,
-    loginIdentityReducer,
-    loginTokenReducer
+    userIdentity: userIdentityReducer,
+    userToken: userTokenReducer
 })
 
 export default allReducers;

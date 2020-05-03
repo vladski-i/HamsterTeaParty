@@ -65,7 +65,7 @@ class SidebarRight extends React.Component {
 
     const {
       loggedIn
-    } = this.props;
+    } = this.props.userToken;
 
     console.log(this.props);
 

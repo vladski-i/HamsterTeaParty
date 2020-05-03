@@ -27,6 +27,7 @@ import Chip from '@material-ui/core/Chip';
 import TagFacesIcon from '@material-ui/icons/TagFaces';
 import TextField from "@material-ui/core/TextField";
 import axios from 'axios';
+import Alert from '@material-ui/lab/Alert';
 
 const styles = theme => ({
     root: {
@@ -68,7 +69,9 @@ class PostJoke extends React.Component {
         html: 'Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil. Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook again without stirring, until mussels have opened and rice is just tender, 5 to 7 minutes more. (Discard any mussels that don’t open. Set aside off of the heat to let rest for 10 minutes, and then serve.',
         chipData: [],
         setchipData: [],
-        newTag: ''
+        newTag: '',
+        visibleSuccesMessage: false,
+        visibleErrorMessage: false
     };
 
     componentDidMount = () => { 
@@ -154,6 +157,15 @@ class PostJoke extends React.Component {
         .then(res => {
             console.log(res);
             console.log(res.data);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 0);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 1900);
+            setTimeout(() => {
+                this.props.history.push('/');
+            }, 2100);
         }
     );
       }
@@ -219,7 +231,9 @@ class PostJoke extends React.Component {
             jokePoster,
             searchedJoke,
             chipData,
-            newTag
+            newTag,
+            visibleSuccesMessage,
+            visibleErrorMessage
         } = this.state;
 
         const {
@@ -230,6 +244,37 @@ class PostJoke extends React.Component {
             <div className>
                 <br></br>
                 <br></br>
+
+                {
+                    /// alert message
+                    (!visibleSuccesMessage) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 50,
+                                    marginBottom: -30
+                            }}>   
+                            <Alert variant="filled" severity="success">
+                                The joke has been posted successfully! You're being redirected to the main page.
+                            </Alert>
+                        </div>
+                }
+
+                {
+                    /// alert message
+                    (!visibleErrorMessage) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 50,
+                                    marginBottom: -30
+                            }}>   
+                            <Alert variant="filled" severity="warning">
+                                An error has occurred. We're very sorry, please try again to post the joke. 
+                            </Alert>
+                        </div>
+                }
+
 
         <SearchBar
             style={{marginTop: 50
@@ -360,7 +405,6 @@ class PostJoke extends React.Component {
         </div>
         }
 
-
             <CardContent>
             </CardContent>
       </Card>
@@ -369,6 +413,20 @@ class PostJoke extends React.Component {
             <div style={{textAlign: 'center'}}>
                 <h1> </h1>
             </div>
+            
+            {
+            /*
+            (!visible) ?
+            <div>
+            </div>
+            :
+                <div>   
+                    <Alert variant="filled" severity="error">
+                    This is a success alert — check it out!
+                    </Alert>
+                </div>
+            */
+            }
             </div>
           );
         }
@@ -379,3 +437,20 @@ class PostJoke extends React.Component {
  };
 
  export default withStyles(styles)(PostJoke);
+
+ /*
+ {
+    <Alert variant="filled" severity="error">
+        This is an error alert — check it out!
+      </Alert>
+      <Alert variant="filled" severity="warning">
+        This is a warning alert — check it out!
+      </Alert>
+      <Alert variant="filled" severity="info">
+        This is an info alert — check it out!
+      </Alert>
+      <Alert variant="filled" severity="success">
+        This is a success alert — check it out!
+      </Alert>
+ }
+ */

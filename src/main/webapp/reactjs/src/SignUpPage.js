@@ -20,6 +20,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import axios from 'axios';
+import { Link, NavLink, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Alert from '@material-ui/lab/Alert';
 
 const styles = theme => ({
     root: {
@@ -43,7 +46,10 @@ class SignUpPage extends React.Component {
         country: '',
         city: '',
         favoriteSite: '',
-        showPassword: false
+        showPassword: false,
+        serverResponseUsernameNotAvailable: false,
+        serverResponseNoResponse: false,
+        serverResponseAccountCreatedSuccessfully: false
     };
 
     componentDidMount = () => { 
@@ -82,20 +88,6 @@ class SignUpPage extends React.Component {
 
     handleSubmit = () => {
         /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
-        const identity = {
-            userName: this.state.username,
-            password: this.state.password,
-            email: this.state.email,
-            phone: this.state.phone,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            age: this.state.age,
-            country: this.state.country,
-            city: this.state.city,
-            favoriteSite: this.state.favoriteSite,
-        };
-
-        console.log(identity);
         /// send it to back-end/andor - mongodb
         axios.post("http://localhost:8090/signup",{
                 userName : this.state.username,
@@ -112,8 +104,53 @@ class SignUpPage extends React.Component {
             .then(res => {
                 console.log(res);
                 console.log(res.data);
-            }
-        );
+                setTimeout(() => {
+                    this.setState({ serverResponseAccountCreatedSuccessfully: !this.state.serverResponseAccountCreatedSuccessfully });
+                }, 0);
+                setTimeout(() => {
+                    this.setState({ serverResponseAccountCreatedSuccessfully: !this.state.serverResponseAccountCreatedSuccessfully });
+                }, 1800);
+                setTimeout(() => {
+                    this.props.history.push('/');
+                }, 2000);
+             }
+            ).catch((error) => {
+                // Error
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    // console.log(error.response.data);
+                    console.log(error.response.status);
+                    if (error.response.status === 400) {
+                        // username-ul este deja utilizat de altcineva, incearca cu altul
+                        setTimeout(() => {
+                            this.setState({ serverResponseUsernameNotAvailable: !this.state.serverResponseUsernameNotAvailable });   
+                        }, 0);  // semnaleaza eroare print-un mesaj
+                        setTimeout(() => {
+                            this.setState({ serverResponseUsernameNotAvailable: !this.state.serverResponseUsernameNotAvailable });
+                        }, 1500);  /// fa sa dispara mesajul de eroare
+                    }
+                    // console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the 
+                    // browser and an instance of
+                    // http.ClientRequest in node.js
+    
+                    setTimeout(() => {
+                        this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });   
+                    }, 0);  // semnaleaza eroare print-un mesaj
+    
+                    setTimeout(() => {
+                        this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });
+                    }, 1500);  /// fa sa dispara mesajul de eroare
+    
+                    // console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                }
+                /// console.log(error.config);
+            });
     }
 
     render () {
@@ -128,8 +165,11 @@ class SignUpPage extends React.Component {
             age,
             country,
             city,
-            favoriteSite,
-            showPassword
+            favoriteSite, 
+            showPassword,
+            serverResponseUsernameNotAvailable,
+            serverResponseNoResponse,
+            serverResponseAccountCreatedSuccessfully
         } = this.state;
 
         const {
@@ -138,12 +178,50 @@ class SignUpPage extends React.Component {
 
         return (
             <div className>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
+                 {
+                    /// alert message
+                    (!serverResponseNoResponse) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 80,
+                                    marginBottom: 100
+                            }}>   
+                            <Alert variant="filled" severity="warning">
+                                An error has occurred. We're very sorry, please try again to create the account.
+                            </Alert>
+                        </div>
+                }
+
+                {
+                    /// alert message
+                    (!serverResponseUsernameNotAvailable) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 80,
+                                    marginBottom: 100
+                            }}>   
+                            <Alert variant="filled" severity="warning">
+                                We're sorry! The username is not available. Change it and try again.
+                            </Alert>
+                        </div>
+                }
+
+                {
+                    /// alert message
+                    (!serverResponseAccountCreatedSuccessfully) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 80,
+                                    marginBottom: 100
+                            }}>   
+                            <Alert variant="filled" severity="success">
+                                The account has been created successfully! You're being redirected to the main page.
+                            </Alert>
+                        </div>
+                }
 
                 <form  
                     className={classes.root}
@@ -153,10 +231,14 @@ class SignUpPage extends React.Component {
                         position: 'absolute', left: '50%', top: '50%',
                         transform: 'translate(-50%, -50%)'
                     }}
-                    >
+                >
                 <TextField style={{
-                    marginTop: 100
-                }} 
+                    marginTop: (serverResponseUsernameNotAvailable || 
+                                serverResponseNoResponse || 
+                                serverResponseAccountCreatedSuccessfully) 
+                                ? 150 
+                                : 80
+                    }} 
                     id="firstName" 
                     label="First Name" 
                     value={firstName}
@@ -242,4 +324,5 @@ class SignUpPage extends React.Component {
       classes: PropTypes.object.isRequired,
    };
   
-   export default withStyles(styles)(SignUpPage);
+
+   export default withRouter(connect()(withStyles(styles)(SignUpPage)))

@@ -1,5 +1,5 @@
 /// REDUCER
-const loginIdentityReducer = (state = '', action) => {
+const userIdentityReducer = (state = '', action) => {
     switch(action.type) {
         case "SET_IDENTITY":
           return state + 1;
@@ -10,4 +10,4 @@ const loginIdentityReducer = (state = '', action) => {
     }
 }
 
-export default loginIdentityReducer;
+export default userIdentityReducer;

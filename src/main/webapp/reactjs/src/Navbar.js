@@ -19,7 +19,7 @@ class Navbar extends React.Component {
 
   state = {
     username: '',
-    loggedIn: true
+    loggedIn: this.props.userToken.loggedIn
 };
 
 componentDidMount = () => { 
@@ -32,10 +32,9 @@ componentDidUpdate = () => {
     
 }
 
-handleLogout = () => {
-    this.props.login_logout();
-}
-
+  handleLogout = () => {
+      this.props.login_logout();
+  }
 
 handleChange = (prop) => (event) => {
     this.setState({ 
@@ -59,7 +58,7 @@ render () {
 
   const {
     loggedIn,
-  } = this.props;
+  } = this.props.userToken;
 
   console.log(this.props);
 
@@ -184,7 +183,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login_logout: () => {
       dispatch({
-        type: 'SIGN_IN'
+        type: 'REMOVE_TOKEN'
       })
     } 
   }
