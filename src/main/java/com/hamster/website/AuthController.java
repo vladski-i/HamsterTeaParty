@@ -23,7 +23,11 @@ public class AuthController {
     public ResponseEntity<?> signUpEndpoint(
         @RequestBody User user
     ){
+        //TODO duplicate username
         System.out.println(user);
+        boolean dup = !userRepository.findByUserName(user.userName).stream().findFirst().isEmpty();
+        if(dup)
+            return ResponseEntity.status(400).body("Duplicate Username");
         userRepository.save(user);
         System.out.println("Tot repository-ul de useri arata acum asa:");
         System.out.println(userRepository.findAll());
