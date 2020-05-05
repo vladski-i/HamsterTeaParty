@@ -21,7 +21,7 @@ public class JokeController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(path = "/jokes")
+        @GetMapping(path = "/jokes")
     public List<Joke> getAllJokes(
     ){
 

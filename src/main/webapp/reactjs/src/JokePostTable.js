@@ -47,6 +47,7 @@ class JokePostTable extends React.Component {
 
     state = {
         jokeId: 0,
+        isLoaded: false,
         jokes: [ 
                 {
                     _id: '123456',
@@ -79,17 +80,34 @@ class JokePostTable extends React.Component {
                     text: 'You 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
                 }
         ],
+        jokeArray: [],
         searchedJoke: ''
     };
 
-    componentDidMount = () => { 
-        
-        /*this.setState ({
-            
-        })
-        */
-        /// setez si userId
-    }
+    componentDidMount() {
+        fetch("http://localhost:8090/jokes")
+          .then(res => res.json())
+          .then(
+            (result) => {
+
+              this.setState({
+                isLoaded: true,
+                jokeArray: result
+              });
+
+              console.log(result);
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              this.setState({
+                isLoaded: true,
+                error
+              });
+            }
+          )
+      }
 
     componentDidUpdate = () => {    
         
@@ -132,12 +150,17 @@ class JokePostTable extends React.Component {
 
     const {
         jokes,
-        searchedJoke
+        searchedJoke,
+        jokeArray
     } = this.state;
 
     const {
         classes
      } = this.props;
+
+
+     console.log('The jokarray is as following');
+     console.log(jokeArray);
 
     return (
         <div className>
@@ -158,7 +181,7 @@ class JokePostTable extends React.Component {
             <br></br>
 
             {
-                this.state.jokes.map(joke => (
+                this.state.jokeArray.map(joke => (
                     <div >
                        <Card> 
                        <Link to={ `/profile/${joke.posterId}` }
@@ -168,10 +191,10 @@ class JokePostTable extends React.Component {
                             avatar={
                             <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F' }}                
                             >
-                                {`${joke.posterName[0]}`}
+                                {`${joke.title[0]}`}
                             </Avatar>
                             }
-                            title={`${joke.posterName}`}
+                            title={`${joke.title}`}
                             subheader="September 14, 2016"
                         />
                         </Link>
@@ -181,7 +204,7 @@ class JokePostTable extends React.Component {
                         <CardContent className="marginTop">
                             <p className="Blend"
                                 onClick={this.handleChangeText}> 
-                            { `${joke.text}`} 
+                            { `${joke.content}`} 
                             </p>
                         </CardContent>
                         </Link>

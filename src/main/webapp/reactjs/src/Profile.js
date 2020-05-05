@@ -1,25 +1,40 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Demo from './demo';
-import Navbar from './Navbar';
-import Drawer from './Drawer';
-import SidebarRight from './SidebarRight';
-import SidebarLeft from './SidebarLeft';
-import InputLabel from "@material-ui/core/InputLabel";
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Icon from '@material-ui/core/Icon';
+import { Link, NavLink, withRouter } from 'react-router-dom';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 
+import Divider from '@material-ui/core/Divider';
+
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+
+import { deepOrange, green } from '@material-ui/core/colors';
+import Avatar from "@material-ui/core/Avatar";
+import PersonIcon from '@material-ui/icons/Person';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
+import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
+import LanguageIcon from '@material-ui/icons/Language';
+import LocationCityIcon from '@material-ui/icons/LocationCity';
+import FaceIcon from '@material-ui/icons/Face';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
 
 const styles = theme => ({
     root: {
@@ -27,10 +42,14 @@ const styles = theme => ({
           margin: 2 ,
           width: "100ch"
         }
-      }
+      },
+    square: {
+        color: '#C82840',
+        backgroundColor: '#C82840',
+        height: 120,
+        width: 120
+      },
   });
-
-  const isNotSuperAdmin = "true";
 
 class Profile extends React.Component {
 
@@ -44,6 +63,42 @@ class Profile extends React.Component {
         age: '21',
         country: 'Romania',
         favoriteSite: 'Facebook',
+        city: 'Husi',
+        isSuperAdmin: false, 
+        upvotedCounter: 123,
+        awardedCounter: 2353,
+        jokes: [ 
+            {
+                _id: '123456',
+                posterId: '45679',
+                posterName: 'Shrimp and Chorizo Paella',
+                text: 'You 1/2 cup of the broth in a pot until simmering. large. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
+            },
+            {
+                _id: '123457',
+                posterId: '45676',
+                posterName: 'Tomita Palade zis TomiSefu',
+                text:'Me 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
+            },
+            {
+                _id: '123458',
+                posterId: '45675',
+                posterName: 'A venit sefu poti sa zici saru mana',
+                text: 'Me shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
+            },
+            {
+                _id: '123459',
+                posterId: '45575',
+                posterName: 'Velea Talent - Sifon Afon',
+                text: 'Me shrimp but how can you sleep in the night thinking u so soft to a large plate and set aside, leaving chicken and chorizo in the pan.'
+            },
+            {
+                _id: '123459',
+                posterId: '45673',
+                posterName: 'Ion Ion Tiriac',
+                text: 'You 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
+            }
+    ]
     };
 
     componentDidMount = () => { 
@@ -95,7 +150,10 @@ class Profile extends React.Component {
             country,
             city,
             favoriteSite,
-            showPassword
+            showPassword,
+            isSuperAdmin,
+            upvotedCounter,
+            awardedCounter
         } = this.state;
 
         const {
@@ -103,6 +161,329 @@ class Profile extends React.Component {
          } = this.props;
 
         return (
+            <div>
+            {
+                (isSuperAdmin === false) 
+                ? 
+
+                <div>
+                <div style={{textAlign: 'center'}}>
+                <Typography variant="h2" 
+                            style={{textAlign: 'center',
+                                    marginTop: 100}}>
+                    PROFILE PAGE
+                </Typography>
+                </div>
+
+                <div style={{
+                    position: 'absolute', left: '1%', top: '15%',
+                }}>
+                <List component="nav" 
+                        style={{
+                        width: '100%',
+                        maxWidth: 360,
+                        marginTop: 155,
+                        position: 'fixed',
+                        }} 
+                        aria-label="mailbox folders">
+                    
+
+                    <div style={{
+                            position: 'absolute', left: '10%', top: '-1050%',
+                        }}>   
+                        <Avatar style={{
+                            position: 'absolute', left: '10%', top: '-1050%',
+                        }}>   
+                        TP
+                        </Avatar>
+                        </div>
+
+                    <Typography variant="h6" 
+                            style={{textAlign: 'center',
+                                    marginTop: -170,
+                                    marginBottom: 10}}>
+                        USER ACTIVITY
+                    </Typography>
+
+                    <Divider light />
+                    
+                    <ListItem button margin>
+                    <AttachMoneyIcon />
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                        {`awarded jokes: ${awardedCounter}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginLeft: 20,
+                                    marginTop: -2
+                                    }}/>
+                    </ListItem>
+                  
+                    <Divider />
+                    
+                    <ListItem button>
+                    <PersonIcon />
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`upvoted jokes: ${upvotedCounter}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem> 
+                    <Divider light />
+                    <h1> </h1>
+
+                </List>
+
+
+                <div style={{
+                    position: 'absolute', left: '27%', top: '10%',
+                    /*transform: 'translate(-50%, -50%)'*/
+                }}>
+
+                <div >
+                <List component="nav" 
+                        style={{
+                        width: '100%',
+                        maxWidth: 360,
+                        marginTop: 155,
+                        position: 'fixed',
+                        }} 
+                        aria-label="mailbox folders">
+
+                    <Typography variant="h6" 
+                            style={{textAlign: 'center',
+                                    marginTop: -15,
+                                    marginBottom: 0}}>
+                        ACCOUNT INFO
+                    </Typography>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <PersonIcon />
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`username: ${username}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem> 
+                    <Divider light />
+
+                    <ListItem button>
+                    <PersonIcon />
+                    
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`fullname: ${firstName + ' ' +  lastName}`}
+                                    </Typography>} 
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}
+                                    />
+                    </ListItem>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <ContactMailIcon />
+                    <ListItemText disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`country: ${country}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <ContactMailIcon />
+                    <ListItemText disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`city: ${city}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <ContactMailIcon />
+                    <ListItemText disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`age: ${age}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem>
+
+                    <Divider light />
+  
+                    <h1> </h1>
+                </List>
+
+                
+                </div>
+
+                <div >
+                <List component="nav" 
+                        style={{
+                        width: '100%',
+                        maxWidth: 360,
+                        marginTop: 155,
+                        position: 'fixed',
+                        }} 
+                        aria-label="mailbox folders">
+
+                    <Typography variant="h6" 
+                            style={{textAlign: 'center',
+                                    marginTop: 280,
+                                    marginBottom: 0}}>
+                        CONTACT INFO
+                    </Typography>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <PersonIcon />
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`phone: ${phone}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem> 
+                    <Divider light />
+
+                    <ListItem button>
+                    <PersonIcon />
+                    
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`social media: ${favoriteSite}`}
+                                    </Typography>} 
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}
+                                    />
+                    </ListItem>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <ContactMailIcon />
+                    <ListItemText disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`email: ${email}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem>
+
+                    <Divider light />
+  
+                    <h1> </h1>
+                </List>
+
+                </div>
+
+                </div>
+
+                </div>
+
+                <div style={{
+                    position: 'absolute', left: '25%', top: '32%',
+                    maxWidth: 950
+                    /*transform: 'translate(-50%, -50%)'*/
+                }}>
+
+                <div style={{marginTop: -40, marginBottom: 40}}>
+                
+
+                <div>
+
+                    <h2 style={{
+                        marginBottom: 20
+                    }}>Check some more jokes from this user...</h2>
+
+                </div>
+
+                {
+                this.state.jokes.slice(0, (this.state.jokes.length > 3) ? 3 : this.state.jokes.length).map
+                (joke => (
+                    <div >
+                       <Card> 
+                       <Link to={ `/profile/${joke.posterId}` }
+                             className="removeUnderline"
+                       >
+                        <CardHeader
+                            avatar={
+                            <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F' }}                
+                            >
+                                {`${joke.posterName[0]}`}
+                            </Avatar>
+                            }
+                            title={`${joke.posterName}`}
+                            subheader="September 14, 2016"
+                        />
+                        </Link>
+                       <Link to={ `/viewer/${joke._id}` }
+                             className="removeUnderline"
+                       >
+                        <CardContent className="marginTop">
+                            <p className="Blend"
+                                onClick={this.handleChangeText}> 
+                            { `${joke.text}`} 
+                            </p>
+                        </CardContent>
+                        </Link>
+                        </Card>
+                    </div>
+                ))
+            }
+
+
+                </div>
+                </div>
+
+                <div style={{
+                    position: 'absolute', left: '27%', top: '10%',
+                    /*transform: 'translate(-50%, -50%)'*/
+                }}>
+
+                <div >
+    
+                
+                </div>
+                </div>
+
+                </div>
+                :   
             <div className>
                 <br></br>
                 <br></br>
@@ -118,7 +499,9 @@ class Profile extends React.Component {
                     >
                 <div style={{textAlign: 'center'}}>
                 <div>
-                <Typography variant="h2" style={{textAlign: 'center'}}>
+                <Typography variant="h2" 
+                            style={{textAlign: 'center'
+                            }}>
                     PROFILE PAGE
                 </Typography>
                 </div>
@@ -192,8 +575,9 @@ class Profile extends React.Component {
                         </Typography>
                         </Button>
                 </div>
-
                 </form>
+            </div>
+            }
             </div>
           );
         }
