@@ -28,9 +28,9 @@ public class JokeController {
         return jokeRepository.findAll();
     }
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(path = "/postJoke")
+    @PostMapping(path = "/postJoke")
     public ResponseEntity<?> postJoke(RequestEntity<Joke> requestEntity) {
-        String token = requestEntity.getHeaders().getOrEmpty("Authentication").get(0);
+        String token = requestEntity.getHeaders().getFirst("Authorization");
         if (token == null)
             return ResponseEntity.status(403).body("No auth token");
         String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
@@ -38,5 +38,14 @@ public class JokeController {
         newJoke.setPosterId(userId);
         jokeRepository.save(newJoke);
         return ResponseEntity.ok().body("OK");
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/joke")
+    public ResponseEntity<Joke> getJoke(
+            @RequestParam String _id
+    ){
+        System.out.println(ResponseEntity.ok(jokeRepository.findBy_id(_id).stream().findFirst().get()));
+        return ResponseEntity.ok(jokeRepository.findBy_id(_id).stream().findFirst().get());
     }
 }

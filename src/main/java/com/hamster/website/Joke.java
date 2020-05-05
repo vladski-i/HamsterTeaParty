@@ -24,6 +24,19 @@ public class Joke {
 
     public List<String> tags;
 
+    @Override
+    public String toString() {
+        return "Joke{" +
+                "_id='" + _id + '\'' +
+                ", posterId='" + posterId + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", upvotersIDs=" + upvotersIDs +
+                ", awardersIDs=" + awardersIDs +
+                ", tags=" + tags +
+                '}';
+    }
+
     public Joke(String _id, String posterId, String title, String content) {
         this._id = _id;
         this.posterId = posterId;
@@ -112,16 +125,4 @@ public class Joke {
         return Objects.hash(_id, posterId, title, content, upvotersIDs, awardersIDs, tags);
     }
 
-    @Override
-    public String toString() {
-        return "Joke{" +
-                "_id=" + _id +
-                ", posterId='" + posterId + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", upvotersIDs='" + upvotersIDs + '\'' +
-                ", awardersIDs='" + awardersIDs + '\'' +
-                ", tags=" + tags +
-                '}';
-    }
 }

@@ -28,6 +28,8 @@ import TagFacesIcon from '@material-ui/icons/TagFaces';
 import TextField from "@material-ui/core/TextField";
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
+import { NavLink, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
     root: {
@@ -148,12 +150,20 @@ class PostJoke extends React.Component {
 
             console.log(this.state);
 
+            let x = this.props.userToken.userToken
             /// send it to back-end/andor - mongodb
-        axios.post("http://localhost:8090/jokes",{
+
+//            post("http://localhost:8080/foo", foo, {
+//                headers: { Authorization: "Bearer " + token }
+//            })
+        axios.post("http://localhost:8090/postJoke",{
             title : 'mihaita_boss',
             content : this.state.jokeText,
             posterId : this.state.jokePoster,
-        })
+        },
+        {headers :{
+            Authorization : x
+        }})
         .then(res => {
             console.log(res);
             console.log(res.data);
@@ -225,7 +235,11 @@ class PostJoke extends React.Component {
 
 
     render () {
+       const {
+              loggedIn
+            } = this.props.userToken;
 
+            console.log(this.props.userToken);
         const {
             jokeId,
             jokePoster,
@@ -436,21 +450,17 @@ class PostJoke extends React.Component {
     classes: PropTypes.object.isRequired,
  };
 
- export default withStyles(styles)(PostJoke);
 
- /*
- {
-    <Alert variant="filled" severity="error">
-        This is an error alert — check it out!
-      </Alert>
-      <Alert variant="filled" severity="warning">
-        This is a warning alert — check it out!
-      </Alert>
-      <Alert variant="filled" severity="info">
-        This is an info alert — check it out!
-      </Alert>
-      <Alert variant="filled" severity="success">
-        This is a success alert — check it out!
-      </Alert>
- }
- */
+    const mapStateToProps = (state) => {
+     return state;
+   }
+
+   const mapDispatchToProps = (dispatch) => {
+     return {
+       login_logout: () => { dispatch({ type: 'REMOVE_TOKEN' }) },
+       set_token: (newToken, previousState) => { dispatch({ type: 'SET_TOKEN', token: newToken, previousState: previousState}) },
+     }
+   }
+
+
+ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PostJoke)))

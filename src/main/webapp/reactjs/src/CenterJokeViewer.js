@@ -93,31 +93,42 @@ class CentralJokeViewer extends React.Component {
 
         // fetch la date din backend
         /// setez si userId
+        console.log("http://localhost:3000/joke?_id=" + jokeId)
+           fetch("http://localhost:8090/joke?_id=" + jokeId).
+           then((res) => res.json()).then((res) =>
+                this.setState({
+                      ...this.state,
+                       joke:res
+                  },
+                console.log(res)
+                )
 
-        fetch("http://localhost:8090/jokes")
-        .then(res => res.json())
-        .then(
-          (jokes) => {
-
-            const foundElement = jokes.find(joke => joke._id === jokeId);
-
-            this.setState({
-              isLoaded: true,
-              joke: foundElement
-            });
-
-            console.log(foundElement);
-          },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
-          (error) => {
-            this.setState({
-              isLoaded: true,
-              error
-            });
-          }
-        )
+           )
+//        fetch("http://localhost:8090/joke/_id=" + jokeId)
+//        .then(res => res.json())
+//        .then(
+//          (jokes) => {
+//
+//            const foundElement = jokes
+////            jokes.find(joke => joke._id === jokeId);
+//
+//            this.setState({
+//              isLoaded: true,
+//              joke: foundElement
+//            });
+//
+//            console.log(foundElement);
+//          },
+//          // Note: it's important to handle errors here
+//          // instead of a catch() block so that we don't swallow
+//          // exceptions from actual bugs in components.
+//          (error) => {
+//            this.setState({
+//              isLoaded: true,
+//              error
+//            });
+//          }
+//        )
     }
 
     componentDidUpdate = () => {    

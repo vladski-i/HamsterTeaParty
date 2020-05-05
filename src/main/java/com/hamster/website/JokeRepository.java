@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface JokeRepository extends MongoRepository<Joke, String> {
     public List<Joke> findByTitle(String title);
+    public List<Joke> findBy_id(String _id);
 }
