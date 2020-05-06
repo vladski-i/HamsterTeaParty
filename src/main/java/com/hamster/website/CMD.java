@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 @Component
 public class CMD implements CommandLineRunner {
 
@@ -24,7 +27,7 @@ public class CMD implements CommandLineRunner {
         userRepository.save(new User("25","cptvladsky","1235","cptvladski@gmail.com","vlad","leica",21,"RO","clung","fb.com/vlad","vlad"));
         System.out.println(userRepository.findAll());
 
-        jokeRepository.save(new Joke("1", "adasdes", "newjoke1", "Acesta este textul"));
+        jokeRepository.save(new Joke("1", "adasdes", "newjoke1", "Acesta este textul", new Date(System.currentTimeMillis()),new ArrayList<>(),new ArrayList<>(),new ArrayList<>()));
         System.out.println(jokeRepository.findAll());
     }
 }
