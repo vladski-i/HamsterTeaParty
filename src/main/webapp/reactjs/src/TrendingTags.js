@@ -28,6 +28,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import InputBase from '@material-ui/core/InputBase';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     root: {},
@@ -36,42 +37,90 @@ const styles = theme => ({
       paddingTop: "56.25%" // 16:9
     },
     avatar: {
-        backgroundColor: '#E1173F'
+        backgroundColor: '#453535', 
     }
   });
 
   
-class TrendingTags extends React.Component {
+class TrendingTag extends React.Component {
 
     state = {
-        tags: [
-            'funny',
-            'post',
-            'creepy',
-            'sad',
-            'emo',
-            'sad',
-            'scared',
-            'suna femeia'
-        ],
+        jokeId: 0,
+        isLoaded: false,
+        jokeArray: [],
         searchedJoke: ''
     };
 
-    componentDidMount = () => { 
-        
-        /*this.setState ({
-            
+    removeDivsFromJokeContent = (jokes) => {
+        jokes.map((joke) => {
+            let res = joke.content.split("<div>");
+            let newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("</div>");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("<br>");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("&nbsp;");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            joke.content = newRes;
         })
-        */
-        /// setez si userId
+        return jokes;
     }
+
+    componentDidMount() {
+        fetch("http://localhost:8090/jokes")
+          .then(res => res.json())
+          .then(
+            (result) => {
+              this.setState({
+                isLoaded: true,
+                jokeArray: result
+              });
+
+              console.log(result);
+
+              let newJokeArray = this.removeDivsFromJokeContent(result);
+              this.setState({
+                isLoaded: true,
+                jokeArray: newJokeArray
+              });
+            },
+            // Note: it's important to handle errors here
+            (error) => {
+              this.setState({
+                isLoaded: true,
+                error
+              });
+            }
+          )
+      }
 
     componentDidUpdate = () => {    
         
     }
 
     handleChangeText = () => {
-  
+        console.log("here");
+
+        if (this.state.jokePosterId == this.state.jokeUserId) {
+            this.setState({
+                ...this.state
+            });
+        }
+        else {
+            // do nothing
+        }
     }
 
     handleChange = (prop) => (event) => {
@@ -97,13 +146,18 @@ class TrendingTags extends React.Component {
   render () {
 
     const {
-        tags,
-        searchedJoke
+        jokes,
+        searchedJoke,
+        jokeArray
     } = this.state;
 
     const {
         classes
      } = this.props;
+
+
+     console.log('The jokarray is as following');
+     console.log(jokeArray);
 
     return (
         <div className>
@@ -124,24 +178,33 @@ class TrendingTags extends React.Component {
             <br></br>
 
             {
-                this.state.tags.map(tag => (
-                    <div>
+                this.state.jokeArray.map(joke => (
+                    <div >
                        <Card> 
+                       <Link to={ `/profile/${joke.posterId}` }
+                             className="removeUnderline"
+                       >
                         <CardHeader
                             avatar={
-                            <Avatar aria-label="recipe" className={classes.avatar}>
-                                R
+                            <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F' }}                
+                            >
+                                {`${joke.title[0]}`}
                             </Avatar>
                             }
-                            title="Shrimp and Chorizo Paella"
+                            title={`${joke.title}`}
                             subheader="September 14, 2016"
                         />
+                        </Link>
+                       <Link to={ `/viewer/${joke._id}` }
+                             className="removeUnderline"
+                       >
                         <CardContent className="marginTop">
                             <p className="Blend"
                                 onClick={this.handleChangeText}> 
-                            { `${tag}`} 
+                            { `${joke.content}`} 
                             </p>
                         </CardContent>
+                        </Link>
                         </Card>
                     </div>
                 ))
@@ -153,8 +216,8 @@ class TrendingTags extends React.Component {
     }
 }
 
-TrendingTags.propTypes = {
+TrendingTag.propTypes = {
     classes: PropTypes.object.isRequired,
  };
 
- export default withStyles(styles)(TrendingTags);
+ export default withStyles(styles)(TrendingTag);

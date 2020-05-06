@@ -67,9 +67,9 @@ class SidebarRight extends React.Component {
       loggedIn
     } = this.props.userToken;
 
-    console.log(this.props);
 
-    console.log(loggedIn);
+    console.log('Atentie maxima')
+    console.log(this.props);
 
     return (
       <div>

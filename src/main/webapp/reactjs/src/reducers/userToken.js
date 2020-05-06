@@ -7,7 +7,8 @@ const userTokenReducer = (state = '', action) => {
         case "SET_TOKEN":
           return {
             userToken: action.token,
-            loggedIn: true
+            loggedIn: true,
+            userName: action.userName
           }
         case "REMOVE_TOKEN":
           return {

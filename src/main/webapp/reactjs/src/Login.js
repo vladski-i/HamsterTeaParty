@@ -90,7 +90,7 @@ class Login extends React.Component {
             console.log(this.props);
             this.props.login_logout();
             setTimeout(() => {
-                this.props.set_token(res.data.token, this.props);
+                this.props.set_token(res.data.token, this.state.username, this.props);
                 this.props.history.push('/');
             }, 1000);
         }).catch((error) => {
@@ -282,7 +282,14 @@ class Login extends React.Component {
   const mapDispatchToProps = (dispatch) => {
     return {
       login_logout: () => { dispatch({ type: 'REMOVE_TOKEN' }) },
-      set_token: (newToken, previousState) => { dispatch({ type: 'SET_TOKEN', token: newToken, previousState: previousState}) }, 
+      set_token: (newToken, newUserName, previousState) => { 
+          dispatch({ 
+              type: 'SET_TOKEN', 
+              token: newToken, 
+              userName: newUserName, 
+              previousState: previousState
+            }) 
+      }, 
     }
   }
   

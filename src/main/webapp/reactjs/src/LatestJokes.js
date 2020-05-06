@@ -28,6 +28,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import InputBase from '@material-ui/core/InputBase';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     root: {},
@@ -36,7 +37,7 @@ const styles = theme => ({
       paddingTop: "56.25%" // 16:9
     },
     avatar: {
-        backgroundColor: '#E1173F'
+        backgroundColor: '#453535', 
     }
   });
 
@@ -45,28 +46,65 @@ class LatestJokes extends React.Component {
 
     state = {
         jokeId: 0,
-        jokes: [
-            'Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.',
-            'Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.',
-            'Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.',
-            'Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.',
-        ],
+        isLoaded: false,
+        jokeArray: [],
         searchedJoke: ''
     };
 
-    componentDidMount = () => { 
-        
-        // PAS 1: aduc jokes din baza de date/backend
-        // PAS 2: sortez dupa date
-        // PAS 3: slice doar la 10 postari gen -> cate incap frumos in pagina
-
-        /*this.setState ({
-            
+    removeDivsFromJokeContent = (jokes) => {
+        jokes.map((joke) => {
+            let res = joke.content.split("<div>");
+            let newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("</div>");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("<br>");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("&nbsp;");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            joke.content = newRes;
         })
-        */
-       
-        /// setez si userId
+        return jokes;
     }
+
+    componentDidMount() {
+        fetch("http://localhost:8090/jokes")
+          .then(res => res.json())
+          .then(
+            (result) => {
+              this.setState({
+                isLoaded: true,
+                jokeArray: result
+              });
+
+              console.log(result);
+
+              let newJokeArray = this.removeDivsFromJokeContent(result);
+              this.setState({
+                isLoaded: true,
+                jokeArray: newJokeArray
+              });
+            },
+            // Note: it's important to handle errors here
+            (error) => {
+              this.setState({
+                isLoaded: true,
+                error
+              });
+            }
+          )
+      }
 
     componentDidUpdate = () => {    
         
@@ -109,12 +147,17 @@ class LatestJokes extends React.Component {
 
     const {
         jokes,
-        searchedJoke
+        searchedJoke,
+        jokeArray
     } = this.state;
 
     const {
         classes
      } = this.props;
+
+
+     console.log('The jokarray is as following');
+     console.log(jokeArray);
 
     return (
         <div className>
@@ -135,24 +178,33 @@ class LatestJokes extends React.Component {
             <br></br>
 
             {
-                this.state.jokes.map(joke => (
-                    <div>
+                this.state.jokeArray.map(joke => (
+                    <div >
                        <Card> 
+                       <Link to={ `/profile/${joke.posterId}` }
+                             className="removeUnderline"
+                       >
                         <CardHeader
                             avatar={
-                            <Avatar aria-label="recipe" className={classes.avatar}>
-                                R
+                            <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F' }}                
+                            >
+                                {`${joke.title[0]}`}
                             </Avatar>
                             }
-                            title="Shrimp and Chorizo Paella"
+                            title={`${joke.title}`}
                             subheader="September 14, 2016"
                         />
+                        </Link>
+                       <Link to={ `/viewer/${joke._id}` }
+                             className="removeUnderline"
+                       >
                         <CardContent className="marginTop">
                             <p className="Blend"
                                 onClick={this.handleChangeText}> 
-                            { `${joke}`} 
+                            { `${joke.content}`} 
                             </p>
                         </CardContent>
+                        </Link>
                         </Card>
                     </div>
                 ))

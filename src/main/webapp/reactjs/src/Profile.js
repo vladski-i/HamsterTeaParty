@@ -101,12 +101,66 @@ class Profile extends React.Component {
     ]
     };
 
+    removeDivsFromJokeContent = (jokes) => {
+        jokes.map((joke) => {
+            let res = joke.content.split("<div>");
+            let newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("</div>");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("<br>");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("&nbsp;");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            joke.content = newRes;
+        })
+        return jokes;
+    }
+ 
+
     componentDidMount = () => { 
         let id = this.props.match.params.profile_id;
         this.setState ({
             ...this.state,
             profileId: id
         })
+
+        fetch("http://localhost:8090/jokesbyposter?posterId=" + id).then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              isLoaded: true,
+              jokeArray: result
+            });
+
+            console.log(result);
+
+            ///let newJokeArray = this.removeDivsFromJokeContent(result);
+            let newJokeArray = result;
+            this.setState({
+              isLoaded: true,
+              jokeArray: newJokeArray
+            });
+          },
+          // Note: it's important to handle errors here
+          (error) => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        )
     }
 
     componentDidUpdate = () => {    

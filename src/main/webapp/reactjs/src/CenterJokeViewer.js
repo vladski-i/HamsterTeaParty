@@ -91,44 +91,15 @@ class CentralJokeViewer extends React.Component {
             chipData: chipData
         })
 
-        // fetch la date din backend
-        /// setez si userId
-        console.log("http://localhost:3000/joke?_id=" + jokeId)
-           fetch("http://localhost:8090/joke?_id=" + jokeId).
-           then((res) => res.json()).then((res) =>
-                this.setState({
-                      ...this.state,
-                       joke:res
-                  },
-                console.log(res)
-                )
-
-           )
-//        fetch("http://localhost:8090/joke/_id=" + jokeId)
-//        .then(res => res.json())
-//        .then(
-//          (jokes) => {
-//
-//            const foundElement = jokes
-////            jokes.find(joke => joke._id === jokeId);
-//
-//            this.setState({
-//              isLoaded: true,
-//              joke: foundElement
-//            });
-//
-//            console.log(foundElement);
-//          },
-//          // Note: it's important to handle errors here
-//          // instead of a catch() block so that we don't swallow
-//          // exceptions from actual bugs in components.
-//          (error) => {
-//            this.setState({
-//              isLoaded: true,
-//              error
-//            });
-//          }
-//        )
+        fetch("http://localhost:8090/joke?_id=" + jokeId).
+        then((res) => res.json()).then((res) =>
+            this.setState({
+                    ...this.state,
+                    joke:res
+                },
+            console.log(res)
+            )
+        )
     }
 
     componentDidUpdate = () => {    
@@ -384,7 +355,7 @@ class CentralJokeViewer extends React.Component {
             </CardContent>
       </Card>
             <div style={{textAlign: 'center'}}>
-                <h1> Id-ul joke-ului curent este {jokeId}</h1>
+                <h1> </h1>
             </div>
             </div>
           );

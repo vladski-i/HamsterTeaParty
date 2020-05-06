@@ -38,7 +38,6 @@ const styles = theme => ({
     },
     avatar: {
         backgroundColor: '#453535', 
-      /// backgroundColor: red[500]
     }
   });
 
@@ -48,66 +47,64 @@ class JokePostTable extends React.Component {
     state = {
         jokeId: 0,
         isLoaded: false,
-        jokes: [ 
-                {
-                    _id: '123456',
-                    posterId: '45679',
-                    posterName: 'Shrimp and Chorizo Paella',
-                    text: 'You 1/2 cup of the broth in a pot until simmering. large. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
-                },
-                {
-                    _id: '123457',
-                    posterId: '45676',
-                    posterName: 'Tomita Palade zis TomiSefu',
-                    text:'Me 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
-                },
-                {
-                    _id: '123458',
-                    posterId: '45675',
-                    posterName: 'A venit sefu poti sa zici saru mana',
-                    text: 'Me shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
-                },
-                {
-                    _id: '123459',
-                    posterId: '45575',
-                    posterName: 'Velea Talent - Sifon Afon',
-                    text: 'Me shrimp but how can you sleep in the night thinking u so soft to a large plate and set aside, leaving chicken and chorizo in the pan.'
-                },
-                {
-                    _id: '123459',
-                    posterId: '45673',
-                    posterName: 'Ion Ion Tiriac',
-                    text: 'You 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
-                }
-        ],
         jokeArray: [],
         searchedJoke: ''
     };
 
+    removeDivsFromJokeContent = (jokes) => {
+        jokes.map((joke) => {
+            let res = joke.content.split("<div>");
+            let newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("</div>");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("<br>");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            res = newRes.split("&nbsp;");
+            newRes = '';
+            for (let i = 0; i < res.length; i++) {
+                newRes = newRes + res[i] + "\n";
+            }
+            joke.content = newRes;
+        })
+        return jokes;
+    }
+
     componentDidMount() {
         fetch("http://localhost:8090/jokes")
-          .then(res => res.json())
-          .then(
-            (result) => {
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              isLoaded: true,
+              jokeArray: result
+            });
 
-              this.setState({
-                isLoaded: true,
-                jokeArray: result
-              });
+            console.log(result);
 
-              console.log(result);
-            },
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
-            (error) => {
-              this.setState({
-                isLoaded: true,
-                error
-              });
-            }
-          )
-      }
+            let newJokeArray = this.removeDivsFromJokeContent(result);
+            this.setState({
+              isLoaded: true,
+              jokeArray: newJokeArray
+            });
+          },
+          // Note: it's important to handle errors here
+          (error) => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        )
+    }
 
     componentDidUpdate = () => {    
         

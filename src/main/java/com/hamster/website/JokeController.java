@@ -48,4 +48,13 @@ public class JokeController {
         System.out.println(ResponseEntity.ok(jokeRepository.findBy_id(_id).stream().findFirst().get()));
         return ResponseEntity.ok(jokeRepository.findBy_id(_id).stream().findFirst().get());
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/jokesbyposter")
+    public ResponseEntity<Joke> getJokesByPoster(
+            @RequestParam String posterId
+    ){
+        System.out.println(ResponseEntity.ok(jokeRepository.findByposterId(posterId).stream().findAny().get()));
+        return ResponseEntity.ok(jokeRepository.findByposterId(posterId).stream().findAny().get());
+    }
 }

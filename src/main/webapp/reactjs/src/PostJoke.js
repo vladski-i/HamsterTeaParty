@@ -145,24 +145,15 @@ class PostJoke extends React.Component {
       };
 
       handleSubmit = () => {
-            /// dau send la this.state, mai exact la joke (jokeId, jokeText)
-            /// MAI EXACT O SA FIE UN INSERT IN MONGODB
+        console.log(this.state);
 
-            console.log(this.state);
-
-            let x = this.props.userToken.userToken
-            /// send it to back-end/andor - mongodb
-
-//            post("http://localhost:8080/foo", foo, {
-//                headers: { Authorization: "Bearer " + token }
-//            })
         axios.post("http://localhost:8090/postJoke",{
-            title : 'mihaita_boss',
+            title : this.props.userToken.userName,
             content : this.state.jokeText,
-            posterId : this.state.jokePoster,
+            posterId : this.state.jokePoster
         },
         {headers :{
-            Authorization : x
+            Authorization : this.props.userToken.userToken
         }})
         .then(res => {
             console.log(res);
