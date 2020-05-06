@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,11 +19,25 @@ public class Joke {
 
     public String content;
 
+    public Date createdAt;
+
     public List<String> upvotersIDs;
 
     public List<String> awardersIDs;
 
     public List<String> tags;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
 
     @Override
     public String toString() {
@@ -31,20 +46,22 @@ public class Joke {
                 ", posterId='" + posterId + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
                 ", upvotersIDs=" + upvotersIDs +
                 ", awardersIDs=" + awardersIDs +
                 ", tags=" + tags +
                 '}';
     }
 
-    public Joke(String _id, String posterId, String title, String content) {
+    public Joke(String _id, String posterId, String title, String content, Date createdAt, List<String> upvotersIDs, List<String> awardersIDs, List<String> tags) {
         this._id = _id;
         this.posterId = posterId;
         this.title = title;
         this.content = content;
-        this.upvotersIDs = new ArrayList<>();
-        this.awardersIDs = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        this.createdAt = createdAt;
+        this.upvotersIDs = upvotersIDs;
+        this.awardersIDs = awardersIDs;
+        this.tags = tags;
     }
 
     public Joke() {

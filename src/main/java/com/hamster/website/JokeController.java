@@ -1,10 +1,12 @@
 package com.hamster.website;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -51,10 +53,26 @@ public class JokeController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "/jokesbyposter")
-    public ResponseEntity<Joke> getJokesByPoster(
+    public ResponseEntity<?> getJokesByPoster(
             @RequestParam String posterId
     ){
-        System.out.println(ResponseEntity.ok(jokeRepository.findByposterId(posterId).stream().findAny().get()));
-        return ResponseEntity.ok(jokeRepository.findByposterId(posterId).stream().findAny().get());
+        System.out.println(ResponseEntity.ok(jokeRepository.findByposterId(posterId)));
+        return ResponseEntity.ok(jokeRepository.findByposterId(posterId));
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/jokesByDate")
+    public ResponseEntity<?> getSortedJokesByDate(){
+        System.out.println(ResponseEntity.ok(jokeRepository.findAll(Sort.by("createdAt"))));
+        return ResponseEntity.ok(jokeRepository.findAll(Sort.by("createdAt")));
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/jokesByUpvotes")
+    public ResponseEntity<?> getSortedJokesByUpvotes(){
+        List<Joke> jokes = jokeRepository.findAll();
+        jokes.sort(Comparator.comparingInt(joke -> joke.upvotersIDs.size()));
+        System.out.println(jokes);
+        return ResponseEntity.ok(jokes);
     }
 }
