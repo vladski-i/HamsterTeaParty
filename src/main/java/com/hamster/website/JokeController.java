@@ -6,6 +6,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class JokeController {
         String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
         Joke newJoke = requestEntity.getBody();
         newJoke.setPosterId(userId);
+        newJoke.setAwardersIDs(new ArrayList<>());
+        newJoke.setUpvotersIDs(new ArrayList<>());
+        newJoke.setTags(new ArrayList<>());
         jokeRepository.save(newJoke);
         return ResponseEntity.ok().body("OK");
     }
