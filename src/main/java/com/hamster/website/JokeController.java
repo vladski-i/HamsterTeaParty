@@ -52,7 +52,7 @@ public class JokeController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(path = "/jokesbyposter")
+    @GetMapping(path = "/jokesByPoster")
     public ResponseEntity<?> getJokesByPoster(
             @RequestParam String posterId
     ){
@@ -71,7 +71,18 @@ public class JokeController {
     @GetMapping(path = "/jokesByUpvotes")
     public ResponseEntity<?> getSortedJokesByUpvotes(){
         List<Joke> jokes = jokeRepository.findAll();
+        System.out.println("BEFORE SORT");
+        System.out.println(jokes);
+        int cnt = 0;
+        for (Joke x : jokes) {
+                x.upvotersIDs.add("Tomita");
+                cnt++;
+                if (cnt % 3 == 0) {
+                    x.upvotersIDs.add("Danutu");
+                }
+        }
         jokes.sort(Comparator.comparingInt(joke -> joke.upvotersIDs.size()));
+        System.out.println("AFTER SORT SORT");
         System.out.println(jokes);
         return ResponseEntity.ok(jokes);
     }

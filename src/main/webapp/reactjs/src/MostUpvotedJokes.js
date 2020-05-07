@@ -78,7 +78,7 @@ class MostUpvotedJokes extends React.Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8090/jokes")
+        fetch("http://localhost:8090/jokesByUpvotes")
           .then(res => res.json())
           .then(
             (result) => {

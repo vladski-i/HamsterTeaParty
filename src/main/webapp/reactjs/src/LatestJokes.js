@@ -79,7 +79,7 @@ class LatestJokes extends React.Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8090/jokes")
+        fetch("http://localhost:8090/jokesByDate")
           .then(res => res.json())
           .then(
             (result) => {

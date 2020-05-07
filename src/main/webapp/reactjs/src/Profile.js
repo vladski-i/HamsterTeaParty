@@ -136,7 +136,7 @@ class Profile extends React.Component {
             profileId: id
         })
 
-        fetch("http://localhost:8090/jokesbyposter?posterId=" + id).then(res => res.json())
+        fetch("http://localhost:8090/jokesByPoster?posterId=" + id).then(res => res.json())
         .then(
           (result) => {
             this.setState({
