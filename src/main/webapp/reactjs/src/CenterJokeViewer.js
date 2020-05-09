@@ -23,6 +23,7 @@ import TextField from "@material-ui/core/TextField";
 import Alert from '@material-ui/lab/Alert';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -84,11 +85,7 @@ class CentralJokeViewer extends React.Component {
         let cnt = 0;
         fetch("http://localhost:8090/joke?_id=" + jokeId).
         then((res) => res.json()).then((res) => {
-                
 
-                console.log(res.tags);
-
-                /// prelucreaza res.tags -> sa fie chipData
                 let chipData = res.tags.slice();
                 console.log(chipData);
 
@@ -162,6 +159,32 @@ class CentralJokeViewer extends React.Component {
       handleSubmit = () => {
             /// dau send la this.state, mai exact la joke (jokeId, jokeText)
             console.log(this.state);
+            axios.post("http://localhost:8090/postJoke",{
+            title : this.props.userToken.userName,
+            content : this.state.jokeText,
+            posterId : this.state.jokePoster,
+            tags: this.state.chipData.map((tag) => {
+                return tag.label;
+            }),
+            createdAt: new Date()
+        },
+        {headers :{
+            Authorization : this.props.userToken.userToken
+        }})
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 0);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 1900);
+            setTimeout(() => {
+                this.props.history.push('/');
+            }, 2100);
+        }
+    );
       }
 
       handleDelete = (chipToDelete) => () => {
@@ -216,6 +239,66 @@ class CentralJokeViewer extends React.Component {
             });
         }
       }
+
+    handleUpvote = () => {    
+        console.log('lentile dior');
+        axios.post("http://localhost:8090/upvote",{
+            title : this.props.userToken.userName,
+            content : this.state.jokeText,
+            posterId : this.state.jokePoster,
+            tags: this.state.chipData.map((tag) => {
+                return tag.label;
+            }),
+            createdAt: new Date()
+        },
+        {headers :{
+            Authorization : this.props.userToken.userToken
+        }})
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 0);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 1900);
+            setTimeout(() => {
+                this.props.history.push('/');
+            }, 2100);
+        }
+    );
+    }
+
+    handleGiveAward = () => {    
+        console.log('geaca de print');
+        axios.post("http://localhost:8090/award",{
+            title : this.props.userToken.userName,
+            content : this.state.jokeText,
+            posterId : this.state.jokePoster,
+            tags: this.state.chipData.map((tag) => {
+                return tag.label;
+            }),
+            createdAt: new Date()
+        },
+        {headers :{
+            Authorization : this.props.userToken.userToken
+        }})
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 0);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 1900);
+            setTimeout(() => {
+                this.props.history.push('/');
+            }, 2100);
+        }
+    );
+    }
 
 
     render () {
@@ -374,15 +457,26 @@ class CentralJokeViewer extends React.Component {
         }
 
         </div>
-
-        <CardActions disableSpacing style={{marginTop: (userCanEdit === true) ? -60 : 0}}>     
-            <IconButton aria-label="add to favorites">
-            <ThumbUpIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-            <RedeemIcon />
-            </IconButton>
-        </CardActions>
+        {
+            (this.props.userToken.loggedIn === true) ?
+            <div>
+            <CardActions disableSpacing style={{marginTop: (userCanEdit === true) ? -60 : 0}}>     
+                <IconButton 
+                    aria-label="add to favorites"
+                    onClick={this.handleUpvote}>
+                <ThumbUpIcon />
+                </IconButton>
+                <IconButton 
+                    aria-label="share"
+                    onClick={this.handleGiveAward}>
+                <RedeemIcon />
+                </IconButton>
+            </CardActions>
+            </div>
+            :
+            <div>
+            </div>
+        }
             <CardContent>
             </CardContent>
       </Card>

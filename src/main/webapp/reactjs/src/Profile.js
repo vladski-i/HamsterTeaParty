@@ -55,21 +55,9 @@ class Profile extends React.Component {
 
     state = {
         profileId: '',
-        userName: 'Thomas',
-        email: 'tomi_nebunu@gmail.com',
-        phone: '0870987383',
-        firstName: 'Thomas',
-        lastName: 'Palade',
-        age: '21',
-        country: 'Romania',
-        favoriteSite: 'Facebook',
-        city: 'Husi',
         isSuperAdmin: false, 
-        upvotedCounter: 123,
-        awardedCounter: 2353,
         jokeArray: [],
         user: {
-
         }
     };
 
@@ -291,7 +279,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: -15,
+                                    marginTop: -20,
                                     marginBottom: 0}}>
                         ACCOUNT INFO
                     </Typography>
@@ -389,7 +377,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: 280,
+                                    marginTop: 300,
                                     marginBottom: 0}}>
                         CONTACT INFO
                     </Typography>

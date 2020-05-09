@@ -34,6 +34,14 @@ public class User {
 
     public String phone;
 
+    public int awardedCounter;
+
+    public int upvotedCounter;
+
+    public String accountType;  /// regular user, free trial, premium, gold
+
+    public int isPrivileged;    /// true or false -> admin or not
+
     public String getPhone() {
         return phone;
     }
@@ -55,6 +63,10 @@ public class User {
         this.favoriteSite = favoriteSite;
         this.jokeIds = new ArrayList<>();
         this.passwd = passwd;
+        this.isPrivileged = 0;
+        this.accountType = "regular"; // cand pe upgraded to trial, premium or gold
+        this.awardedCounter = 0;
+        this.upvotedCounter = 0;
     }
 
     public String getPasswd() {
@@ -140,6 +152,38 @@ public class User {
         this.favoriteSite = favoriteSite;
     }
 
+    public int getIsPriviledge() {
+        return isPrivileged;
+    }
+
+    public void setIsPrivileged(int isPrivileged) {
+        this.isPrivileged = isPrivileged;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String city) {
+        this.accountType = accountType;
+    }
+
+    public int getAwardedCounter() {
+        return awardedCounter;
+    }
+
+    public void setAwardedCounter(int awardedCounter) {
+        this.awardedCounter = awardedCounter;
+    }
+
+    public int getUpvotedCounter() {
+        return upvotedCounter;
+    }
+
+    public void setUpvotedCounter(int upvotedCounter) {
+        this.upvotedCounter = upvotedCounter;
+    }
+
     public List<Integer> getJokeIds() {
         return jokeIds;
     }
@@ -162,12 +206,16 @@ public class User {
                 Objects.equals(country, user.country) &&
                 Objects.equals(city, user.city) &&
                 Objects.equals(favoriteSite, user.favoriteSite) &&
+                Objects.equals(awardedCounter, user.awardedCounter) &&
+                Objects.equals(upvotedCounter, user.upvotedCounter) &&
+                Objects.equals(accountType, user.accountType) &&
                 Objects.equals(jokeIds, user.jokeIds);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, userName, email, firstName, lastName, age, country, city, favoriteSite, jokeIds);
+        return Objects.hash(_id, userName, email, firstName, lastName, age, country, city,
+                awardedCounter, upvotedCounter, accountType, favoriteSite, jokeIds);
     }
 
     @Override
@@ -182,6 +230,9 @@ public class User {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", favoriteSite='" + favoriteSite + '\'' +
+                ", awardedCounter='" + awardedCounter + '\'' +
+                ", upvotedCounter='" + upvotedCounter + '\'' +
+                ", accountType='" + accountType + '\'' +
                 ", jokeIds=" + jokeIds +
                 '}';
     }
