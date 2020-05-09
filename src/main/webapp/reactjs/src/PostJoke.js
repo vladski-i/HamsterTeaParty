@@ -88,6 +88,8 @@ class PostJoke extends React.Component {
             { key: 3, label: 'pe' },
             { key: 4, label: 'cori' }
           ];
+        
+        chipData = [];
 
           this.setState ({
             ...this.state,
@@ -150,7 +152,11 @@ class PostJoke extends React.Component {
         axios.post("http://localhost:8090/postJoke",{
             title : this.props.userToken.userName,
             content : this.state.jokeText,
-            posterId : this.state.jokePoster
+            posterId : this.state.jokePoster,
+            tags: this.state.chipData.map((tag) => {
+                return tag.label;
+            }),
+            createdAt: new Date()
         },
         {headers :{
             Authorization : this.props.userToken.userToken
@@ -319,8 +325,7 @@ class PostJoke extends React.Component {
                 {`${jokePoster[0]}`}
             </Avatar>
             }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title={`${this.props.userToken.userName}`}
         />
         </Link>
 
@@ -373,7 +378,7 @@ class PostJoke extends React.Component {
                 <li key={data.key}>
                     <Chip
                     icon={icon}
-                    label={data.label}
+                    label={'#' + data.label}
                     onDelete={data.label === 'React' ? undefined : this.handleDelete(data)}
                     className={classes.chip}
                     />

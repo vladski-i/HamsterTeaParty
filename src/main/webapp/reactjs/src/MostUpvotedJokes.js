@@ -191,7 +191,7 @@ class MostUpvotedJokes extends React.Component {
                             </Avatar>
                             }
                             title={`${joke.title}`}
-                            subheader="September 14, 2016"
+                            subheader={`${joke.createdAt}`}
                         />
                         </Link>
                        <Link to={ `/viewer/${joke._id}` }

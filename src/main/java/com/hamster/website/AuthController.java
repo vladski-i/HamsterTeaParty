@@ -49,4 +49,13 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/user")
+    public ResponseEntity<User> getUser(
+            @RequestParam String _id
+    ){
+        System.out.println(ResponseEntity.ok(userRepository.findBy_id(_id).stream().findFirst().get()));
+        return ResponseEntity.ok(userRepository.findBy_id(_id).stream().findFirst().get());
+    }
 }

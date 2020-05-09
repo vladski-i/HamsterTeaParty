@@ -55,7 +55,7 @@ class Profile extends React.Component {
 
     state = {
         profileId: '',
-        username: 'Thomas',
+        userName: 'Thomas',
         email: 'tomi_nebunu@gmail.com',
         phone: '0870987383',
         firstName: 'Thomas',
@@ -67,38 +67,10 @@ class Profile extends React.Component {
         isSuperAdmin: false, 
         upvotedCounter: 123,
         awardedCounter: 2353,
-        jokes: [ 
-            {
-                _id: '123456',
-                posterId: '45679',
-                posterName: 'Shrimp and Chorizo Paella',
-                text: 'You 1/2 cup of the broth in a pot until simmering. large. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
-            },
-            {
-                _id: '123457',
-                posterId: '45676',
-                posterName: 'Tomita Palade zis TomiSefu',
-                text:'Me 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
-            },
-            {
-                _id: '123458',
-                posterId: '45675',
-                posterName: 'A venit sefu poti sa zici saru mana',
-                text: 'Me shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
-            },
-            {
-                _id: '123459',
-                posterId: '45575',
-                posterName: 'Velea Talent - Sifon Afon',
-                text: 'Me shrimp but how can you sleep in the night thinking u so soft to a large plate and set aside, leaving chicken and chorizo in the pan.'
-            },
-            {
-                _id: '123459',
-                posterId: '45673',
-                posterName: 'Ion Ion Tiriac',
-                text: 'You 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan.'
-            }
-    ]
+        jokeArray: [],
+        user: {
+
+        }
     };
 
     removeDivsFromJokeContent = (jokes) => {
@@ -138,7 +110,7 @@ class Profile extends React.Component {
 
         fetch("http://localhost:8090/jokesByPoster?posterId=" + id).then(res => res.json())
         .then(
-          (result) => {
+          (result) => { 
             this.setState({
               isLoaded: true,
               jokeArray: result
@@ -146,8 +118,7 @@ class Profile extends React.Component {
 
             console.log(result);
 
-            ///let newJokeArray = this.removeDivsFromJokeContent(result);
-            let newJokeArray = result;
+            let newJokeArray = this.removeDivsFromJokeContent(result);
             this.setState({
               isLoaded: true,
               jokeArray: newJokeArray
@@ -161,6 +132,24 @@ class Profile extends React.Component {
             });
           }
         )
+    
+        fetch("http://localhost:8090/user?_id=" + id).then(res => res.json())
+        .then(
+          (result) => { 
+            this.setState({
+              user: result
+            });
+            
+          },
+          // Note: it's important to handle errors here
+          (error) => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        )
+
     }
 
     componentDidUpdate = () => {    
@@ -176,26 +165,19 @@ class Profile extends React.Component {
 
     handleSubmit = () => {
         /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
-        const identity = {
-            username: this.state.username,
-            email: this.state.email,
-            phone: this.state.phone,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            age: this.state.age,
-            country: this.state.country,
-            favoriteSite: this.state.favoriteSite,
-        };
-
-        console.log(identity);
         /// send it to back-end/andor - mongodb
     }
 
     render () {
 
         const {
-            username,
-            password,
+            user,
+            showPassword,
+            isSuperAdmin
+        } = this.state;
+
+        const {
+            userName,
             email,
             phone,
             firstName,
@@ -204,12 +186,10 @@ class Profile extends React.Component {
             country,
             city,
             favoriteSite,
-            showPassword,
-            isSuperAdmin,
             upvotedCounter,
             awardedCounter
-        } = this.state;
-
+        } = user;
+        
         const {
             classes
          } = this.props;
@@ -277,7 +257,7 @@ class Profile extends React.Component {
                     <Divider />
                     
                     <ListItem button>
-                    <PersonIcon />
+                    <TrendingUpIcon />
                     <ListItemText 
                                     disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
@@ -323,7 +303,7 @@ class Profile extends React.Component {
                     <ListItemText 
                                     disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
-                                         {`username: ${username}`}
+                                         {`username: ${userName}`}
                                         </Typography>}
                                     style = {{
                                     marginTop: -2,
@@ -333,7 +313,7 @@ class Profile extends React.Component {
                     <Divider light />
 
                     <ListItem button>
-                    <PersonIcon />
+                    <PersonOutlineIcon />
                     
                     <ListItemText 
                                     disableTypography
@@ -350,7 +330,7 @@ class Profile extends React.Component {
                     <Divider light />
 
                     <ListItem button>
-                    <ContactMailIcon />
+                    <LanguageIcon />
                     <ListItemText disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
                                          {`country: ${country}`}
@@ -364,7 +344,7 @@ class Profile extends React.Component {
                     <Divider light />
 
                     <ListItem button>
-                    <ContactMailIcon />
+                    <LocationCityIcon />
                     <ListItemText disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
                                          {`city: ${city}`}
@@ -378,7 +358,7 @@ class Profile extends React.Component {
                     <Divider light />
 
                     <ListItem button>
-                    <ContactMailIcon />
+                    <FaceIcon />
                     <ListItemText disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
                                          {`age: ${age}`}
@@ -417,7 +397,7 @@ class Profile extends React.Component {
                     <Divider light />
 
                     <ListItem button>
-                    <PersonIcon />
+                    <ContactPhoneIcon />
                     <ListItemText 
                                     disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
@@ -431,7 +411,7 @@ class Profile extends React.Component {
                     <Divider light />
 
                     <ListItem button>
-                    <PersonIcon />
+                    <FacebookIcon />
                     
                     <ListItemText 
                                     disableTypography
@@ -471,7 +451,7 @@ class Profile extends React.Component {
                 </div>
 
                 <div style={{
-                    position: 'absolute', left: '25%', top: '32%',
+                    position: 'absolute', left: '37%', top: '32%',
                     maxWidth: 950
                     /*transform: 'translate(-50%, -50%)'*/
                 }}>
@@ -482,13 +462,13 @@ class Profile extends React.Component {
                 <div>
 
                     <h2 style={{
-                        marginBottom: 20
+                        marginBottom: 50
                     }}>Check some more jokes from this user...</h2>
 
                 </div>
 
                 {
-                this.state.jokes.slice(0, (this.state.jokes.length > 3) ? 3 : this.state.jokes.length).map
+                this.state.jokeArray.slice(0, (this.state.jokeArray.length > 3) ? 3 : this.state.jokeArray.length).map
                 (joke => (
                     <div >
                        <Card> 
@@ -499,11 +479,11 @@ class Profile extends React.Component {
                             avatar={
                             <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F' }}                
                             >
-                                {`${joke.posterName[0]}`}
+                                {`${joke.title[0]}`}
                             </Avatar>
                             }
-                            title={`${joke.posterName}`}
-                            subheader="September 14, 2016"
+                            title={`${joke.title}`}
+                            subheader={`${joke.createdAt}`}
                         />
                         </Link>
                        <Link to={ `/viewer/${joke._id}` }
@@ -512,7 +492,7 @@ class Profile extends React.Component {
                         <CardContent className="marginTop">
                             <p className="Blend"
                                 onClick={this.handleChangeText}> 
-                            { `${joke.text}`} 
+                            { `${joke.content}`} 
                             </p>
                         </CardContent>
                         </Link>

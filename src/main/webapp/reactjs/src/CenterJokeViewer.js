@@ -20,6 +20,9 @@ import RedeemIcon from '@material-ui/icons/Redeem';
 import Chip from '@material-ui/core/Chip';
 import TagFacesIcon from '@material-ui/icons/TagFaces';
 import TextField from "@material-ui/core/TextField";
+import Alert from '@material-ui/lab/Alert';
+import { NavLink, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
     root: {
@@ -44,8 +47,6 @@ const styles = theme => ({
       }
   });
     
-const loggedIn = 1;
-
 class CentralJokeViewer extends React.Component {
 
     state = {
@@ -61,24 +62,15 @@ class CentralJokeViewer extends React.Component {
         html: 'Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes. Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil. Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook again without stirring, until mussels have opened and rice is just tender, 5 to 7 minutes more. (Discard any mussels that don’t open. Set aside off of the heat to let rest for 10 minutes, and then serve.',
         newTag: '',
         chipData: [],
+        userCanEdit: true,
         joke: {
             posterId: '',
-
+            title: ''
         }
     };
 
     componentDidMount = () => { 
         let jokeId = this.props.match.params.joke_id;
-
-        console.log(jokeId);
-
-        let chipData = [
-            { key: 0, label: 'tomi' },
-            { key: 1, label: 'o' },
-            { key: 2, label: 'pupa' },
-            { key: 3, label: 'pe' },
-            { key: 4, label: 'cori' }
-          ];
 
         this.setState ({
             ...this.state,
@@ -86,19 +78,38 @@ class CentralJokeViewer extends React.Component {
             jokeTags: [],
             jokePosterId: 1,
             jokePostedAt: 0,
-            jokeId: jokeId,
-            editable: loggedIn,
-            chipData: chipData
+            jokeId: jokeId
         })
 
+        let cnt = 0;
         fetch("http://localhost:8090/joke?_id=" + jokeId).
-        then((res) => res.json()).then((res) =>
-            this.setState({
-                    ...this.state,
-                    joke:res
-                },
-            console.log(res)
-            )
+        then((res) => res.json()).then((res) => {
+                
+
+                console.log(res.tags);
+
+                /// prelucreaza res.tags -> sa fie chipData
+                let chipData = res.tags.slice();
+                console.log(chipData);
+
+                for (let i = 0; i < chipData.length; i++) {
+                    let newObject = {
+                        label: chipData[i],
+                        key: i
+                    }
+                    chipData[i] = newObject;
+                }
+
+                console.log(chipData);
+                this.setState({
+                        ...this.state,
+                        joke: res,
+                        userCanEdit: (res.title === this.props.userToken.userName) ? true : false,
+                        editable: (res.title === this.props.userToken.userName) ? true : false,
+                        chipData: chipData
+                    }
+                )
+            }
         )
     }
 
@@ -215,7 +226,8 @@ class CentralJokeViewer extends React.Component {
             searchedJoke,
             newTag,
             chipData,
-            joke
+            joke,
+            userCanEdit
         } = this.state;
 
         const {
@@ -252,11 +264,11 @@ class CentralJokeViewer extends React.Component {
         <CardHeader
             avatar={
             <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F'}}>
-                {`${joke.posterId[0]}`}
+                 {`${joke.title[0]}`}
             </Avatar>
             }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title={`${joke.title}`}
+            subheader={`${joke.createdAt}`}
         />
         </Link>
 
@@ -276,7 +288,12 @@ class CentralJokeViewer extends React.Component {
           onBlur={this.sanitize}
         />
 
-<TextField
+        {
+            (!userCanEdit) ?
+            <div>
+            </div>
+            :
+            <TextField
                 id="newTag"
                 label="Add tag here"
                 value={newTag}
@@ -288,6 +305,7 @@ class CentralJokeViewer extends React.Component {
                 onBlur={this.handleNewTag}
                 onSubmit={this.handleNewTag}
             />
+        }
 
             {<div component="ul" className={classes.root}>
             {
@@ -301,12 +319,27 @@ class CentralJokeViewer extends React.Component {
 
                 return (
                 <li key={data.key}>
-                    <Chip
-                    icon={icon}
-                    label={data.label}
-                    onDelete={data.label === 'React' ? undefined : this.handleDelete(data)}
-                    className={classes.chip}
-                    />
+                    {
+                        (userCanEdit === true)
+                        ?
+                        <div>
+                        <Chip
+                        icon={icon}
+                        label={'#' + data.label}
+                        onDelete={data.label === 'React' ? undefined : this.handleDelete(data)}
+                        className={classes.chip}
+                        />
+                        </div>
+                        :
+                        <div>
+                        <Chip
+                        icon={icon}
+                        label={'#' + data.label}
+                        /// onDelete={data.label === 'React' ? undefined : this.handleDelete(data)}
+                        className={classes.chip}
+                        />
+                        </div>
+                    }
                 </li>
                 );
             })
@@ -315,10 +348,8 @@ class CentralJokeViewer extends React.Component {
             }
 
 
-
-
         {
-        (!loggedIn) ?
+        (!userCanEdit) ?
         <div>
         </div>
         :
@@ -328,7 +359,8 @@ class CentralJokeViewer extends React.Component {
         <Button variant="contained"  
                 style={{ marginLeft: 'auto',
                          marginRight: 100,
-                        backgroundColor: '#E1173F'}} 
+                         marginTop: 50,
+                         backgroundColor: '#E1173F'}} 
                 className={classes.marginTop}
                 endIcon={<Icon style={{color: 'white'}}>send</Icon>}
                 onClick={this.handleSubmit}>
@@ -343,7 +375,7 @@ class CentralJokeViewer extends React.Component {
 
         </div>
 
-        <CardActions disableSpacing style={{marginTop: -50}}> 
+        <CardActions disableSpacing style={{marginTop: (userCanEdit === true) ? -60 : 0}}>     
             <IconButton aria-label="add to favorites">
             <ThumbUpIcon />
             </IconButton>
@@ -366,4 +398,16 @@ class CentralJokeViewer extends React.Component {
     classes: PropTypes.object.isRequired,
  };
 
- export default withStyles(styles)(CentralJokeViewer);
+ const mapStateToProps = (state) => {
+  return state;
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login_logout: () => { dispatch({ type: 'REMOVE_TOKEN' }) },
+    set_token: (newToken, previousState) => { dispatch({ type: 'SET_TOKEN', token: newToken, previousState: previousState}) },
+  }
+}
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CentralJokeViewer)))
