@@ -3,7 +3,6 @@ package com.hamster.website;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,6 +33,33 @@ public class User {
 
     public String phone;
 
+    public Integer coins;
+
+    public User(String _id, String userName, String email, String firstName, String lastName, Integer age, String country, String city, String favoriteSite, List<Integer> jokeIds, String passwd, String phone, Integer coins) {
+        this._id = _id;
+        this.userName = userName;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.country = country;
+        this.city = city;
+        this.favoriteSite = favoriteSite;
+        this.jokeIds = jokeIds;
+        this.passwd = passwd;
+        this.phone = phone;
+        this.coins = coins;
+    }
+
+
+    public Integer getCoins() {
+        return coins;
+    }
+
+    public void setCoins(Integer coins) {
+        this.coins = coins;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -42,19 +68,23 @@ public class User {
         this.phone = phone;
     }
 
-    public User(String _id, String userName, String phone, String email, String firstName, String lastName, Integer age, String country, String city, String favoriteSite, String passwd) {
-        this._id = _id;
-        this.userName = userName;
-        this.email = email;
-        this.phone = phone;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.country = country;
-        this.city = city;
-        this.favoriteSite = favoriteSite;
-        this.jokeIds = new ArrayList<>();
-        this.passwd = passwd;
+    @Override
+    public String toString() {
+        return "User{" +
+                "_id='" + _id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", favoriteSite='" + favoriteSite + '\'' +
+                ", jokeIds=" + jokeIds +
+                ", passwd='" + passwd + '\'' +
+                ", phone='" + phone + '\'' +
+                ", coins=" + coins +
+                '}';
     }
 
     public String getPasswd() {
@@ -162,28 +192,15 @@ public class User {
                 Objects.equals(country, user.country) &&
                 Objects.equals(city, user.city) &&
                 Objects.equals(favoriteSite, user.favoriteSite) &&
-                Objects.equals(jokeIds, user.jokeIds);
+                Objects.equals(jokeIds, user.jokeIds) &&
+                Objects.equals(passwd, user.passwd) &&
+                Objects.equals(phone, user.phone) &&
+                Objects.equals(coins, user.coins);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(_id, userName, email, firstName, lastName, age, country, city, favoriteSite, jokeIds);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "_id=" + _id +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", favoriteSite='" + favoriteSite + '\'' +
-                ", jokeIds=" + jokeIds +
-                '}';
     }
 
 }

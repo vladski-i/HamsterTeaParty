@@ -90,4 +90,28 @@ public class JokeController {
         System.out.println(jokes);
         return ResponseEntity.ok(jokes);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping(path = "/upvoteJoke")
+    public ResponseEntity<?> upvote(RequestEntity<Joke> requestEntity){
+        String token = requestEntity.getHeaders().getFirst("Authorization");
+        if (token == null)
+            return ResponseEntity.status(403).body("No auth token");
+        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
+        requestEntity.getBody().getUpvotersIDs().add(userId);
+        jokeRepository.save(requestEntity.getBody());
+        return ResponseEntity.ok().build();
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping(path = "/awardJoke")
+    public ResponseEntity<?> awar(RequestEntity<Joke> requestEntity){
+        String token = requestEntity.getHeaders().getFirst("Authorization");
+        if (token == null)
+            return ResponseEntity.status(403).body("No auth token");
+        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
+        requestEntity.getBody().getAwardersIDs().add(userId);
+        jokeRepository.save(requestEntity.getBody());
+        return ResponseEntity.ok().build();
+    }
 }
