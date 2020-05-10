@@ -23,8 +23,8 @@ public class CMD implements CommandLineRunner {
     @Override
     public void run(String...args) throws Exception {
         // userRepository.deleteAll();
-        userRepository.save(new User("0","cptvladski","vlad@vlad.com","vlad","leica",21,"RO","clung","fb.com/vlad",new ArrayList<>(),"vlad","1234", 0));
-        userRepository.save(new User("1","cptvlad","vlad@vlad.com","vlad","leica",21,"RO","clung","fb.com/vlad",new ArrayList<>(),"vlad","1234", 0));
+        userRepository.save(new User("0","cptvladski","1234","cptvladski@gmail.com","vlad","leica",21,"RO","clung","fb.com/vlad","vlad"));
+        userRepository.save(new User("25","cptvladsky","1235","cptvladski@gmail.com","vlad","leica",21,"RO","clung","fb.com/vlad","vlad"));
         System.out.println(userRepository.findAll());
 
 //        jokeRepository.save(new Joke("1", "adasdes", "newjoke1", "Acesta este textul", new Date(System.currentTimeMillis()),new ArrayList<>(),new ArrayList<>(),new ArrayList<>()));

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.*;
 
 @RestController
 public class JokeController {
@@ -41,7 +42,6 @@ public class JokeController {
         newJoke.setPosterId(userId);
         newJoke.setAwardersIDs(new ArrayList<>());
         newJoke.setUpvotersIDs(new ArrayList<>());
-        newJoke.setTags(new ArrayList<>());
         jokeRepository.save(newJoke);
         return ResponseEntity.ok().body("OK");
     }
@@ -68,7 +68,9 @@ public class JokeController {
     @GetMapping(path = "/jokesByDate")
     public ResponseEntity<?> getSortedJokesByDate(){
         System.out.println(ResponseEntity.ok(jokeRepository.findAll(Sort.by("createdAt"))));
-        return ResponseEntity.ok(jokeRepository.findAll(Sort.by("createdAt")));
+        List <Joke> sortedJokes = jokeRepository.findAll(Sort.by("createdAt"));
+        Collections.reverse(sortedJokes);
+        return ResponseEntity.ok(sortedJokes);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -77,7 +79,7 @@ public class JokeController {
         List<Joke> jokes = jokeRepository.findAll();
         System.out.println("BEFORE SORT");
         System.out.println(jokes);
-        int cnt = 0;
+        /*int cnt = 0;
         for (Joke x : jokes) {
                 x.upvotersIDs.add("Tomita");
                 cnt++;
@@ -85,6 +87,7 @@ public class JokeController {
                     x.upvotersIDs.add("Danutu");
                 }
         }
+        */
         jokes.sort(Comparator.comparingInt(joke -> joke.upvotersIDs.size()));
         System.out.println("AFTER SORT SORT");
         System.out.println(jokes);

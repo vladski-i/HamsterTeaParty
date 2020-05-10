@@ -3,6 +3,7 @@ package com.hamster.website;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,58 +34,36 @@ public class User {
 
     public String phone;
 
+    public int awardedCounter;
+
+    public int upvotedCounter;
+
+    public String accountType;  /// regular user, free trial, premium, gold
+
+    public int isPrivileged;    /// true or false -> admin or not
+
+    public String getPhone() {
+        return phone;
+    }
     public Integer coins;
 
-    public User(String _id, String userName, String email, String firstName, String lastName, Integer age, String country, String city, String favoriteSite, List<Integer> jokeIds, String passwd, String phone, Integer coins) {
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public User(String _id, String userName, String phone, String email, String firstName, String lastName, Integer age, String country, String city, String favoriteSite, String passwd) {
         this._id = _id;
         this.userName = userName;
         this.email = email;
+        this.phone = phone;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.country = country;
         this.city = city;
         this.favoriteSite = favoriteSite;
-        this.jokeIds = jokeIds;
+        this.jokeIds = new ArrayList<>();
         this.passwd = passwd;
-        this.phone = phone;
-        this.coins = coins;
-    }
-
-
-    public Integer getCoins() {
-        return coins;
-    }
-
-    public void setCoins(Integer coins) {
-        this.coins = coins;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "_id='" + _id + '\'' +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", favoriteSite='" + favoriteSite + '\'' +
-                ", jokeIds=" + jokeIds +
-                ", passwd='" + passwd + '\'' +
-                ", phone='" + phone + '\'' +
-                ", coins=" + coins +
-                '}';
     }
 
     public String getPasswd() {
@@ -170,6 +149,38 @@ public class User {
         this.favoriteSite = favoriteSite;
     }
 
+    public int getIsPriviledge() {
+        return isPrivileged;
+    }
+
+    public void setIsPrivileged(int isPrivileged) {
+        this.isPrivileged = isPrivileged;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String city) {
+        this.accountType = accountType;
+    }
+
+    public int getAwardedCounter() {
+        return awardedCounter;
+    }
+
+    public void setAwardedCounter(int awardedCounter) {
+        this.awardedCounter = awardedCounter;
+    }
+
+    public int getUpvotedCounter() {
+        return upvotedCounter;
+    }
+
+    public void setUpvotedCounter(int upvotedCounter) {
+        this.upvotedCounter = upvotedCounter;
+    }
+
     public List<Integer> getJokeIds() {
         return jokeIds;
     }
@@ -192,6 +203,10 @@ public class User {
                 Objects.equals(country, user.country) &&
                 Objects.equals(city, user.city) &&
                 Objects.equals(favoriteSite, user.favoriteSite) &&
+                Objects.equals(awardedCounter, user.awardedCounter) &&
+                Objects.equals(upvotedCounter, user.upvotedCounter) &&
+                Objects.equals(accountType, user.accountType) &&
+                Objects.equals(jokeIds, user.jokeIds) &&
                 Objects.equals(jokeIds, user.jokeIds) &&
                 Objects.equals(passwd, user.passwd) &&
                 Objects.equals(phone, user.phone) &&
@@ -201,6 +216,25 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(_id, userName, email, firstName, lastName, age, country, city, favoriteSite, jokeIds);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "_id=" + _id +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", favoriteSite='" + favoriteSite + '\'' +
+                ", awardedCounter='" + awardedCounter + '\'' +
+                ", upvotedCounter='" + upvotedCounter + '\'' +
+                ", accountType='" + accountType + '\'' +
+                ", jokeIds=" + jokeIds +
+                '}';
     }
 
 }

@@ -1,12 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Demo from './demo';
-import Navbar from './Navbar';
-import Drawer from './Drawer';
-import SidebarRight from './SidebarRight';
-import SidebarLeft from './SidebarLeft';
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
