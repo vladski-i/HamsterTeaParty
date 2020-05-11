@@ -13,7 +13,6 @@ import java.util.*;
 
 @RestController
 public class Vote {
-    // static Integer lastId = 0;
     private JokeRepository jokeRepository;
     private JwtTokenUtil jwtTokenUtil;
     private UserRepository userRepository;
@@ -30,21 +29,14 @@ public class Vote {
         String token = requestEntity.getHeaders().getFirst("Authorization");
         if (token == null)
             return ResponseEntity.status(403).body("No auth token");
-        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
         User user = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0);
         Joke joke = requestEntity.getBody();
-
-        String newUpvoterID = userId;   // ia-l din body
-        List <String> upvotersIDs = joke.getUpvotersIDs();
-        upvotersIDs.add(newUpvoterID);
-        joke.setUpvotersIDs(upvotersIDs);
+        assert joke != null;
+        joke.getUpvotersIDs().add(user.get_id());
         jokeRepository.save(joke);
+        user.setUpvotedCounter(user.getUpvotedCounter() + 1);
+        userRepository.save(user);
 
-        int upvotedCounter = user.getUpvotedCounter();
-        upvotedCounter++;
-        user.setUpvotedCounter(upvotedCounter);
-        userRepository.save(user);  /// NU SUNT SIGUR DACA E BINE
-
-        return ResponseEntity.ok().body("OK");
+        return ResponseEntity.ok().build();
     }
 }

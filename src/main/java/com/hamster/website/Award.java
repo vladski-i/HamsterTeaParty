@@ -30,21 +30,14 @@ public class Award {
         String token = requestEntity.getHeaders().getFirst("Authorization");
         if (token == null)
             return ResponseEntity.status(403).body("No auth token");
-        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
         User user = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0);
         Joke joke = requestEntity.getBody();
+        assert joke != null;
+        joke.getAwardersIDs().add(user.get_id());
+        jokeRepository.save(joke);
+        user.setAwardedCounter(user.getAwardedCounter() + 1);
+        userRepository.save(user);
 
-        String newAwarderID = userId;
-        List <String> awardersIDs = joke.getAwardersIDs();
-        awardersIDs.add(newAwarderID);
-        joke.setUpvotersIDs(awardersIDs);
-        jokeRepository.save(joke);  // gen update joke
-
-        int upvotedCounter = user.getUpvotedCounter();
-        upvotedCounter++;
-        user.setUpvotedCounter(upvotedCounter);
-        userRepository.save(user);  /// NU SUNT SIGUR DACA E BINE
-
-        return ResponseEntity.ok().body("OK");
+        return ResponseEntity.ok().build();
     }
 }
