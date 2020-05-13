@@ -36,6 +36,9 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 
+import axios from 'axios';
+import { connect } from 'react-redux';
+
 const styles = theme => ({
     root: {
         "& > *": {
@@ -91,12 +94,31 @@ class Profile extends React.Component {
 
     componentDidMount = () => { 
         let id = this.props.match.params.profile_id;
+
+        if (!id) {
+            /// trebuie sa luam id-ul user-ului din back-end
+
+            axios.get("http://localhost:8090/userById",
+            {headers :{
+                Authorization : this.props.userToken.userToken
+            }})
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+                id = res.data;
+            }
+        );
+
+        }
+
         this.setState ({
             ...this.state,
             profileId: id
         })
 
-        fetch("http://localhost:8090/jokesByPoster?posterId=" + id).then(res => res.json())
+        setTimeout(() => {
+            
+            fetch("http://localhost:8090/jokesByPoster?posterId=" + id).then(res => res.json())
         .then(
           (result) => { 
             this.setState({
@@ -137,6 +159,8 @@ class Profile extends React.Component {
             });
           }
         )
+
+        }, 300);
 
     }
 
@@ -609,4 +633,23 @@ class Profile extends React.Component {
       classes: PropTypes.object.isRequired,
    };
   
-   export default withStyles(styles)(Profile);
+const mapStateToProps = (state) => {
+    return state;
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      login_logout: () => { dispatch({ type: 'REMOVE_TOKEN' }) },
+      set_token: (newToken, newUserName, previousState) => { 
+          dispatch({ 
+              type: 'SET_TOKEN', 
+              token: newToken, 
+              userName: newUserName, 
+              previousState: previousState
+            }) 
+      }, 
+    }
+  }
+  
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Profile)))

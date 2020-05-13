@@ -14,6 +14,7 @@ import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment'
 
 const styles = theme => ({
     root: {},
@@ -33,7 +34,9 @@ class JokePostTable extends React.Component {
         jokeId: 0,
         isLoaded: false,
         jokeArray: [],
-        searchedJoke: ''
+        searchedJoke: '',
+        months: ["January", "February", "March", "April", "May", 
+                  "June", "July", "August", "September", "October", "November", "December"]
     };
 
     removeDivsFromJokeContent = (jokes) => {
@@ -121,7 +124,7 @@ class JokePostTable extends React.Component {
         console.log('im searchin for a new joke tati');
 
         /// trimit la backend textul cautat
-        axios.post("http://localhost:8090/search",{
+        axios.get("http://localhost:8090/search",{
                 searchedContent : this.state.searchedJoke,
             })
             .then(res => {
@@ -177,6 +180,14 @@ class JokePostTable extends React.Component {
      console.log('The jokarray is as following');
      console.log(jokeArray);
 
+     console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+
+     if (jokes) {
+        console.log(moment(jokes[0].createdAt).format('MM/DD/YYYY'));
+        console.log('SARPILIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
+     }
+        
+
     return (
         <div className>
             <br></br>
@@ -210,7 +221,13 @@ class JokePostTable extends React.Component {
                             </Avatar>
                             }
                             title={`${joke.title}`}
-                            subheader={`${joke.createdAt}`}
+                            /// subheader={`${joke.createdAt}`}
+                            subheader={
+                                (joke) ?
+                                `${ moment(joke.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`   
+                                :   
+                                `${' '}`
+                            }
                         />
                         </Link>
                        <Link to={ `/viewer/${joke._id}` }

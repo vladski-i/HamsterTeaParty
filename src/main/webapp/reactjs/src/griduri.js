@@ -56,6 +56,7 @@ export default function CenteredGrid() {
             <Route path="/" exact component={JokePostTable} />
             <Route path="/signup" exact component={SignUpPage} />
             <Route path="/viewer" exact component={CentralJokeViewer} />
+            <Route path="/profile" exact component={Profile} />
             <Route path="/viewer/:joke_id" exact component={CentralJokeViewer} />
             <Route path="/profile/:profile_id" exact component={Profile} />
             <Route path="/giveaward" exact component={GiveAward} />
@@ -66,7 +67,6 @@ export default function CenteredGrid() {
             <Route path="/tryjsitepremium" exact component={TryJsitePremium} />
             <Route path="/about" exact component={About} />
             <Route path="/login" exact component={Login} />
-            <Route path="/profile" exact component={Profile} />
             <Route path="/postjoke" exact component={PostJoke} />
           </Switch>
         </Grid>

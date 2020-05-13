@@ -322,7 +322,13 @@ class PostJoke extends React.Component {
             }}
             avatar={    
             <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F'}}>
-                {`${jokePoster[0]}`}
+                {`${
+                    (this.props.userToken.userName) ?
+                    this.props.userToken.userName.charAt(0)
+                    :
+                    ''
+                   }
+                `}
             </Avatar>
             }
             title={`${this.props.userToken.userName}`}

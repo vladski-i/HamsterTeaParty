@@ -24,6 +24,7 @@ import Alert from '@material-ui/lab/Alert';
 import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import moment from 'moment'
 
 const styles = theme => ({
     root: {
@@ -351,7 +352,12 @@ class CentralJokeViewer extends React.Component {
             </Avatar>
             }
             title={`${joke.title}`}
-            subheader={`${joke.createdAt}`}
+            subheader={
+                (joke) ?
+                `${ moment(joke.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`   
+                :   
+                `${' '}`
+            }
         />
         </Link>
 

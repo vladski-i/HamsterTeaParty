@@ -2,6 +2,7 @@ package com.hamster.website;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -58,4 +59,26 @@ public class AuthController {
         System.out.println(ResponseEntity.ok(userRepository.findBy_id(_id).stream().findFirst().get()));
         return ResponseEntity.ok(userRepository.findBy_id(_id).stream().findFirst().get());
     }
+    /*
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/user")
+    public ResponseEntity<String> getUserIdByToken(
+            @RequestParam String token
+    ){
+        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
+        System.out.println(userId);
+        return ResponseEntity.ok(userId);
+    }
+     */
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = "/userById")
+    public ResponseEntity<?> getUserId(RequestEntity<Void> requestEntity) {
+        String token = requestEntity.getHeaders().getFirst("Authorization");
+        if (token == null)
+            return ResponseEntity.status(403).body("No auth token");
+        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
+        return ResponseEntity.ok(userId);   // asa?
+    }
+
 }

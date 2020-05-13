@@ -79,15 +79,6 @@ public class JokeController {
         List<Joke> jokes = jokeRepository.findAll();
         System.out.println("BEFORE SORT");
         System.out.println(jokes);
-        /*int cnt = 0;
-        for (Joke x : jokes) {
-                x.upvotersIDs.add("Tomita");
-                cnt++;
-                if (cnt % 3 == 0) {
-                    x.upvotersIDs.add("Danutu");
-                }
-        }
-        */
         jokes.sort(Comparator.comparingInt(joke -> joke.upvotersIDs.size()));
         System.out.println("AFTER SORT SORT");
         System.out.println(jokes);
@@ -108,7 +99,7 @@ public class JokeController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping(path = "/awardJoke")
-    public ResponseEntity<?> awar(RequestEntity<Joke> requestEntity){
+    public ResponseEntity<?> award(RequestEntity<Joke> requestEntity){
         String token = requestEntity.getHeaders().getFirst("Authorization");
         if (token == null)
             return ResponseEntity.status(403).body("No auth token");
