@@ -196,7 +196,6 @@ class GiveAward extends React.Component {
             <div className>
 
             <div style={{
-                marginBottom: 100
             }}>
                 {
                     /// alert message

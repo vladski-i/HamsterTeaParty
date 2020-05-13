@@ -1,13 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
 // import SearchBar from './SearchBar'
 import SearchBar from 'material-ui-search-bar'
 import Grid from '@material-ui/core/Grid';
@@ -21,14 +12,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import InputBase from '@material-ui/core/InputBase';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const styles = theme => ({
     root: {},
@@ -131,16 +116,49 @@ class JokePostTable extends React.Component {
         });
       };
 
-    handleLove = () => {    
-        console.log('lentile dior');
-    }
-
-    handleShare = () => {    
-        console.log('geaca de print');
-    }
 
     searchJokes = () => {
         console.log('im searchin for a new joke tati');
+
+        /// trimit la backend textul cautat
+        axios.post("http://localhost:8090/search",{
+                searchedContent : this.state.searchedJoke,
+            })
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+                
+             }
+            ).catch((error) => {
+                // Error
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    // console.log(error.response.data);
+                    console.log(error.response.status);
+                    if (error.response.status === 400) {
+                        // username-ul este deja utilizat de altcineva, incearca cu altul
+
+                    }
+                    // console.log(error.response.headers);
+                } else if (error.request) {
+                   
+                    setTimeout(() => {
+                        this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });   
+                    }, 0);  // semnaleaza eroare print-un mesaj
+    
+                    setTimeout(() => {
+                        this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });
+                    }, 1500);  /// fa sa dispara mesajul de eroare
+    
+                    // console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                }
+                /// console.log(error.config);
+            });        
+
+        /// iau output-ul si updatez state-ul curent cu jokearray-ul pe care l-am primit
     }
 
   render () {
