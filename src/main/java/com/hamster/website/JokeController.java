@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @RestController
 public class JokeController {
@@ -42,6 +44,7 @@ public class JokeController {
         newJoke.setPosterId(userId);
         newJoke.setAwardersIDs(new ArrayList<>());
         newJoke.setUpvotersIDs(new ArrayList<>());
+        newJoke.setCreatedAt(new Date(System.currentTimeMillis()));
         jokeRepository.save(newJoke);
         return ResponseEntity.ok().body("OK");
     }
@@ -86,26 +89,49 @@ public class JokeController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping(path = "/upvoteJoke")
-    public ResponseEntity<?> upvote(RequestEntity<Joke> requestEntity){
-        String token = requestEntity.getHeaders().getFirst("Authorization");
-        if (token == null)
-            return ResponseEntity.status(403).body("No auth token");
-        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
-        requestEntity.getBody().getUpvotersIDs().add(userId);
-        jokeRepository.save(requestEntity.getBody());
-        return ResponseEntity.ok().build();
+    @GetMapping(path = "/trending")
+    public ResponseEntity<?> getTrending(){
+
+        return ResponseEntity.ok( jokeRepository.findAll().stream().filter(joke ->
+                TimeUnit.DAYS.convert(
+                        new Date(System.currentTimeMillis()).getTime() - joke.getCreatedAt().getTime(),TimeUnit.MILLISECONDS ) >= 1)
+                .collect(Collectors.toList()));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping(path = "/awardJoke")
-    public ResponseEntity<?> award(RequestEntity<Joke> requestEntity){
-        String token = requestEntity.getHeaders().getFirst("Authorization");
-        if (token == null)
-            return ResponseEntity.status(403).body("No auth token");
-        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
-        requestEntity.getBody().getAwardersIDs().add(userId);
-        jokeRepository.save(requestEntity.getBody());
-        return ResponseEntity.ok().build();
+    @GetMapping(path = "/search")
+    public ResponseEntity<?> searchByTags(RequestEntity<String> requestEntity){
+        return ResponseEntity.ok(
+                jokeRepository.findByTags(
+                        Arrays.asList(
+                                requestEntity.getBody().split(" ")
+                        )
+                )
+        );
     }
+
+
+//    @CrossOrigin(origins = "http://localhost:3000")
+//    @PutMapping(path = "/upvoteJoke")
+//    public ResponseEntity<?> upvote(RequestEntity<Joke> requestEntity){
+//        String token = requestEntity.getHeaders().getFirst("Authorization");
+//        if (token == null)
+//            return ResponseEntity.status(403).body("No auth token");
+//        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
+//        requestEntity.getBody().getUpvotersIDs().add(userId);
+//        jokeRepository.save(requestEntity.getBody());
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @CrossOrigin(origins = "http://localhost:3000")
+//    @PutMapping(path = "/awardJoke")
+//    public ResponseEntity<?> award(RequestEntity<Joke> requestEntity){
+//        String token = requestEntity.getHeaders().getFirst("Authorization");
+//        if (token == null)
+//            return ResponseEntity.status(403).body("No auth token");
+//        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
+//        requestEntity.getBody().getAwardersIDs().add(userId);
+//        jokeRepository.save(requestEntity.getBody());
+//        return ResponseEntity.ok().build();
+//    }
 }

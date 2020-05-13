@@ -42,6 +42,73 @@ public class User {
 
     public int isPrivileged;    /// true or false -> admin or not
 
+    public boolean isPremium;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "_id='" + _id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", favoriteSite='" + favoriteSite + '\'' +
+                ", jokeIds=" + jokeIds +
+                ", passwd='" + passwd + '\'' +
+                ", phone='" + phone + '\'' +
+                ", awardedCounter=" + awardedCounter +
+                ", upvotedCounter=" + upvotedCounter +
+                ", accountType='" + accountType + '\'' +
+                ", isPrivileged=" + isPrivileged +
+                ", isPremium=" + isPremium +
+                ", coins=" + coins +
+                '}';
+    }
+
+    public User(String _id, String userName, String email, String firstName, String lastName, Integer age, String country, String city, String favoriteSite, List<Integer> jokeIds, String passwd, String phone, int awardedCounter, int upvotedCounter, String accountType, int isPrivileged, boolean isPremium, Integer coins) {
+        this._id = _id;
+        this.userName = userName;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.country = country;
+        this.city = city;
+        this.favoriteSite = favoriteSite;
+        this.jokeIds = jokeIds;
+        this.passwd = passwd;
+        this.phone = phone;
+        this.awardedCounter = awardedCounter;
+        this.upvotedCounter = upvotedCounter;
+        this.accountType = accountType;
+        this.isPrivileged = isPrivileged;
+        this.isPremium = isPremium;
+        this.coins = coins;
+    }
+
+    public int getIsPrivileged() {
+        return isPrivileged;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
+
+    public Integer getCoins() {
+        return coins;
+    }
+
+    public void setCoins(Integer coins) {
+        this.coins = coins;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -216,25 +283,6 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(_id, userName, email, firstName, lastName, age, country, city, favoriteSite, jokeIds);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "_id=" + _id +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", favoriteSite='" + favoriteSite + '\'' +
-                ", awardedCounter='" + awardedCounter + '\'' +
-                ", upvotedCounter='" + upvotedCounter + '\'' +
-                ", accountType='" + accountType + '\'' +
-                ", jokeIds=" + jokeIds +
-                '}';
     }
 
 }
