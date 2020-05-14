@@ -4,24 +4,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Link, NavLink, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-
 import Divider from '@material-ui/core/Divider';
-
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import LocalAtmIcon from '@material-ui/icons/LocalAtm';
-import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
-
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import NewReleasesIcon from '@material-ui/icons/NewReleases';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import PostAddIcon from '@material-ui/icons/PostAdd';
-
-import { deepOrange, green } from '@material-ui/core/colors';
 import Avatar from "@material-ui/core/Avatar";
 import PersonIcon from '@material-ui/icons/Person';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
@@ -33,9 +22,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-
 import axios from 'axios';
 import { connect } from 'react-redux';
 
@@ -58,10 +45,12 @@ class Profile extends React.Component {
 
     state = {
         profileId: '',
-        isSuperAdmin: false, 
+        isSuperAdmin: true, 
         jokeArray: [],
         user: {
-        }
+        },
+        serverResponseAccountUpdatedSuccessfully: false,
+        serverResponseAccountUpdatedNotAvailable: false
     };
 
     removeDivsFromJokeContent = (jokes) => {
@@ -117,7 +106,6 @@ class Profile extends React.Component {
         })
 
         setTimeout(() => {
-            
             fetch("http://localhost:8090/jokesByPoster?posterId=" + id).then(res => res.json())
         .then(
           (result) => { 
@@ -168,23 +156,88 @@ class Profile extends React.Component {
         
     }
 
-    handleChange = (prop) => (event) => {
+      handleChange = (prop) => (event) => {
         this.setState({ 
             ...this.state, 
             [prop]: event.target.value 
         });
       };
 
+
     handleSubmit = () => {
-        /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
-        /// send it to back-end/andor - mongodb
+        
+    }
+
+    submitData = () => {
+        // tre sa updatez cu datele din username si etc
+        axios.post("http://localhost:8090/signup",{
+                userName : this.state.username,
+                phone : this.state.phone,
+                email : this.state.email,
+                firstName : this.state.firstName,
+                lastName : this.state.lastName,
+                age : this.state.age,
+                country : this.state.country,
+                city : this.state.city,
+                favoriteSite : this.state.favoriteSite,
+                passwd : this.state.password
+            })
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+                setTimeout(() => {
+                    this.setState({ serverResponseAccountUpdatedSuccessfully: !this.state.serverResponseAccountUpdatedSuccessfully });
+                }, 0);
+                setTimeout(() => {
+                    this.setState({ serverResponseAccountUpdatedSuccessfully: !this.state.serverResponseAccountUpdatedSuccessfully });
+                }, 1800);
+                setTimeout(() => {
+                    this.props.history.push('/');
+                }, 2000);
+             }
+            ).catch((error) => {
+                // Error
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    // console.log(error.response.data);
+                    console.log(error.response.status);
+                    if (error.response.status === 400) {
+                        // username-ul este deja utilizat de altcineva, incearca cu altul
+                        setTimeout(() => {
+                            this.setState({ serverResponseAccountUpdatedNotAvailable: !this.state.serverResponseAccountUpdatedNotAvailable });   
+                        }, 0);  // semnaleaza eroare print-un mesaj
+                        setTimeout(() => {
+                            this.setState({ serverResponseAccountUpdatedNotAvailable: !this.state.serverResponseAccountUpdatedNotAvailable });
+                        }, 1500);  /// fa sa dispara mesajul de eroare
+                    }
+                    // console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the 
+                    // browser and an instance of
+                    // http.ClientRequest in node.js
+    
+                    setTimeout(() => {
+                        this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });   
+                    }, 0);  // semnaleaza eroare print-un mesaj
+    
+                    setTimeout(() => {
+                        this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });
+                    }, 1500);  /// fa sa dispara mesajul de eroare
+    
+                    // console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                }
+                /// console.log(error.config);
+            });
     }
 
     render () {
 
         const {
             user,
-            showPassword,
             isSuperAdmin
         } = this.state;
 
@@ -463,7 +516,7 @@ class Profile extends React.Component {
                 </div>
 
                 <div style={{
-                    position: 'absolute', left: '37%', top: '32%',
+                    position: 'absolute', left: '28%', top: '32%',
                     maxWidth: 950
                     /*transform: 'translate(-50%, -50%)'*/
                 }}>
@@ -534,6 +587,292 @@ class Profile extends React.Component {
                 <br></br>
                 <br></br>
 
+                <div>
+                <div style={{
+                    position: 'absolute', left: '1%', top: '15%',
+                }}>
+                <List component="nav" 
+                        style={{
+                        width: '100%',
+                        maxWidth: 360,
+                        marginTop: 155,
+                        position: 'fixed',
+                        }} 
+                        aria-label="mailbox folders">
+                    
+
+                    <div style={{
+                            position: 'absolute', left: '10%', top: '-1050%',
+                        }}>   
+                        <Avatar style={{
+                            position: 'absolute', left: '10%', top: '-1050%',
+                        }}>   
+                        TP
+                        </Avatar>
+                        </div>
+
+                    <Typography variant="h6" 
+                            style={{textAlign: 'center',
+                                    marginTop: -170,
+                                    marginBottom: 10}}>
+                        USER ACTIVITY
+                    </Typography>
+
+                    <Divider light />
+                    
+                    <ListItem button margin>
+                    <AttachMoneyIcon />
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                        {`awarded jokes: ${awardedCounter}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginLeft: 20,
+                                    marginTop: -2
+                                    }}/>
+                    </ListItem>
+                  
+                    <Divider />
+                    
+                    <ListItem button>
+                    <TrendingUpIcon />
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`upvoted jokes: ${upvotedCounter}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem> 
+                    <Divider light />
+                    <h1> </h1>
+
+                </List>
+
+
+                <div style={{
+                    position: 'absolute', left: '27%', top: '10%',
+                    /*transform: 'translate(-50%, -50%)'*/
+                }}>
+
+                <div >
+                <List component="nav" 
+                        style={{
+                        width: '100%',
+                        maxWidth: 360,
+                        marginTop: 155,
+                        position: 'fixed',
+                        }} 
+                        aria-label="mailbox folders">
+
+                    <Typography variant="h6" 
+                            style={{textAlign: 'center',
+                                    marginTop: -20,
+                                    marginBottom: 0}}>
+                        ACCOUNT INFO
+                    </Typography>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <PersonIcon />
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`username: ${userName}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem> 
+                    <Divider light />
+
+                    <ListItem button>
+                    <PersonOutlineIcon />
+                    
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`fullname: ${firstName + ' ' +  lastName}`}
+                                    </Typography>} 
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}
+                                    />
+                    </ListItem>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <LanguageIcon />
+                    <ListItemText disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`country: ${country}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <LocationCityIcon />
+                    <ListItemText disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`city: ${city}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <FaceIcon />
+                    <ListItemText disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`age: ${age}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem>
+
+                    <Divider light />
+  
+                    <h1> </h1>
+                </List>
+
+                
+                </div>
+
+                <div >
+                <List component="nav" 
+                        style={{
+                        width: '100%',
+                        maxWidth: 360,
+                        marginTop: 155,
+                        position: 'fixed',
+                        }} 
+                        aria-label="mailbox folders">
+
+                    <Typography variant="h6" 
+                            style={{textAlign: 'center',
+                                    marginTop: 280,
+                                    marginBottom: 0}}   >
+                        CONTACT INFO
+                    </Typography>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <ContactPhoneIcon />
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`phone: ${phone}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem> 
+                    <Divider light />
+
+                    <ListItem button>
+                    <FacebookIcon />
+                    
+                    <ListItemText 
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`social media: ${favoriteSite}`}
+                                    </Typography>} 
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}
+                                    />
+                    </ListItem>
+
+                    <Divider light />
+
+                    <ListItem button>
+                    <ContactMailIcon />
+                    <ListItemText disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`email: ${email}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                    </ListItem>
+
+                    <Divider light />
+  
+                    <h1> </h1>
+                </List>
+
+                </div>
+
+                </div>
+
+                </div>
+
+                <div style={{
+                    position: 'absolute', left: '28%', top: '32%',
+                    maxWidth: 950
+                    /*transform: 'translate(-50%, -50%)'*/
+                }}>
+
+                <div style={{marginTop: -40, marginBottom: 40}}>
+
+
+                </div>
+                </div>
+
+                <div style={{
+                    position: 'absolute', left: '27%', top: '10%',
+                    /*transform: 'translate(-50%, -50%)'*/
+                }}>
+
+                <div >
+    
+                
+                </div>
+                </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <form  
                     className={classes.root}
                     noValidate 
@@ -557,9 +896,11 @@ class Profile extends React.Component {
                     marginTop: 30
                 }} 
                     id="firstName" 
-                    label="First Name" 
+                    label="First Name"
+                    /// placeholder=" "
+                    /// required
                     /// disabled="true"
-                    value={firstName}
+                    /// value={firstName}
                     onChange={this.handleChange("firstName")}
                     />
                 <br></br>
@@ -567,42 +908,42 @@ class Profile extends React.Component {
                         id="lastName"
                         label="Last Name"
                         // disabled="true"
-                        value={lastName} 
+                        /// value={lastName} 
                         onChange={this.handleChange("lastName")}/>
                 <br></br>
                 <TextField 
                         id="phone" 
                         label="Phone Number"
                         // disabled="true" 
-                        value={phone} 
+                        /// value={phone} 
                         onChange={this.handleChange("phone")}/>
                 <br></br>
                 <TextField 
                         id="email" 
                         label="Email"
                         // disabled="true"
-                        value={email} 
+                        /// value={email} 
                         onChange={this.handleChange("email")}/>
                 <br></br>
                 <TextField 
                         id="age" 
                         label="Age" 
                         /// disabled="true"
-                        value={age}
+                        /// value={age}
                         onChange={this.handleChange("age")}/>
                 <br></br>
                 <TextField 
                         id="country" 
                         label="Country"
                         /// disabled="true"
-                        value={country} 
+                        /// value={country} 
                         onChange={this.handleChange("country")}/>
                 <br></br>
                 <TextField 
                         id="favoriteSite" 
                         label="Facebook/Insta/Twitter"
                         /// disabled="true"
-                        value={favoriteSite} 
+                        /// value={favoriteSite} 
                         onChange={this.handleChange("favoriteSite")}/>
                 <br></br>
                 

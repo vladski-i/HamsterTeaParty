@@ -1,20 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Demo from './demo';
-import Navbar from './Navbar';
-import Drawer from './Drawer';
-import SidebarRight from './SidebarRight';
-import SidebarLeft from './SidebarLeft';
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
@@ -28,7 +16,7 @@ import TagFacesIcon from '@material-ui/icons/TagFaces';
 import TextField from "@material-ui/core/TextField";
 import axios from 'axios';
 import Alert from '@material-ui/lab/Alert';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const styles = theme => ({

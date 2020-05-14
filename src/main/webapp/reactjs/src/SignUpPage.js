@@ -1,12 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Demo from './demo';
-import Navbar from './Navbar';
-import Drawer from './Drawer';
-import SidebarRight from './SidebarRight';
-import SidebarLeft from './SidebarLeft';
 import InputLabel from "@material-ui/core/InputLabel";
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
@@ -20,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import axios from 'axios';
-import { Link, NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Alert from '@material-ui/lab/Alert';
 
@@ -63,7 +55,7 @@ class SignUpPage extends React.Component {
     }
 
     handleClickShowPassword = () => {
-        if (this.state.showPassword == false) {
+        if (this.state.showPassword === false) {
             this.setState({
                 showPassword: true
             });
@@ -158,14 +150,8 @@ class SignUpPage extends React.Component {
         const {
             username,
             password,
-            email,
-            phone,
             firstName,
             lastName,
-            age,
-            country,
-            city,
-            favoriteSite, 
             showPassword,
             serverResponseUsernameNotAvailable,
             serverResponseNoResponse,
@@ -265,23 +251,25 @@ class SignUpPage extends React.Component {
                 <br></br>
                 <br></br>
                 <InputLabel>
-                Username
+                Username*
                 </InputLabel>
                 <OutlinedInput
                 id="outlined-adornment-password"
                 type="text"
                 value={username}
+                required
                 onChange={this.handleChange("username")}
                 labelWidth={70}
                 />
 
                 <InputLabel htmlFor="outlined-adornment-password">
-                Password
+                Password*
                 </InputLabel>
                 <OutlinedInput
                 id="outlined-adornment-password"
                 type={showPassword ? "text" : "password"}
                 value={password}
+                required
                 onChange={this.handleChange("password")}
                 endAdornment={
                 <InputAdornment position="end">

@@ -1,49 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Demo from './demo';
-import Navbar from './Navbar';
-import Drawer from './Drawer';
-import SidebarRight from './SidebarRight';
-import SidebarLeft from './SidebarLeft';
-import InputLabel from "@material-ui/core/InputLabel";
-import TextField from '@material-ui/core/TextField';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/styles';
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Icon from '@material-ui/core/Icon';
-
-
-const styles = theme => ({
-    root: {
-        "& > *": {
-          margin: 2 ,
-          width: "100ch"
-        }
-      }
-  });
 
 class About  extends React.Component {
 
     state = {
-        username: '',
-        password: '',   
-        email: '',
-        phone: '',
-        firstName: '',
-        lastName: '',
-        age: '',
-        country: '',
-        city: '',
-        favoriteSite: '',
-        showPassword: false 
+        username: ''
     };
 
     componentDidMount = () => { 
@@ -57,7 +18,7 @@ class About  extends React.Component {
     }
 
     handleClickShowPassword = () => {
-        if (this.state.showPassword == false) {
+        if (this.state.showPassword === false) {
             this.setState({
                 showPassword: true
             });
@@ -81,34 +42,10 @@ class About  extends React.Component {
       };
 
     handleSubmit = () => {
-        /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
-        console.log('onClick');
-        const identity = {
-            username: this.state.username,
-            password: this.state.password,
-            email: this.state.email,
-            phone: this.state.phone,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            age: this.state.age,
-            country: this.state.country,
-            city: this.state.city,
-            favoriteSite: this.state.favoriteSite,
-        };
-        /// send it to back-end/andor - mongodb
+        
     }
 
     render () {
-
-        const {
-            username,
-            password,
-            showPassword
-        } = this.state;
-
-        const {
-            classes
-         } = this.props;
 
         return (
             <div style={{
@@ -134,9 +71,5 @@ class About  extends React.Component {
           );
         }
  }
-
-    About.propTypes = {
-      classes: PropTypes.object.isRequired,
-   };
   
-   export default withStyles(styles)(About);
+   export default (About);

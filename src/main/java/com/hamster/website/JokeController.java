@@ -92,15 +92,24 @@ public class JokeController {
     @GetMapping(path = "/trending")
     public ResponseEntity<?> getTrending(){
 
+        System.out.println(jokeRepository.findAll().stream().filter(joke ->
+                TimeUnit.DAYS.convert(
+                        new Date(System.currentTimeMillis()).getTime() - joke.getCreatedAt().getTime(),TimeUnit.MILLISECONDS ) >= 0)
+                .collect(Collectors.toList()));
+
         return ResponseEntity.ok( jokeRepository.findAll().stream().filter(joke ->
                 TimeUnit.DAYS.convert(
-                        new Date(System.currentTimeMillis()).getTime() - joke.getCreatedAt().getTime(),TimeUnit.MILLISECONDS ) >= 1)
+                        new Date(System.currentTimeMillis()).getTime() - joke.getCreatedAt().getTime(),TimeUnit.MILLISECONDS ) >= 0)
                 .collect(Collectors.toList()));
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "/search")
     public ResponseEntity<?> searchByTags(RequestEntity<String> requestEntity){
+
+        System.out.println(requestEntity);
+        System.out.println(requestEntity.getBody());
+
         return ResponseEntity.ok(
                 jokeRepository.findByTags(
                         Arrays.asList(

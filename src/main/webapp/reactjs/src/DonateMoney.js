@@ -1,25 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Demo from './demo';
-import Navbar from './Navbar';
-import Drawer from './Drawer';
-import SidebarRight from './SidebarRight';
-import SidebarLeft from './SidebarLeft';
-import InputLabel from "@material-ui/core/InputLabel";
 import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Alert from '@material-ui/lab/Alert';
 
@@ -98,11 +84,17 @@ class DonateMoney extends React.Component {
             console.log(res);
             console.log(res.data);
             console.log(this.props);
-            this.props.login_logout();
+
             setTimeout(() => {
-                this.props.set_token(res.data.token, this.state.username, this.props);
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 0);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 1900);
+            setTimeout(() => {
                 this.props.history.push('/');
-            }, 1000);
+            }, 2100);
+            
         }).catch((error) => {
             // Error
             if (error.response) {
@@ -197,7 +189,8 @@ class DonateMoney extends React.Component {
             donatedAmount,
             serverResponseNotEnoughMoney,
             serverResponseInvalidCardInformation,
-            serverResponseNoResponse
+            serverResponseNoResponse,
+            visibleSuccesMessage
         } = this.state;
 
         const {
@@ -252,6 +245,23 @@ class DonateMoney extends React.Component {
                             </Alert>
                         </div>
                 }
+
+                {
+                    /// alert message
+                    (!visibleSuccesMessage) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 80,
+                                    marginBottom: -30
+                            }}>   
+                            <Alert variant="filled" severity="success">
+                                The joke has been posted successfully! You're being redirected to the main page.
+                            </Alert>
+                        </div>
+                }
+
+
                 </div>
 
                 <form  

@@ -1,6 +1,5 @@
 import React from 'react';
 import InputLabel from "@material-ui/core/InputLabel";
-import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -12,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 import axios from 'axios';
-import { Link, NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Alert from '@material-ui/lab/Alert';
 
@@ -47,7 +46,7 @@ class Login extends React.Component {
     }
 
     handleClickShowPassword = () => {
-        if (this.state.showPassword == false) {
+        if (this.state.showPassword === false) {
             this.setState({
                 showPassword: true
             });

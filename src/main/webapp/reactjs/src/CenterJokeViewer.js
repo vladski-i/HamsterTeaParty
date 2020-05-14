@@ -1,10 +1,8 @@
 import React from 'react';
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -20,11 +18,11 @@ import RedeemIcon from '@material-ui/icons/Redeem';
 import Chip from '@material-ui/core/Chip';
 import TagFacesIcon from '@material-ui/icons/TagFaces';
 import TextField from "@material-ui/core/TextField";
-import Alert from '@material-ui/lab/Alert';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment'
+import Alert from '@material-ui/lab/Alert';
 
 const styles = theme => ({
     root: {
@@ -68,7 +66,9 @@ class CentralJokeViewer extends React.Component {
         joke: {
             posterId: '',
             title: ''
-        }
+        },
+        serverResponseNoResponse: false,
+        visibleSuccesMessage: false
     };
 
     componentDidMount = () => { 
@@ -83,9 +83,8 @@ class CentralJokeViewer extends React.Component {
             jokeId: jokeId
         })
 
-        let cnt = 0;
-        fetch("http://localhost:8090/joke?_id=" + jokeId).
-        then((res) => res.json()).then((res) => {
+        fetch("http://localhost:8090/joke?_id=" + jokeId)
+        .then((res) => res.json()).then((res) => {
 
                 let chipData = res.tags.slice();
                 console.log(chipData);
@@ -118,7 +117,7 @@ class CentralJokeViewer extends React.Component {
     handleChangeText = () => {
         console.log("here");
 
-        if (this.state.jokePosterId == this.state.jokeUserId) {
+        if (this.state.jokePosterId === this.state.jokeUserId) {
             this.setState({
                 ...this.state,
                 jokeText: ''
@@ -162,8 +161,8 @@ class CentralJokeViewer extends React.Component {
             console.log(this.state);
             axios.post("http://localhost:8090/postJoke",{
             title : this.props.userToken.userName,
-            content : this.state.jokeText,
-            posterId : this.state.jokePoster,
+            content : this.state.joke.content,
+            posterId : this.state.joke.jokePoster,
             tags: this.state.chipData.map((tag) => {
                 return tag.label;
             }),
@@ -185,7 +184,112 @@ class CentralJokeViewer extends React.Component {
                 this.props.history.push('/');
             }, 2100);
         }
-    );
+        ).catch((error) => {
+            // Error
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                // console.log(error.response.data);
+                console.log(error.response.status);
+                if (error.response.status === 400) {
+                    // exista user-ul dar nu are destui BANI IN CONTUL BANCAR
+                    setTimeout(() => {
+                        
+                    }, 0);  // semnaleaza eroare print-un mesaj
+                    setTimeout(() => {
+                        
+                    }, 1500);  /// fa sa dispara mesajul de eroare
+                } else if (error.response.status === 500) {
+                    // DATELE TRIMISE DESPRE CARD NU SUNT VALIDE
+                    setTimeout(() => {
+                         
+                    }, 0);  // semnaleaza eroare print-un mesaj
+                    setTimeout(() => {
+                       
+                    }, 1500);  /// fa sa dispara mesajul de eroare
+                }
+                // console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the 
+                // browser and an instance of
+                // http.ClientRequest in node.js
+
+                setTimeout(() => {
+                    this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });   
+                }, 0);  // semnaleaza eroare print-un mesaj
+
+                setTimeout(() => {
+                    this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });
+                }, 1500);  /// fa sa dispara mesajul de eroare
+
+                // console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+            }
+            /// console.log(error.config);
+        });
+      }
+
+      handleDeleteJoke = () => {
+          /// dau send la this.state, mai exact la joke (jokeId, jokeText)
+          axios.post("http://localhost:8090/deleteJoke",
+            {
+                jokeId: this.props.match.params.joke_id /// SAU FARA SA FIE OBIECT, NU STIU
+            },
+            {headers : {
+                Authorization : this.props.userToken.userToken
+            }})
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+                console.log('succes');
+            }
+        ).catch((error) => {
+            // Error
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                // console.log(error.response.data);
+                console.log(error.response.status);
+                if (error.response.status === 400) {
+                    // exista user-ul dar nu are destui BANI IN CONTUL BANCAR
+                    setTimeout(() => {
+                        
+                    }, 0);  // semnaleaza eroare print-un mesaj
+                    setTimeout(() => {
+                        
+                    }, 1500);  /// fa sa dispara mesajul de eroare
+                } else if (error.response.status === 500) {
+                    // DATELE TRIMISE DESPRE CARD NU SUNT VALIDE
+                    setTimeout(() => {
+                         
+                    }, 0);  // semnaleaza eroare print-un mesaj
+                    setTimeout(() => {
+                       
+                    }, 1500);  /// fa sa dispara mesajul de eroare
+                }
+                // console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the 
+                // browser and an instance of
+                // http.ClientRequest in node.js
+
+                setTimeout(() => {
+                    this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });   
+                }, 0);  // semnaleaza eroare print-un mesaj
+
+                setTimeout(() => {
+                    this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });
+                }, 1500);  /// fa sa dispara mesajul de eroare
+
+                // console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+            }
+            /// console.log(error.config);
+        });
       }
 
       handleDelete = (chipToDelete) => () => {
@@ -305,13 +409,13 @@ class CentralJokeViewer extends React.Component {
     render () {
 
         const {
-            jokeId,
-            jokePoster,
             searchedJoke,
             newTag,
             chipData,
             joke,
-            userCanEdit
+            userCanEdit,
+            serverResponseNoResponse,
+            visibleSuccesMessage
         } = this.state;
 
         const {
@@ -321,23 +425,50 @@ class CentralJokeViewer extends React.Component {
          console.log(joke);
 
         return (
-            <div className>
-                <br></br>
-                <br></br>
+            <div>
 
-        <SearchBar
-        style={{marginTop: 50
-        }}
-        value={searchedJoke}
-        onChange={(newValue) => {
-            console.log("s-a modificat textul cautarii");
-            this.setState({ searchedJoke: newValue })}
-        }
-        onRequestSearch={() => {
-            console.log("trebuie cautate doar glumele care au tagul asta");
-            this.searchJokes(searchedJoke)}
-        }
-    />
+            <div>
+            {
+                /// alert message
+                (!serverResponseNoResponse) ?
+                <div>
+                </div>
+                :
+                    <div style={{marginTop: 80,
+                                marginBottom: 50
+                        }}>   
+                        <Alert variant="filled" severity="warning">
+                            An error has occurred. We're very sorry, please try again to get coins.
+                        </Alert>
+                    </div>
+            }
+
+            {
+                /// alert message
+                (!visibleSuccesMessage) ?
+                <div>
+                </div>
+                :
+                    <div style={{marginTop: 80,
+                                marginBottom: 50
+                        }}>   
+                        <Alert variant="filled" severity="success">
+                            The joke has been posted successfully! You're being redirected to the main page.
+                        </Alert>
+                    </div>
+            }
+            </div>
+
+
+            <div className style={{
+                marginTop: (visibleSuccesMessage === true ||
+                            serverResponseNoResponse === true) ?
+                            -60
+                            :
+                            80
+            }}>
+                <br></br>
+                <br></br>
 
         <br></br>
     
@@ -446,6 +577,21 @@ class CentralJokeViewer extends React.Component {
         <div style={{ display: "flex" }}>
 
         <Button variant="contained"  
+                style={{ 
+                         marginLeft: 540,
+                         marginTop: 50,
+                         backgroundColor: '#E1173F'}} 
+                className={classes.marginTop}
+                endIcon={<Icon style={{color: 'white'}}>send</Icon>}
+                onClick={this.handleDeleteJoke}>
+            <div></div>
+            <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
+                DELETE JOKE
+            </Typography>
+        </Button>
+
+
+        <Button variant="contained"  
                 style={{ marginLeft: 'auto',
                          marginRight: 100,
                          marginTop: 50,
@@ -455,7 +601,7 @@ class CentralJokeViewer extends React.Component {
                 onClick={this.handleSubmit}>
             <div></div>
             <Typography variant="h6" style={{textAlign: 'right', color: 'white'}}>
-                Submit EDIT
+                SUBMIT EDITED JOKE
             </Typography>
         </Button>
         </div>
@@ -488,6 +634,7 @@ class CentralJokeViewer extends React.Component {
       </Card>
             <div style={{textAlign: 'center'}}>
                 <h1> </h1>
+            </div>
             </div>
             </div>
           );

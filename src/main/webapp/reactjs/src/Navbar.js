@@ -1,19 +1,11 @@
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
-
 import { Link } from 'react-router-dom';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 
 class Navbar extends React.Component {
 
@@ -44,12 +36,7 @@ handleChange = (prop) => (event) => {
   };
 
 handleSubmit = () => {
-    /// chestii de facut cand se apasa submit pe butonu de CREATE ACCOUNT
-    console.log('onClick');
-    const identity = {
-
-    };
-    /// send it to back-end/andor - mongodb
+   
 }   
 
 
@@ -129,8 +116,7 @@ render () {
                 <Typography variant="h6" 
                             style={{
                               textAlign: 'right',
-                              marginTop: 16,
-                              // color: '#E1173F'
+                              marginTop: 16
                               }}>
                     SIGN UP
                 </Typography>    
@@ -146,7 +132,6 @@ render () {
                             style={{
                               textAlign: 'right',
                               marginTop: 16,
-                              // color: '#E1173F'
                               }}>
                     LOGOUT
                 </Typography>

@@ -32,6 +32,7 @@ public class Vote {
         User user = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0);
         Joke joke = requestEntity.getBody();
         assert joke != null;
+        System.out.println(joke.getUpvotersIDs());
         joke.getUpvotersIDs().add(user.get_id());
         jokeRepository.save(joke);
         user.setUpvotedCounter(user.getUpvotedCounter() + 1);

@@ -1,18 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Demo from './demo';
 import Navbar from './Navbar';
-import Drawer from './Drawer';
 import SidebarRight from './SidebarRight';
 import SidebarLeft from './SidebarLeft';  
-
-import JokeViewer from './JokeViewer';
 import CentralJokeViewer from './CenterJokeViewer';
 import SignUpPage from './SignUpPage';
 import JokePostTable from './JokePostTable';
-
 import GiveAward from './GiveAward';
 import DonateMoney from './DonateMoney';
 import MostUpvotedJokes from './MostUpvotedJokes';
@@ -20,7 +14,6 @@ import LatestJokes from './LatestJokes';
 import TrendingTags from './TrendingTags';
 import TryJsitePremium from './TryJsitePremium';
 import PostJoke from './PostJoke';
-
 import About from './About';
 import Login from './Login';
 import Profile from './Profile';

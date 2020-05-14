@@ -1,34 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-// import SearchBar from './SearchBar'
 import SearchBar from 'material-ui-search-bar'
-import Grid from '@material-ui/core/Grid';
-import { red } from "@material-ui/core/colors";
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/styles';
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import InputBase from '@material-ui/core/InputBase';
 import { Link } from 'react-router-dom';
+import moment from 'moment'
 
 const styles = theme => ({
     root: {},
@@ -79,7 +56,7 @@ class TrendingTag extends React.Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8090/jokes")
+        fetch("http://localhost:8090/trending")
           .then(res => res.json())
           .then(
             (result) => {
@@ -113,7 +90,7 @@ class TrendingTag extends React.Component {
     handleChangeText = () => {
         console.log("here");
 
-        if (this.state.jokePosterId == this.state.jokeUserId) {
+        if (this.state.jokePosterId === this.state.jokeUserId) {
             this.setState({
                 ...this.state
             });
@@ -160,21 +137,10 @@ class TrendingTag extends React.Component {
      console.log(jokeArray);
 
     return (
-        <div className>
+        <div className style={{
+            marginTop: 80
+        }}>
             <br></br>
-            <SearchBar
-                style={{marginTop: 50
-                }}
-                value={searchedJoke}
-                onChange={(newValue) => {
-                    console.log("s-a modificat textul cautarii");
-                    this.setState({ searchedJoke: newValue })}
-                }
-                onRequestSearch={() => {
-                    console.log("trebuie cautate doar glumele care au tagul asta");
-                    this.searchJokes(searchedJoke)}
-                }
-            />
             <br></br>
 
             {
@@ -192,7 +158,12 @@ class TrendingTag extends React.Component {
                             </Avatar>
                             }
                             title={`${joke.title}`}
-                            subheader={`${joke.createdAt}`}
+                            subheader={
+                                (joke) ?
+                                `${ moment(joke.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`   
+                                :   
+                                `${' '}`
+                            }
                         />
                         </Link>
                        <Link to={ `/viewer/${joke._id}` }
@@ -216,8 +187,4 @@ class TrendingTag extends React.Component {
     }
 }
 
-TrendingTag.propTypes = {
-    classes: PropTypes.object.isRequired,
- };
-
- export default withStyles(styles)(TrendingTag);
+ export default (TrendingTag);

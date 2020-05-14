@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Alert from '@material-ui/lab/Alert';
 
@@ -27,7 +27,8 @@ class GiveAward extends React.Component {
         cvv: '',
         serverResponseInvalidCardInformation: false,
         serverResponseNotEnoughMoney: false,
-        serverResponseNoResponse: false
+        serverResponseNoResponse: false,
+        visibleSuccesMessage: false
     };
 
     componentDidMount = () => { 
@@ -76,7 +77,7 @@ class GiveAward extends React.Component {
         
         /// chestii de facut cand se apasa submit pe butonu de  GET NUMBER OF COINS
         console.log('onClick');
-        axios.post('http://localhost:8090/giveAward',{
+        axios.post('http://localhost:8090/award',{
             cardOwnerName: cardOwnerName,
             cardNumber: cardNumber,
             expDate: expDate,
@@ -90,12 +91,17 @@ class GiveAward extends React.Component {
         .then(res => {
             console.log(res);
             console.log(res.data);
-            console.log(this.props);
-            this.props.login_logout();
+            
             setTimeout(() => {
-                this.props.set_token(res.data.token, this.state.username, this.props);
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 0);
+            setTimeout(() => {
+                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+            }, 1900);
+            setTimeout(() => {
                 this.props.history.push('/');
-            }, 1000);
+            }, 2100);
+
         }).catch((error) => {
             // Error
             if (error.response) {
@@ -185,7 +191,8 @@ class GiveAward extends React.Component {
             cvv,
             serverResponseNotEnoughMoney,
             serverResponseInvalidCardInformation,
-            serverResponseNoResponse
+            serverResponseNoResponse,
+            visibleSuccesMessage
         } = this.state;
 
         const {
@@ -238,6 +245,22 @@ class GiveAward extends React.Component {
                             }}>   
                             <Alert variant="filled" severity="warning">
                                 The data you've used for this card is not correct. We're sorry. Maybe try again?
+                            </Alert>
+                        </div>
+                }
+
+                    
+                {
+                    /// alert message
+                    (!visibleSuccesMessage) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 80,
+                                    marginBottom: -30
+                            }}>   
+                            <Alert variant="filled" severity="success">
+                                The joke has been posted successfully! You're being redirected to the main page.
                             </Alert>
                         </div>
                 }
