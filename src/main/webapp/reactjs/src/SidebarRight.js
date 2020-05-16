@@ -66,13 +66,8 @@ class SidebarRight extends React.Component {
           </ListItem>
           </Link>
           <Divider light />
-          </div>
-            :
-            <div>
-            </div>
-        }
 
-        <Divider light />
+          <Divider light />
         <Link to="/giveaward" className="removeUnderline">
         <ListItem button margin>
         <AttachMoneyIcon />
@@ -100,6 +95,17 @@ class SidebarRight extends React.Component {
 
         </ListItem>
         </Link>
+
+
+          </div>
+            :
+            <div style={{
+              marginTop: 100
+            }}>
+            </div>
+        }
+
+    
 
         <Link to="/donate" className="removeUnderline">
         <ListItem button>

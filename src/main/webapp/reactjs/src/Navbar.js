@@ -59,7 +59,7 @@ render () {
         <Toolbar>
         <Button color="inherit" style={{  }} className="marginTop2">
         <Link to="/" className="removeUnderline">
-          <Typography variant="h6" style={{textAlign: 'right'}} onClick={this.handleLogout}>
+          <Typography variant="h6" style={{textAlign: 'right'}} >
             HOME
           </Typography> 
         </Link>     
