@@ -71,11 +71,11 @@ class DonateMoney extends React.Component {
         console.log(data);
 
         axios.post('http://localhost:8090/donate',{
-            cardOwnerName: cardOwnerName,
-            cardNumber: cardNumber,
-            expDate: expDate,
+            cardHolder: cardOwnerName,
+            cardNo: cardNumber,
+            expiry: expDate,
             cvv: cvv,
-            donatedAmount: donatedAmount
+            amount: donatedAmount
         },
         {headers :{
             Authorization : this.props.userToken.userToken

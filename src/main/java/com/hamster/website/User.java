@@ -83,7 +83,7 @@ public class User {
         this.phone = phone;
         this.awardedCounter = awardedCounter;
         this.upvotedCounter = upvotedCounter;
-        this.accountType = accountType;
+        this.accountType = "Regular";
         this.isPrivileged = isPrivileged;
         this.isPremium = isPremium;
         this.coins = coins;
@@ -228,8 +228,9 @@ public class User {
         return accountType;
     }
 
-    public void setAccountType(String city) {
+    public User setAccountType(String accountType) {
         this.accountType = accountType;
+        return this;
     }
 
     public int getAwardedCounter() {

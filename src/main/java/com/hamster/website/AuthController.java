@@ -29,6 +29,7 @@ public class AuthController {
         boolean dup = !userRepository.findByUserName(user.userName).stream().findFirst().isEmpty();
         if(dup)
             return ResponseEntity.status(400).body("Duplicate Username");
+        user.setAccountType("Regular");
         userRepository.save(user);
         System.out.println("Tot repository-ul de useri arata acum asa:");
         System.out.println(userRepository.findAll());

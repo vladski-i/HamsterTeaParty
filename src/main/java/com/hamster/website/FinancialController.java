@@ -37,7 +37,14 @@ public class FinancialController {
             return ResponseEntity.status(403).body("No auth token");
         User user = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0);
         financialHandler.ProcessTransaction(requestEntity.getBody());
-        user.setPremium(true);
+        if(requestEntity.getBody().getAmount() == 10)
+            user.setAccountType("Premium");
+        else if (requestEntity.getBody().getAmount() == 15)
+            user.setAccountType(("Gold"));
+        else
+            user.setAccountType("Premium");
+        System.out.println(requestEntity.getBody().getAmount());
+        userRepository.save(user);
         return ResponseEntity.ok().build();
     }
 

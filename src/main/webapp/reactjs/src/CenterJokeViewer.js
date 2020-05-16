@@ -87,7 +87,7 @@ class CentralJokeViewer extends React.Component {
 
         fetch("http://localhost:8090/joke?_id=" + jokeId)
         .then((res) => res.json()).then((res) => {
-
+                console.log(res)
                 let chipData = res.tags.slice();
                 console.log(chipData);
 
@@ -363,6 +363,9 @@ class CentralJokeViewer extends React.Component {
             title : this.state.joke.title,
             content : this.state.joke.content,
             posterId : this.state.joke.posterId,
+            createdAt: this.state.joke.createdAt,
+            upvotersIDs : this.state.joke.upvotersIDs,
+            awardersIDs : this.state.joke.awardersIDs,
             tags: this.state.chipData.map((tag) => {
                 return tag.label;
             }),
@@ -394,6 +397,9 @@ class CentralJokeViewer extends React.Component {
             title : this.state.joke.title,
             content : this.state.joke.content,
             posterId : this.state.joke.posterId,
+            createdAt: this.state.joke.createdAt,
+            upvotersIDs : this.state.joke.upvotersIDs,
+            awardersIDs : this.state.joke.awardersIDs,
             tags: this.state.chipData.map((tag) => {
                 return tag.label;
             }),

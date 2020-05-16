@@ -80,13 +80,11 @@ class TryJsitePremium extends React.Component {
         /// chestii de facut cand se apasa submit pe butonu de  GET NUMBER OF COINS
         console.log('onClick');
         axios.post('http://localhost:8090/tryPremium',{
-            cardOwnerName: cardOwnerName,
-            cardNumber: cardNumber,
-            expDate: expDate,
+            cardHolder: cardOwnerName,
+            cardNo: cardNumber,
+            expiry: expDate,
             cvv: cvv,
-            moneyToBePaid: moneyToBePaid,
-            coinsToBeAdded: coinsToBeAdded,
-            type: type  // tells us wheater its a free trial, premium or gold subscription
+            amount: moneyToBePaid,
         },
         {headers :{
             Authorization : this.props.userToken.userToken

@@ -33,10 +33,15 @@ public class Award {
         User user = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0);
         Joke joke = requestEntity.getBody();
         assert joke != null;
-        joke.getAwardersIDs().add(user.get_id());
-        jokeRepository.save(joke);
-        user.setAwardedCounter(user.getAwardedCounter() + 1);
-        userRepository.save(user);
+        if(joke.getAwardersIDs() == null)
+            joke.setAwardersIDs(new ArrayList<>());
+        System.out.println(joke.getAwardersIDs());
+        if(!joke.getAwardersIDs().contains(user.get_id())) {
+            joke.getAwardersIDs().add(user.get_id());
+            jokeRepository.save(joke);
+            user.setAwardedCounter(user.getAwardedCounter() + 1);
+            userRepository.save(user);
+        }
 
         return ResponseEntity.ok().build();
     }

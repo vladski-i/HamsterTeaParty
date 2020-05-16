@@ -137,7 +137,8 @@ class Profile extends React.Component {
         .then(
           (result) => { 
             this.setState({
-              user: result
+              user: result,
+              isSuperAdmin : result.isPrivileged
             });
             
           },
@@ -244,7 +245,10 @@ class Profile extends React.Component {
 
         const {
             user,
-            isSuperAdmin
+            isSuperAdmin,
+            serverResponseAccountUpdatedSuccessfully,
+            serverResponseAccountUpdatedNotAvailable,
+            serverResponseNoResponse
         } = this.state;
 
         const {
@@ -259,9 +263,7 @@ class Profile extends React.Component {
             favoriteSite,
             upvotedCounter,
             awardedCounter,
-            serverResponseAccountUpdatedSuccessfully,
-            serverResponseAccountUpdatedNotAvailable,
-            serverResponseNoResponse
+            accountType
         } = user;
 
         const {
@@ -460,6 +462,23 @@ class Profile extends React.Component {
                                     marginLeft: 20
                                     }}/>
                     </ListItem>
+
+                    <Divider light />
+
+
+                     <Divider light />
+
+                        <ListItem button>
+                        <LanguageIcon />
+                        <ListItemText disableTypography
+                                        primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                             {`Account type: ${accountType}`}
+                                            </Typography>}
+                                        style = {{
+                                        marginTop: -2,
+                                        marginLeft: 20
+                                        }}/>
+                        </ListItem>
 
                     <Divider light />
 
@@ -736,6 +755,7 @@ class Profile extends React.Component {
                     </ListItem> 
                     <Divider light />
 
+
                     <ListItem button>
                     <PersonOutlineIcon />
                     
@@ -765,6 +785,22 @@ class Profile extends React.Component {
                                     }}/>
                     </ListItem>
 
+                    <Divider light />
+
+                    <Divider light />
+
+                        <ListItem button>
+                        <PersonIcon />
+                        <ListItemText
+                                    disableTypography
+                                    primary={<Typography variant='h6' style={{ color: '#C82840' }}>
+                                         {`Account type: ${accountType}`}
+                                        </Typography>}
+                                    style = {{
+                                    marginTop: -2,
+                                    marginLeft: 20
+                                    }}/>
+                        </ListItem>
                     <Divider light />
 
                     <ListItem button>

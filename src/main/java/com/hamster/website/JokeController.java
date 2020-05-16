@@ -107,12 +107,15 @@ public class JokeController {
     @GetMapping(path = "/search")
     public ResponseEntity<?> searchByTags(
             @RequestParam String tags){
+        if(tags.equals(""))
+            return ResponseEntity.ok(jokeRepository.findAll());
         System.out.println("searchin for a new joke tati");
-        System.out.println(tags.split(" "));
+        System.out.println(tags);
+        System.out.println(Arrays.asList(tags.split(" ")));
         // System.out.println(requestEntity);
 
         System.out.println("Repository-ul de glume: " + jokeRepository.findAll());
-        System.out.println("Urmeaza vectorul cautat: " + jokeRepository.findByTags(
+        System.out.println("Urmeaza vectorul cautat: " + jokeRepository.findByTagsIn(
                 Arrays.asList(
                         tags.split(" ")
                 )
@@ -120,7 +123,7 @@ public class JokeController {
 //        System.out.println(requestEntity.getBody());
 
         return ResponseEntity.ok(
-                jokeRepository.findByTags(
+                jokeRepository.findByTagsIn(
                         Arrays.asList(
                                 tags.split(" ")
                         )

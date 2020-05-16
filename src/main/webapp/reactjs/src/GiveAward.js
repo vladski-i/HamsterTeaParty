@@ -78,12 +78,11 @@ class GiveAward extends React.Component {
         /// chestii de facut cand se apasa submit pe butonu de  GET NUMBER OF COINS
         console.log('onClick');
         axios.post('http://localhost:8090/award',{
-            cardOwnerName: cardOwnerName,
-            cardNumber: cardNumber,
-            expDate: expDate,
+            cardHolder: cardOwnerName,
+            cardNo: cardNumber,
+            expiry: expDate,
             cvv: cvv,
-            moneyToBePaid: moneyToBePaid,
-            coinsToBeAdded: coinsToBeAdded
+            amount: moneyToBePaid
         },
         {headers :{
             Authorization : this.props.userToken.userToken
