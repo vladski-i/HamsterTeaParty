@@ -6,7 +6,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import SearchBar from 'material-ui-search-bar';
 import { Link } from 'react-router-dom';
 import ContentEditable from "react-contenteditable";
 import Button from '@material-ui/core/Button';
@@ -275,23 +274,11 @@ class PostJoke extends React.Component {
                 }
 
 
-        <SearchBar
-            style={{marginTop: 50
-            }}
-            value={searchedJoke}
-            onChange={(newValue) => {
-                console.log("s-a modificat textul cautarii");
-                this.setState({ searchedJoke: newValue })}
-            }
-            onRequestSearch={() => {
-                console.log("trebuie cautate doar glumele care au tagul asta");
-                this.searchJokes(searchedJoke)}
-            }
-        />
-
         <br></br>
     
-      <Card>
+      <Card style={{
+          marginTop: 80
+      }}>
 
         <div>
         <Typography variant="h2" style={{textAlign: 'center'}}>

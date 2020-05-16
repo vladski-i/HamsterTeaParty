@@ -108,9 +108,11 @@ public class JokeController {
     public ResponseEntity<?> searchByTags(
             @RequestParam String tags){
         System.out.println("searchin for a new joke tati");
-//        System.out.println(tags.split(" "));
-//        System.out.println(requestEntity);
-        System.out.println(jokeRepository.findByTags(
+        System.out.println(tags.split(" "));
+        // System.out.println(requestEntity);
+
+        System.out.println("Repository-ul de glume: " + jokeRepository.findAll());
+        System.out.println("Urmeaza vectorul cautat: " + jokeRepository.findByTags(
                 Arrays.asList(
                         tags.split(" ")
                 )
@@ -137,10 +139,12 @@ public class JokeController {
         System.out.println(requestEntity.getBody());
         jokeRepository.findBy_id(requestEntity.getBody().get("jokeId")).stream().findFirst().ifPresent(joke -> {
                     System.out.println("before delete" + jokeRepository.findAll());
+                    /*
                     if(joke.getPosterId() != userId) {
                         System.out.println("User " + userId + "tried to delete joke " + joke.get_id() + "which isnt his");
                         return;
                     }
+                     */
                     jokeRepository.delete(joke);
                     System.out.println("before delete" + jokeRepository.findAll());
 

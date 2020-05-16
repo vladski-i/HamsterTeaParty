@@ -216,7 +216,7 @@ class TryJsitePremium extends React.Component {
                                     marginBottom: 50
                             }}>   
                             <Alert variant="filled" severity="warning">
-                                An error has occurred. We're very sorry, please try again to get coins.
+                                An error has occurred. We're very sorry, please try again.
                             </Alert>
                         </div>
                 }

@@ -68,7 +68,9 @@ class CentralJokeViewer extends React.Component {
             title: ''
         },
         serverResponseNoResponse: false,
-        visibleSuccesMessage: false
+        visibleSuccesMessage: false,
+        visibleSuccesDeleteMessage: false,
+        visibleSuccesUpvoteMessage: false
     };
 
     componentDidMount = () => { 
@@ -160,13 +162,14 @@ class CentralJokeViewer extends React.Component {
             /// dau send la this.state, mai exact la joke (jokeId, jokeText)
             console.log(this.state);
             axios.post("http://localhost:8090/postJoke",{
-            title : this.props.userToken.userName,
+            _id : this.props.match.params.joke_id,
+            title : this.state.joke.title,
             content : this.state.joke.content,
-            posterId : this.state.joke.jokePoster,
+            posterId : this.state.joke.posterId,
             tags: this.state.chipData.map((tag) => {
                 return tag.label;
             }),
-            createdAt: new Date()
+            createdAt: this.state.joke.createdAt
         },
         {headers :{
             Authorization : this.props.userToken.userToken
@@ -243,7 +246,15 @@ class CentralJokeViewer extends React.Component {
             .then(res => {
                 console.log(res);
                 console.log(res.data);
-                console.log('succes');
+                setTimeout(() => {
+                    this.setState({ visibleSuccesDeleteMessage: !this.state.visibleSuccesDeleteMessage });
+                }, 0);
+                setTimeout(() => {
+                    this.setState({ visibleSuccesDeleteMessage: !this.state.visibleSuccesDeleteMessage });
+                }, 1900);
+                setTimeout(() => {
+                    this.props.history.push('/');
+                }, 2100);
             }
         ).catch((error) => {
             // Error
@@ -349,13 +360,13 @@ class CentralJokeViewer extends React.Component {
         console.log('lentile dior');
         axios.post("http://localhost:8090/upvote",{
             _id : this.props.match.params.joke_id,
-            title : this.props.userToken.userName,
+            title : this.state.joke.title,
             content : this.state.joke.content,
-            posterId : this.state.joke.jokePoster,
+            posterId : this.state.joke.posterId,
             tags: this.state.chipData.map((tag) => {
                 return tag.label;
-            })
-//            createdAt: new Date()
+            }),
+            createdAt: this.state.joke.createdAt
         },
         {headers :{
             Authorization : this.props.userToken.userToken
@@ -364,10 +375,10 @@ class CentralJokeViewer extends React.Component {
             console.log(res);
             console.log(res.data);
             setTimeout(() => {
-                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+                this.setState({ visibleSuccesUpvoteMessage: !this.state.visibleSuccesUpvoteMessage });
             }, 0);
             setTimeout(() => {
-                this.setState({ visibleSuccesMessage: !this.state.visibleSuccesMessage });
+                this.setState({ visibleSuccesUpvoteMessage: !this.state.visibleSuccesUpvoteMessage });
             }, 1900);
             setTimeout(() => {
                 this.props.history.push('/');
@@ -379,13 +390,14 @@ class CentralJokeViewer extends React.Component {
     handleGiveAward = () => {    
         console.log('geaca de print');
         axios.post("http://localhost:8090/award",{
-            title : this.props.userToken.userName,
-            content : this.state.jokeText,
-            posterId : this.state.jokePoster,
+            _id : this.props.match.params.joke_id,
+            title : this.state.joke.title,
+            content : this.state.joke.content,
+            posterId : this.state.joke.posterId,
             tags: this.state.chipData.map((tag) => {
                 return tag.label;
             }),
-            createdAt: new Date()
+            createdAt: this.state.joke.createdAt
         },
         {headers :{
             Authorization : this.props.userToken.userToken
@@ -416,7 +428,9 @@ class CentralJokeViewer extends React.Component {
             joke,
             userCanEdit,
             serverResponseNoResponse,
-            visibleSuccesMessage
+            visibleSuccesMessage,
+            visibleSuccesDeleteMessage,
+            visibleSuccesUpvoteMessage
         } = this.state;
 
         const {
@@ -439,7 +453,7 @@ class CentralJokeViewer extends React.Component {
                                 marginBottom: 50
                         }}>   
                         <Alert variant="filled" severity="warning">
-                            An error has occurred. We're very sorry, please try again to get coins.
+                            An error has occurred. We're very sorry, please try again.
                         </Alert>
                     </div>
             }
@@ -454,15 +468,47 @@ class CentralJokeViewer extends React.Component {
                                 marginBottom: 50
                         }}>   
                         <Alert variant="filled" severity="success">
-                            The joke has been posted successfully! You're being redirected to the main page.
+                            The joke has been edited successfully! You're being redirected to the main page.
                         </Alert>
                     </div>
             }
+
+            {
+                /// alert message
+                (!visibleSuccesDeleteMessage) ?
+                <div>
+                </div>
+                :
+                    <div style={{marginTop: 80,
+                                marginBottom: 50
+                        }}>   
+                        <Alert variant="filled" severity="success">
+                            The joke has been deleted successfully! You're being redirected to the main page.
+                        </Alert>
+                    </div>
+            }
+
+{
+                /// alert message
+                (!visibleSuccesUpvoteMessage) ?
+                <div>
+                </div>
+                :
+                    <div style={{marginTop: 80,
+                                marginBottom: 50
+                        }}>   
+                        <Alert variant="filled" severity="success">
+                            The joke has been upvoted successfully! You're being redirected to the main page.
+                        </Alert>
+                    </div>
+            }
+
             </div>
 
 
             <div className style={{
                 marginTop: (visibleSuccesMessage === true ||
+                            visibleSuccesDeleteMessage === true ||
                             serverResponseNoResponse === true) ?
                             -60
                             :

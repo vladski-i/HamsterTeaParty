@@ -123,8 +123,16 @@ class JokePostTable extends React.Component {
             )
             .then(res => {
                 console.log(res);
-                console.log(res.data);
+                console.log(JSON.stringify(res.data));
                 
+                // s-a intors un raspuns bun
+
+                this.setState({
+                    ...this.state,
+                    jokeArray: res.data
+                    }
+                )
+
              }
             ).catch((error) => {
                 // Error

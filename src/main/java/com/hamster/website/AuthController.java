@@ -40,6 +40,7 @@ public class AuthController {
     public ResponseEntity<?> updateUser(
             @RequestBody User user
     ){
+        System.out.println("HERE BABY");
         System.out.println(user);
 //        boolean dup = !userRepository.findByUserName(user.userName).stream().findFirst().isEmpty();
 //        if(dup)

@@ -25,6 +25,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import axios from 'axios';
 import { connect } from 'react-redux';
+import Alert from '@material-ui/lab/Alert';
 
 const styles = theme => ({
     root: {
@@ -45,12 +46,13 @@ class Profile extends React.Component {
 
     state = {
         profileId: '',
-        isSuperAdmin: true, 
+        isSuperAdmin: false, 
         jokeArray: [],
         user: {
         },
         serverResponseAccountUpdatedSuccessfully: false,
-        serverResponseAccountUpdatedNotAvailable: false
+        serverResponseAccountUpdatedNotAvailable: false,
+        serverResponseNoResponse: false
     };
 
     removeDivsFromJokeContent = (jokes) => {
@@ -172,6 +174,7 @@ class Profile extends React.Component {
         // tre sa updatez cu datele din username si etc
         console.log(this.state.user.userName);
         axios.post("http://localhost:8090/updateUser",{
+                _id: this.props.match.params.profile_id,
                 userName : this.state.user.userName,
                 phone : this.state.phone,
                 email : this.state.email,
@@ -181,7 +184,9 @@ class Profile extends React.Component {
                 country : this.state.country,
                 city : this.state.city,
                 favoriteSite : this.state.favoriteSite,
-                passwd : this.state.user.password
+                passwd : this.state.user.passwd,
+                awardedCounter: this.state.user.awardedCounter,
+                upvotedCounter: this.state.user.upvotedCounter
             })
             .then(res => {
                 console.log(res);
@@ -253,9 +258,12 @@ class Profile extends React.Component {
             city,
             favoriteSite,
             upvotedCounter,
-            awardedCounter
+            awardedCounter,
+            serverResponseAccountUpdatedSuccessfully,
+            serverResponseAccountUpdatedNotAvailable,
+            serverResponseNoResponse
         } = user;
-//        console.log(user);
+
         const {
             classes
          } = this.props;
@@ -263,7 +271,53 @@ class Profile extends React.Component {
         return (
             <div>
             {
-                (isSuperAdmin === false) 
+                    /// alert message
+                    (!serverResponseAccountUpdatedSuccessfully) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 50,
+                                    marginBottom: -30
+                            }}>   
+                            <Alert variant="filled" severity="success">
+                                The profile has been edited successfully! You're being redirected to the main page.
+                            </Alert>
+                        </div>
+                }
+
+                {
+                    /// alert message
+                    (!serverResponseAccountUpdatedNotAvailable) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 50,
+                                    marginBottom: -30
+                            }}>   
+                            <Alert variant="filled" severity="warning">
+                                An error has occurred. We're very sorry, please try again to edit the profile info. 
+                            </Alert>
+                        </div>
+                }
+
+                {
+                    /// alert message
+                    (!serverResponseNoResponse) ?
+                    <div>
+                    </div>
+                    :
+                        <div style={{marginTop: 50,
+                                    marginBottom: -30
+                            }}>   
+                            <Alert variant="filled" severity="warning">
+                                An error has occurred. We're very sorry, please try again to edit the profile. 
+                            </Alert>
+                        </div>
+                }
+
+
+            {
+                (isSuperAdmin === true) 
                 ? 
 
                 <div>
@@ -289,10 +343,10 @@ class Profile extends React.Component {
                     
 
                     <div style={{
-                            position: 'absolute', left: '10%', top: '-1050%',
+                            position: 'absolute', left: '10%', top: '-1150%',
                         }}>   
                         <Avatar style={{
-                            position: 'absolute', left: '10%', top: '-1050%',
+                            position: 'absolute', left: '10%', top: '-950%',
                         }}>   
                         TP
                         </Avatar>
@@ -300,7 +354,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: -170,
+                                    marginTop: -190,
                                     marginBottom: 10}}>
                         USER ACTIVITY
                     </Typography>
@@ -357,7 +411,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: -20,
+                                    marginTop: -40,
                                     marginBottom: 0}}>
                         ACCOUNT INFO
                     </Typography>
@@ -455,7 +509,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: 300,
+                                    marginTop: 285,
                                     marginBottom: 0}}>
                         CONTACT INFO
                     </Typography>
@@ -596,25 +650,15 @@ class Profile extends React.Component {
                         style={{
                         width: '100%',
                         maxWidth: 360,
-                        marginTop: 155,
+                        marginTop: 150,
                         position: 'fixed',
                         }} 
                         aria-label="mailbox folders">
                     
 
-                    <div style={{
-                            position: 'absolute', left: '10%', top: '-1050%',
-                        }}>   
-                        <Avatar style={{
-                            position: 'absolute', left: '10%', top: '-1050%',
-                        }}>   
-                        TP
-                        </Avatar>
-                        </div>
-
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: -170,
+                                    marginTop: -190,
                                     marginBottom: 10}}>
                         USER ACTIVITY
                     </Typography>
@@ -671,7 +715,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: -20,
+                                    marginTop: -40,
                                     marginBottom: 0}}>
                         ACCOUNT INFO
                     </Typography>
@@ -769,7 +813,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: 280,
+                                    marginTop: 285,
                                     marginBottom: 0}}   >
                         CONTACT INFO
                     </Typography>
@@ -856,24 +900,6 @@ class Profile extends React.Component {
                 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <form  
                     className={classes.root}
                     noValidate 
@@ -939,6 +965,13 @@ class Profile extends React.Component {
                         /// disabled="true"
                         /// value={country} 
                         onChange={this.handleChange("country")}/>
+                <br></br>
+                <TextField 
+                        id="city" 
+                        label="City"
+                        /// disabled="true"
+                        /// value={city} 
+                        onChange={this.handleChange("city")}/>
                 <br></br>
                 <TextField 
                         id="favoriteSite" 
