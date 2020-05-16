@@ -35,6 +35,20 @@ public class AuthController {
         return ResponseEntity.ok(true);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(path = "/updateUser")
+    public ResponseEntity<?> updateUser(
+            @RequestBody User user
+    ){
+        System.out.println(user);
+//        boolean dup = !userRepository.findByUserName(user.userName).stream().findFirst().isEmpty();
+//        if(dup)
+//            return ResponseEntity.status(400).body("Duplicate Username");
+        userRepository.save(user);
+        System.out.println("Tot repository-ul de useri arata acum asa:");
+        System.out.println(userRepository.findAll());
+        return ResponseEntity.ok(true);
+    }
 
     @PostMapping(path = "/login")
     @CrossOrigin(origins = "http://localhost:3000")

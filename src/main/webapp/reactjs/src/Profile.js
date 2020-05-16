@@ -170,8 +170,9 @@ class Profile extends React.Component {
 
     submitData = () => {
         // tre sa updatez cu datele din username si etc
-        axios.post("http://localhost:8090/signup",{
-                userName : this.state.username,
+        console.log(this.state.user.userName);
+        axios.post("http://localhost:8090/updateUser",{
+                userName : this.state.user.userName,
                 phone : this.state.phone,
                 email : this.state.email,
                 firstName : this.state.firstName,
@@ -180,7 +181,7 @@ class Profile extends React.Component {
                 country : this.state.country,
                 city : this.state.city,
                 favoriteSite : this.state.favoriteSite,
-                passwd : this.state.password
+                passwd : this.state.user.password
             })
             .then(res => {
                 console.log(res);
@@ -254,7 +255,7 @@ class Profile extends React.Component {
             upvotedCounter,
             awardedCounter
         } = user;
-        
+//        console.log(user);
         const {
             classes
          } = this.props;

@@ -234,9 +234,9 @@ class CentralJokeViewer extends React.Component {
       handleDeleteJoke = () => {
           /// dau send la this.state, mai exact la joke (jokeId, jokeText)
           axios.post("http://localhost:8090/deleteJoke",
-            {
-                jokeId: this.props.match.params.joke_id /// SAU FARA SA FIE OBIECT, NU STIU
-            },
+           {
+                jokeId : this.props.match.params.joke_id, /// SAU FARA SA FIE OBIECT, NU STIU,
+           },
             {headers : {
                 Authorization : this.props.userToken.userToken
             }})
@@ -348,13 +348,14 @@ class CentralJokeViewer extends React.Component {
     handleUpvote = () => {    
         console.log('lentile dior');
         axios.post("http://localhost:8090/upvote",{
+            _id : this.props.match.params.joke_id,
             title : this.props.userToken.userName,
-            content : this.state.jokeText,
-            posterId : this.state.jokePoster,
+            content : this.state.joke.content,
+            posterId : this.state.joke.jokePoster,
             tags: this.state.chipData.map((tag) => {
                 return tag.label;
-            }),
-            createdAt: new Date()
+            })
+//            createdAt: new Date()
         },
         {headers :{
             Authorization : this.props.userToken.userToken

@@ -118,8 +118,9 @@ class JokePostTable extends React.Component {
         console.log('im searchin for a new joke tati');
 
         /// trimit la backend textul cautat
-        fetch("http://localhost:8090/search",
-                this.state.searchedJoke)
+        console.log(this.state.searchedJoke)
+        axios.get("http://localhost:8090/search?tags=" + this.state.searchedJoke
+            )
             .then(res => {
                 console.log(res);
                 console.log(res.data);
@@ -136,7 +137,7 @@ class JokePostTable extends React.Component {
                         // username-ul este deja utilizat de altcineva, incearca cu altul
 
                     }
-                    // console.log(error.response.headers);
+                     console.log(error.response.headers);
                 } else if (error.request) {
                    
                     setTimeout(() => {
@@ -147,11 +148,12 @@ class JokePostTable extends React.Component {
                         this.setState({ serverResponseNoResponse: !this.state.serverResponseNoResponse });
                     }, 1500);  /// fa sa dispara mesajul de eroare
     
-                    // console.log(error.request);
+                     console.log(error.request);
                 } else {
                     // Something happened in setting up the request that triggered an Error
                 }
-                /// console.log(error.config);
+                 console.log(error.config);
+                 console.log(error);
             });        
 
         /// iau output-ul si updatez state-ul curent cu jokearray-ul pe care l-am primit

@@ -26,13 +26,19 @@ public class Vote {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path = "/upvote")  /// AICI MAI JOS MAI TREBUIE LUCRAT PUTIN
     public ResponseEntity<?> upvote(RequestEntity<Joke> requestEntity) {
+        System.out.println("upvoting");
         String token = requestEntity.getHeaders().getFirst("Authorization");
         if (token == null)
             return ResponseEntity.status(403).body("No auth token");
         User user = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0);
         Joke joke = requestEntity.getBody();
         assert joke != null;
+        //TODO persista data
         System.out.println(joke.getUpvotersIDs());
+        if(joke.getUpvotersIDs() == null)
+            joke.setUpvotersIDs(new ArrayList<>());
+        if (joke.getUpvotersIDs().contains(user.get_id()))
+            return ResponseEntity.ok().build();
         joke.getUpvotersIDs().add(user.get_id());
         jokeRepository.save(joke);
         user.setUpvotedCounter(user.getUpvotedCounter() + 1);

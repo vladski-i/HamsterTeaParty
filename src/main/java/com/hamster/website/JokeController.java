@@ -105,20 +105,49 @@ public class JokeController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path = "/search")
-    public ResponseEntity<?> searchByTags(RequestEntity<String> requestEntity){
-
-        System.out.println(requestEntity);
-        System.out.println(requestEntity.getBody());
+    public ResponseEntity<?> searchByTags(
+            @RequestParam String tags){
+        System.out.println("searchin for a new joke tati");
+//        System.out.println(tags.split(" "));
+//        System.out.println(requestEntity);
+        System.out.println(jokeRepository.findByTags(
+                Arrays.asList(
+                        tags.split(" ")
+                )
+        ));
+//        System.out.println(requestEntity.getBody());
 
         return ResponseEntity.ok(
                 jokeRepository.findByTags(
                         Arrays.asList(
-                                requestEntity.getBody().split(" ")
+                                tags.split(" ")
                         )
                 )
         );
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(path = "/deleteJoke")
+    public ResponseEntity<?> deleteJoke(RequestEntity<Map<String,String>> requestEntity) {
+        String token = requestEntity.getHeaders().getFirst("Authorization");
+        System.out.println(token);
+        if (token == null)
+            return ResponseEntity.status(403).body("No auth token");
+        String userId = userRepository.findByUserName(jwtTokenUtil.getUsernameFromToken(token)).get(0)._id;
+        System.out.println(requestEntity.getBody());
+        jokeRepository.findBy_id(requestEntity.getBody().get("jokeId")).stream().findFirst().ifPresent(joke -> {
+                    System.out.println("before delete" + jokeRepository.findAll());
+                    if(joke.getPosterId() != userId) {
+                        System.out.println("User " + userId + "tried to delete joke " + joke.get_id() + "which isnt his");
+                        return;
+                    }
+                    jokeRepository.delete(joke);
+                    System.out.println("before delete" + jokeRepository.findAll());
+
+                }
+                );
+        return ResponseEntity.ok().build();
+    }
 
 //    @CrossOrigin(origins = "http://localhost:3000")
 //    @PutMapping(path = "/upvoteJoke")
