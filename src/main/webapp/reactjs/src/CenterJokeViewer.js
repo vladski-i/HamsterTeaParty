@@ -70,7 +70,8 @@ class CentralJokeViewer extends React.Component {
         serverResponseNoResponse: false,
         visibleSuccesMessage: false,
         visibleSuccesDeleteMessage: false,
-        visibleSuccesUpvoteMessage: false
+        visibleSuccesUpvoteMessage: false,
+        isLoaded: false
     };
 
     componentDidMount = () => { 
@@ -105,7 +106,8 @@ class CentralJokeViewer extends React.Component {
                         joke: res,
                         userCanEdit: (res.title === this.props.userToken.userName) ? true : false,
                         editable: (res.title === this.props.userToken.userName) ? true : false,
-                        chipData: chipData
+                        chipData: chipData,
+                        isLoaded: true
                     }
                 )
             }
@@ -436,7 +438,8 @@ class CentralJokeViewer extends React.Component {
             serverResponseNoResponse,
             visibleSuccesMessage,
             visibleSuccesDeleteMessage,
-            visibleSuccesUpvoteMessage
+            visibleSuccesUpvoteMessage,
+            isLoaded
         } = this.state;
 
         const {
@@ -446,8 +449,7 @@ class CentralJokeViewer extends React.Component {
          console.log(joke);
 
         return (
-            <div>
-
+            isLoaded && <div>
             <div>
             {
                 /// alert message

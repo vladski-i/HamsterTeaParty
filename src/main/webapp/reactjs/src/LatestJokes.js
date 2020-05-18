@@ -124,7 +124,8 @@ class LatestJokes extends React.Component {
     const {
         jokes,
         searchedJoke,
-        jokeArray
+        jokeArray,
+        isLoaded
     } = this.state;
 
     const {
@@ -141,9 +142,8 @@ class LatestJokes extends React.Component {
         }}>
             <br></br>
             <br></br>
-
             {
-                this.state.jokeArray.map(joke => (
+                isLoaded && this.state.jokeArray.map(joke => (
                     <div >
                        <Card> 
                        <Link to={ `/profile/${joke.posterId}` }
@@ -153,10 +153,20 @@ class LatestJokes extends React.Component {
                             avatar={
                             <Avatar aria-label="recipe" style={{backgroundColor: '#E1173F' }}                
                             >
-                                {`${joke.title[0]}`}
+                                {
+                                (joke) ?
+                                `${joke.title[0]}`
+                                :
+                                `${' '}`
+                                }
                             </Avatar>
                             }
-                            title={`${joke.title}`}
+                            title={
+                                (joke) ?
+                                `${joke.title}`
+                                :
+                                `${' '}`
+                                }
                             subheader={
                                 (joke) ?
                                 `${ moment(joke.createdAt).format('MMMM Do YYYY, h:mm:ss a')}`   

@@ -248,7 +248,8 @@ class Profile extends React.Component {
             isSuperAdmin,
             serverResponseAccountUpdatedSuccessfully,
             serverResponseAccountUpdatedNotAvailable,
-            serverResponseNoResponse
+            serverResponseNoResponse,
+            isLoaded
         } = this.state;
 
         const {
@@ -319,6 +320,7 @@ class Profile extends React.Component {
 
 
             {
+                isLoaded && 
                 (isSuperAdmin === true) 
                 ? 
 
@@ -357,7 +359,7 @@ class Profile extends React.Component {
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
                                     marginTop: -190,
-                                    marginBottom: 10}}>
+                                    marginBottom: 0}}>
                         USER ACTIVITY
                     </Typography>
 
@@ -413,7 +415,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: -40,
+                                    marginTop: -50,
                                     marginBottom: 0}}>
                         ACCOUNT INFO
                     </Typography>
@@ -472,7 +474,7 @@ class Profile extends React.Component {
                         <LanguageIcon />
                         <ListItemText disableTypography
                                         primary={<Typography variant='h6' style={{ color: '#C82840' }}>
-                                             {`Account type: ${accountType}`}
+                                             {`account type: ${accountType}`}
                                             </Typography>}
                                         style = {{
                                         marginTop: -2,
@@ -528,7 +530,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: 285,
+                                    marginTop: 315,
                                     marginBottom: 0}}>
                         CONTACT INFO
                     </Typography>
@@ -678,7 +680,7 @@ class Profile extends React.Component {
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
                                     marginTop: -190,
-                                    marginBottom: 10}}>
+                                    marginBottom: 0}}>
                         USER ACTIVITY
                     </Typography>
 
@@ -734,7 +736,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: -40,
+                                    marginTop: -60,
                                     marginBottom: 0}}>
                         ACCOUNT INFO
                     </Typography>
@@ -794,7 +796,7 @@ class Profile extends React.Component {
                         <ListItemText
                                     disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
-                                         {`Account type: ${accountType}`}
+                                         {`account type: ${accountType}`}
                                         </Typography>}
                                     style = {{
                                     marginTop: -2,
@@ -849,7 +851,7 @@ class Profile extends React.Component {
 
                     <Typography variant="h6" 
                             style={{textAlign: 'center',
-                                    marginTop: 285,
+                                    marginTop: 315,
                                     marginBottom: 0}}   >
                         CONTACT INFO
                     </Typography>
@@ -876,7 +878,7 @@ class Profile extends React.Component {
                     <ListItemText 
                                     disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
-                                         {`social media: ${favoriteSite}`}
+                                         {`${favoriteSite}`}
                                     </Typography>} 
                                     style = {{
                                     marginTop: -2,
@@ -891,7 +893,7 @@ class Profile extends React.Component {
                     <ContactMailIcon />
                     <ListItemText disableTypography
                                     primary={<Typography variant='h6' style={{ color: '#C82840' }}>
-                                         {`email: ${email}`}
+                                         {`${email}`}
                                         </Typography>}
                                     style = {{
                                     marginTop: -2,

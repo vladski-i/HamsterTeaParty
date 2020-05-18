@@ -172,7 +172,8 @@ class JokePostTable extends React.Component {
     const {
         jokes,
         searchedJoke,
-        jokeArray
+        jokeArray,
+        isLoaded
     } = this.state;
 
     const {
@@ -192,7 +193,8 @@ class JokePostTable extends React.Component {
         
 
     return (
-        <div className>
+        
+        isLoaded && <div className>
             <br></br>
             <SearchBar
                 style={{marginTop: 50
@@ -210,7 +212,7 @@ class JokePostTable extends React.Component {
             <br></br>
 
             {
-                this.state.jokeArray.map(joke => (
+                (this.state.jokeArray.length > 0) && this.state.jokeArray.map(joke => (
                     <div >
                        <Card> 
                        <Link to={ `/profile/${joke.posterId}` }

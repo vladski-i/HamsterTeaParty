@@ -63,17 +63,6 @@ class GiveAward extends React.Component {
             moneyToBePaid,
             coinsToBeAdded 
         } = data;
-
-        const newData = {
-            cardOwnerName,
-            cardNumber,
-            expDate,
-            cvv,
-            moneyToBePaid,
-            coinsToBeAdded
-        };
-
-        console.log(newData);
         
         /// chestii de facut cand se apasa submit pe butonu de  GET NUMBER OF COINS
         console.log('onClick');
@@ -259,7 +248,7 @@ class GiveAward extends React.Component {
                                     marginBottom: -30
                             }}>   
                             <Alert variant="filled" severity="success">
-                                The joke has been posted successfully! You're being redirected to the main page.
+                                The coins have been added to your account successfully! You're being redirected to the main page.
                             </Alert>
                         </div>
                 }
